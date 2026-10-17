@@ -3,7 +3,6 @@ import './App.css'
 import {
   OLETUSDATA,
   generoi,
-  jaksoPainot,
   type Kategoria,
   type Sukupuoli,
 } from './lib/generator'
@@ -32,17 +31,6 @@ const SUKUPUOLET: { arvo: Sukupuoli | 'molemmat'; nimi: string }[] = [
 ]
 
 const uusiSiemen = () => Math.floor(Math.random() * 2 ** 32)
-
-/** Kertoo, mihin vuosikymmeniin valittu vuosi painottuu. */
-function painotusTeksti(vuosi: number): string {
-  const jaksot = [...jaksoPainot(vuosi, OLETUSDATA.jaksot)]
-    .filter(([, paino]) => paino >= 0.1)
-    .map(([alku]) => {
-      const jakso = OLETUSDATA.jaksot.find((j) => j.alku === alku)
-      return `${alku}–${jakso?.loppu}`
-    })
-  return `Painottuu vuosina ${jaksot.join(' ja ')} syntyneiden nimiin.`
-}
 
 function App() {
   const [vuosi, setVuosi] = useState(1925)
@@ -99,9 +87,8 @@ function App() {
             />
           </div>
           <p id="vuosi-ohje" className="ohje" aria-live="polite">
-            {vuosiVirheellinen
-              ? `Anna vuosi väliltä ${ENSIMMAINEN}–${VIIMEINEN}.`
-              : painotusTeksti(vuosi)}
+            {vuosiVirheellinen &&
+              `Anna vuosi väliltä ${ENSIMMAINEN}–${VIIMEINEN}.`}
           </p>
         </div>
 
