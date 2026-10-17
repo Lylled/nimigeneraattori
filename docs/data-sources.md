@@ -10,7 +10,7 @@ Tarinan 2.1 ([#7](https://github.com/Lylled/nimigeneraattori/issues/7)) tulokset
 | **Nimipalvelu, suosituimmat** | ✅ samat jaksot | ❌ yhdessä | vain top 100 / sukupuoli / jakso | robots.txt kieltää kyselyosoitteet |
 | **Avoindata.fi, etunimitilasto (XLSX)** | ❌ ei syntymävuosia | ✅ erikseen | kaikki nimet, joilla ≥ 5 haltijaa | CC BY 4.0 |
 
-Yksikään lähde ei sellaisenaan anna sitä, mitä generaattori tarvitsee: kaikki nimet syntymävuosikymmenittäin, mieluiten vain ensimmäiset etunimet, avoimella lisenssillä. Lähteitä kannattaa kuitenkin yhdistää (ks. [Suositus](#suositus)).
+Yksikään lähde ei sellaisenaan anna sitä, mitä generaattori tarvitsee: kaikki nimet syntymävuosikymmenittäin, mieluiten vain ensimmäiset etunimet, avoimella lisenssillä. Lähteitä kannattaa kuitenkin yhdistää (ks. [Valittu toteutustapa](#valittu-toteutustapa)).
 
 ## 1. DVV:n Nimipalvelu
 
@@ -45,7 +45,7 @@ Yhdelle nimelle näytetään haltijoiden määrä syntymävuosikymmenittäin ja 
 
 ### Rajoitteet
 
-1. **Ensimmäiset ja muut etunimet ovat samassa luvussa.** Palvelun mukaan lukuihin sisältyvät *"voimassa olevat etunimet (sekä ensimmäiset että muut etunimet)"*. Siksi listojen kärjessä ovat tyypilliset toiset nimet, kuten Johannes, Olavi, Maria ja Juhani, eivätkä nimet, joilla ihmisiä oikeasti kutsuttiin. Tämä pitää korjata (ks. [Suositus](#suositus)).
+1. **Ensimmäiset ja muut etunimet ovat samassa luvussa.** Palvelun mukaan lukuihin sisältyvät *"voimassa olevat etunimet (sekä ensimmäiset että muut etunimet)"*. Siksi listojen kärjessä ovat tyypilliset toiset nimet, kuten Johannes, Olavi, Maria ja Juhani, eivätkä nimet, joilla ihmisiä oikeasti kutsuttiin. Korjausyrityksestä ks. [Havainto](#havainto-ensimmäisen-nimen-osuus-vääristää-vanhoja-jaksoja).
 2. **Mukana ovat myös kuolleet**, joista käytetään kuolinhetkellä voimassa olleita nimiä. Vanhimmat ikäluokat kattavat kuitenkin vain ihmiset, jotka ovat päätyneet väestötietojärjestelmään. Siksi käytetään **osuuksia jakson sisällä**, ei absoluuttisia määriä.
 3. **Luokka –1899 on yksi kasa**, eikä sitä voi jakaa vuosikymmeniin. Historiallinen data (E6) kattaa tämän ajan paremmin.
 4. **robots.txt** (`User-Agent: * / Disallow: /*?*`) kieltää kaikkien kyselyparametrillisten osoitteiden automaattisen haun. Juuri niissä data on. **Nimipalvelua ei siis pidä kaapia automaattisesti.** Tätä selvitystä varten haettiin käsin muutama yksittäinen sivu.
@@ -76,20 +76,31 @@ Välilehdet (rivejä otsikko mukaan lukien):
 - DVV on aiemmin julkaissut suosituimmat etunimet syntymävuosittain ja kunnittain vuosilta 1969–2019. Aineistoa ei löytynyt avoindata.fi:n hausta, joten sen nykyinen sijainti on selvittämättä. Siitä voisi olla hyötyä validoinnissa (#10).
 - Lehdistössä julkaistaan vuosittaiset vastasyntyneiden suosikkinimet (esim. STT:n tiedotteet). Niillä voi tarkistaa uusimpien vuosikymmenten tuloksia.
 
-## Suositus
+## Valittu toteutustapa
 
-1. **Pyydetään DVV:ltä aineisto suoraan.** Pyydettävä sisältö: etunimet × sukupuoli × syntymävuosikymmen, mieluiten ensimmäiset ja muut etunimet erikseen.
-   - Perustelut: ei-kaupallinen harrastus- ja esittelyprojekti, ja vastaava data on jo julkisesti nähtävillä Nimipalvelussa.
-   - Yhteystieto avoindata.fi:n mukaan: organisaatiopalvelut@dvv.fi.
-   - Jos aineisto saadaan, ongelmat 1 ja 4 ratkeavat kerralla, ja tarinan 2.2 keruuskripti muuttuu tiedoston jäsentämiseksi.
-2. **Varasuunnitelma, jos DVV ei toimita aineistoa**:
-   - Ensimmäisten ja muiden nimien osuus lasketaan avoindata-XLSX:stä nimikohtaisesti. Esimerkiksi Juhani on ensimmäisenä nimenä vain noin 3 %:ssa tapauksista.
-   - Nimipalvelun vuosikymmenluvut kerrotaan tällä kertoimella. Näin saadaan arvio ensimmäisten nimien määrästä jaksoittain.
-   - Vuosikymmenluvut haetaan Nimipalvelusta **käsin** vain rajatulle nimijoukolle (esim. top 100 per jakso). Kerroin on arvio, koska nimen käyttö toisena nimenä on vaihdellut aikakausittain.
-   - Tällä tavalla "hieman harvinaisempi" -kategorialle jää vähän nimiä. Se on varasuunnitelman suurin heikkous.
-3. **Tekijänmerkintä** lisätään sivulle ja READMEen: *"Lähde: Digi- ja väestötietovirasto, Väestötietojärjestelmän suomalaisten nimiaineistot, CC BY 4.0."*
+DVV:ltä ei pyydetä aineistoa, vaan data kootaan itse.
 
-## Avoimet päätökset
+1. **Top 100 -listat kerätään Nimipalvelusta käsin.** Ohje on tiedostossa [`data/raw/nimipalvelu/README.md`](../data/raw/nimipalvelu/README.md). Jäsennin `scripts/parse_nimipalvelu.py` tuottaa niistä tiedoston `data/processed/nimipalvelu_top100.csv`.
+2. **Ensimmäisen nimen osuus** lasketaan avoindata.fi:n etunimitilastosta skriptillä `scripts/first_name_share.py`. Tulos on tiedostossa `data/processed/first_name_share.csv`.
+3. **Yhdistäminen:** `scripts/build_decades.py` tuottaa tiedoston `data/processed/decades.csv`, jossa on jokaiselle nimelle sekä alkuperäinen sija että ensimmäisen nimen osuudella korjattu sija.
+4. **Kategoriat sijoituksen mukaan** (tarkennetaan tarinassa 3.1):
+   - hyvin yleinen: sijat 1–20
+   - yleinen: sijat 21–60
+   - hieman harvinaisempi: sijat 61–100 sekä nimet, jotka olivat top 100:ssa viereisellä jaksolla mutta eivät tällä
 
-- [ ] Lähetetäänkö DVV:lle aineistopyyntö? Pyyntöä ei ole lähetetty.
-- [ ] Jos DVV ei vastaa: hyväksytäänkö varasuunnitelma rajoitteineen?
+### Havainto: ensimmäisen nimen osuus vääristää vanhoja jaksoja
+
+Testiajo vuoden 1920 sivuilla 1 ja 10 osoitti, että osuus kuvaa **nykyisiä elossa olevia** haltijoita, ei 1920-luvulla syntyneitä:
+
+- *Leevi* (osuus 0,86), *Ella* (0,80) ja *Aava* (0,63) ovat nykyään suosittuja kutsumanimiä. Korjaus nostaa ne 1920-luvulla kärkeen, vaikka silloin ne olivat todennäköisemmin toisia nimiä.
+- *Armas* (0,06) ja *Kyllikki* (0,03) olivat 1920-luvulla yleisiä kutsumanimiä, mutta elossa olevilla haltijoilla ne ovat enimmäkseen toisia nimiä. Korjaus pudottaa ne liian alas.
+- Klassiset toiset nimet, kuten *Johannes* (0,03), *Olavi* (0,04) ja *Antero* (0,01), korjautuvat oikeaan suuntaan.
+
+**Johtopäätös:** korjausta ei käytetä sellaisenaan sijoitusten uudelleenjärjestämiseen, ainakaan ennen 1960-lukua. `decades.csv` sisältää kuitenkin molemmat sijat, joten ratkaisu tehdään tarinassa 3.1 oikean, kerätyn datan perusteella. Vaihtoehtoja ovat esimerkiksi:
+- alkuperäiset sijat sellaisinaan
+- korjaus vain uusimmille jaksoille
+- matalan osuuden nimien merkitseminen "usein toisena nimenä" ja niiden käyttö toisen etunimen generoinnissa (#23)
+
+### Tekijänmerkintä
+
+Sivulle ja READMEen lisätään: *"Lähde: Digi- ja väestötietovirasto, Väestötietojärjestelmän suomalaisten nimiaineistot, CC BY 4.0."*
