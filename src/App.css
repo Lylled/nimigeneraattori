@@ -1,0 +1,19 @@
+.app {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.lead {
+  font-size: 1.25rem;
+}
+
+.note {
+  color: var(--muted);
+}
+
+footer {
+  margin-top: 3rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}

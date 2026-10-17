@@ -1,2 +1,7 @@
 data/raw/*.xlsx
 __pycache__/
+node_modules/
+dist/
+*.local
+*.log
+.DS_Store
