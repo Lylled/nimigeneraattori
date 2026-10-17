@@ -3,6 +3,7 @@ import {
   OLETUSDATA,
   generoi,
   jaksoPainot,
+  kaytetytAlkukirjaimet,
   luokittele,
   type NimiData,
 } from './generator'
@@ -149,5 +150,60 @@ describe('generoi', () => {
       const tulos = generoi({ vuosi, sukupuoli: 'molemmat', siemen: 1 })
       expect(tulos.hyvinYleinen.length).toBeGreaterThan(0)
     }
+  })
+})
+
+describe('alkukirjaimet', () => {
+  it('arpoo vain valituilla kirjaimilla alkavia nimiä', () => {
+    const tulos = generoi({
+      vuosi: 1925,
+      sukupuoli: 'molemmat',
+      maara: 10,
+      siemen: 5,
+      alkukirjaimet: ['a', 'E'],
+    })
+    const kaikki = Object.values(tulos).flat()
+    expect(kaikki.length).toBeGreaterThan(0)
+    for (const { nimi } of kaikki) expect(['A', 'E']).toContain(nimi[0])
+  })
+
+  it('ei muuta nimen kategoriaa', () => {
+    const ilman = generoi({
+      vuosi: 1925,
+      sukupuoli: 'nainen',
+      maara: 100,
+      siemen: 1,
+    })
+    const kanssa = generoi({
+      vuosi: 1925,
+      sukupuoli: 'nainen',
+      maara: 100,
+      siemen: 1,
+      alkukirjaimet: ['A'],
+    })
+    const aNimet = (t: typeof ilman) =>
+      t.hyvinYleinen
+        .map((n) => n.nimi)
+        .filter((n) => n.startsWith('A'))
+        .sort()
+    expect(aNimet(kanssa)).toEqual(aNimet(ilman))
+  })
+
+  it('palauttaa tyhjät listat, jos kirjaimella ei ole nimiä', () => {
+    const tulos = generoi({
+      vuosi: 1925,
+      sukupuoli: 'nainen',
+      alkukirjaimet: ['Q'],
+    })
+    expect(Object.values(tulos).flat()).toEqual([])
+  })
+})
+
+describe('kaytetytAlkukirjaimet', () => {
+  it('palauttaa aineiston alkukirjaimet aakkosjärjestyksessä', () => {
+    const kirjaimet = kaytetytAlkukirjaimet()
+    expect(kirjaimet[0]).toBe('A')
+    expect(kirjaimet).toContain('V')
+    expect(kirjaimet).not.toContain('Q')
   })
 })
