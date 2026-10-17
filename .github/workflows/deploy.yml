@@ -27,6 +27,7 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run format:check
+      - run: npm test
       - run: npm run build
       - name: Python-testit
         run: python3 -m unittest discover -s scripts -p 'test_*.py'

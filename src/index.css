@@ -1,7 +1,13 @@
 :root {
   --bg: #f6efe3;
+  --surface: #fbf7f0;
   --text: #2b2118;
   --muted: #6b5a4b;
+  --line: #ddd0bd;
+  --accent: #7a3e1d;
+  --on-accent: #fff8ee;
+  --focus: #1f6fb2;
+  --error: #b3261e;
 
   font-family: Georgia, 'Times New Roman', serif;
   line-height: 1.6;
@@ -12,8 +18,14 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #1f1a16;
+    --surface: #2a231e;
     --text: #efe6d8;
     --muted: #b3a492;
+    --line: #463b32;
+    --accent: #e0a36f;
+    --on-accent: #1f1a16;
+    --focus: #7cb7ea;
+    --error: #f2948c;
   }
 }
 

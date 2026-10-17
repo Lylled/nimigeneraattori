@@ -1,19 +1,162 @@
 .app {
-  max-width: 40rem;
+  max-width: 56rem;
   margin: 0 auto;
-  padding: 3rem 1rem;
+  padding: 2.5rem 1rem 3rem;
+}
+
+h1 {
+  margin: 0;
 }
 
 .lead {
+  margin-top: 0.25rem;
   font-size: 1.25rem;
 }
 
-.note {
+.haku {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.5rem;
+  align-items: flex-start;
+  margin: 2rem 0;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+}
+
+.kentta {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.kentta > label,
+.kentta > legend {
+  display: block;
+  margin-bottom: 0.4rem;
+  padding: 0;
+  font-weight: bold;
+}
+
+.vuosi {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.vuosi input[type='range'] {
+  width: min(18rem, 55vw);
+  accent-color: var(--accent);
+}
+
+.vuosi input[type='number'] {
+  width: 5.5rem;
+  padding: 0.35rem 0.5rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 0.25rem;
+}
+
+.vuosi input[aria-invalid='true'] {
+  border-color: var(--error);
+}
+
+.ohje {
+  margin: 0.4rem 0 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.valinnat {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+}
+
+.valinta {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.valinta input {
+  accent-color: var(--accent);
+}
+
+button {
+  align-self: center;
+  padding: 0.6rem 1.2rem;
+  font: inherit;
+  font-weight: bold;
+  color: var(--on-accent);
+  background: var(--accent);
+  border: 0;
+  border-radius: 0.35rem;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(1.1);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.tulokset {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem;
+}
+
+.kategoria {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+}
+
+.kategoria h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.kategoria ul {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kategoria li {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  padding: 0.3rem 0;
+  font-size: 1.2rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.kategoria li:last-child {
+  border-bottom: 0;
+}
+
+.merkki {
+  font-size: 0.75rem;
   color: var(--muted);
 }
 
 footer {
-  margin-top: 3rem;
+  margin-top: 2.5rem;
   font-size: 0.875rem;
   color: var(--muted);
+}
+
+footer p {
+  margin: 0.25rem 0;
 }
