@@ -2,11 +2,11 @@ import type { Sukupuoli } from './generator'
 
 export interface HakuAsetukset {
   vuosi: number
-  sukupuoli: Sukupuoli | 'molemmat'
+  sukupuoli: Sukupuoli
   alkukirjaimet: string[]
 }
 
-const SUKUPUOLET = ['nainen', 'mies', 'molemmat'] as const
+const SUKUPUOLET = ['nainen', 'mies'] as const
 
 /**
  * Lukee hakuasetukset osoitteen kyselyosasta, esim.
