@@ -4,11 +4,10 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 
 ## Työtapa
 
-- **Sprintin pituus:** 2 viikkoa (harrastusprojektissa muutama ilta viikossa).
-- **Epic** = isompi kokonaisuus, **tarina** = yksi sprintin aikana valmistuva työ.
-- **Estimaatit** on annettu story pointteina (1, 2, 3, 5, 8). Yli 8 pisteen tarinat pilkotaan.
-- **Prioriteetti:** epicit ovat tärkeysjärjestyksessä. Sprinttijako on ehdotus, ja sitä tarkennetaan jokaisen sprintin alussa (sprint planning).
-- Sprintin lopuksi tehdään lyhyt katselmointi (mitä valmistui, toimiiko sivu) ja retro (mikä kannattaa tehdä toisin).
+- Työ etenee oman aikataulun mukaan, ilman sprinttejä tai määräaikoja.
+- **Epic** on isompi kokonaisuus, ja **tarina** on yksi kerralla tehtävä työ.
+- Epicit ovat tärkeysjärjestyksessä: E1–E4 muodostavat ensimmäisen toimivan version (MVP), ja loput ovat jatkokehitystä.
+- **SP** (story point) kuvaa tarinan suhteellista kokoa (1, 2, 3, 5, 8), ei aikaa. Yli 8 pisteen tarinat pilkotaan.
 
 ### Definition of Done
 
@@ -20,22 +19,7 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 
 ---
 
-## Sprinttisuunnitelma (ehdotus)
-
-| Sprintti | Tavoite | Epicit |
-|---|---|---|
-| 1 | Pohja pystyssä ja DVV-data koottu | E1, E2 |
-| 2 | **MVP:** nimiä 1900-luvulta selaimessa | E3, E4 |
-| 3 | Lisäsuodattimet | E5 |
-| 4 | Historiallisen datan keruu (1650–1899) | E6 osa 1 |
-| 5 | Historiallinen data generaattoriin | E6 osa 2 |
-| 6 | Nimityylit tekoälyn avulla | E7 |
-| 7 | Viimeistely esittelyprojektiksi | E9 (+ E8 jos aikaa) |
-| Backlog | Sukunimet ja talonnimet | E10 |
-
----
-
-## E1 – Projektin pystytys · Sprintti 1
+## E1 – Projektin pystytys
 
 **Tavoite:** tyhjä mutta toimiva sivu on julkaistuna, ja datan muoto on sovittu.
 
@@ -46,7 +30,7 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 | 1.3 | **Datan skeema:** määritellään `names.json`-rakenne (nimi, sukupuoli, jakso, osuus, kirjattu ja puhuttu muoto, tyylitagit, lähde, datan laatu) ja sille TypeScript-tyypit.<br>*Valmis kun:* skeema on dokumentoitu ja esimerkkitiedosto validoituu. | 3 |
 | 1.4 | **README:** projektin kuvaus, ajo-ohjeet ja datalähteiden luettelo. | 1 |
 
-## E2 – DVV-data 1900 → · Sprintti 1
+## E2 – DVV-data 1900 →
 
 **Tavoite:** luotettavat nimien osuudet vuosikymmenittäin 1900-luvun alusta tähän päivään.
 
@@ -57,7 +41,7 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 | 2.3 | **Normalisointi:** lukumäärät osuuksiksi syntyneistä ja tallennus skeeman mukaiseen JSONiin.<br>*Valmis kun:* jokaiselle vuosikymmenelle on osuudet. | 3 |
 | 2.4 | **Datan validointi:** vertaillaan muutamaa vuosikymmentä tunnettuihin top-listoihin ja tarkistetaan, vääristävätkö toiset etunimet tuloksia.<br>*Valmis kun:* havainnot on dokumentoitu ja tarvittavat korjaukset tehty. | 2 |
 
-## E3 – Generointilogiikka · Sprintti 2
+## E3 – Generointilogiikka
 
 **Tavoite:** puhdas, testattu moduuli, joka palauttaa nimet kategorioittain.
 
@@ -68,7 +52,7 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 | 3.3 | **Painotettu arvonta:** kategorian sisällä yleisemmät nimet tulevat useammin, eikä sama nimi toistu yhdellä generointikerralla.<br>Tuetaan siemenlukua, jotta testit ovat toistettavia. | 2 |
 | 3.4 | **Yksikkötestit (Vitest):** testit kategorioille, interpoloinnille ja arvonnalle. | 2 |
 
-## E4 – Käyttöliittymä (MVP) · Sprintti 2
+## E4 – Käyttöliittymä (MVP)
 
 **Tavoite:** käyttäjä saa sivulta aikakauteen sopivia nimiä.
 
@@ -79,7 +63,7 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 | 4.3 | **Suosikit:** nimen voi tallentaa listaan (localStorage) ja kopioida leikepöydälle. | 2 |
 | 4.4 | **Responsiivisuus ja saavutettavuus:** sivu toimii mobiilissa ja näppäimistöllä, ja kontrastit ovat kunnossa. | 2 |
 
-## E5 – Lisäsuodattimet · Sprintti 3
+## E5 – Lisäsuodattimet
 
 | # | Tarina | SP |
 |---|---|---|
@@ -88,7 +72,7 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 | 5.3 | **Nimen lukitus:** hyvän etunimen voi lukita ja arpoa vain toisen nimen uudelleen. | 2 |
 | 5.4 | **Jaettava URL:** hakuasetukset tallentuvat osoitteeseen (`?v=1885&s=n`). | 1 |
 
-## E6 – Historiallinen data 1650–1899 · Sprintit 4–5
+## E6 – Historiallinen data 1650–1899
 
 **Tavoite:** nimien yleisyydet kirkonkirjoista (HisKi) 25 vuoden jaksoille.
 
@@ -102,7 +86,7 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 | 6.6 | **Liitos DVV-dataan:** vuoden 1900 ympäristö tarkistetaan, ettei kategorioissa ole hyppäyksiä.<br>Jaksot yhdistetään yhdeksi aikajanaksi. | 3 |
 | 6.7 | **UI historialliselle datalle:** näytetään kirjattu ja puhuttu muoto sekä datan laatuindikaattori (esim. "otos 3 200 kastetta"). | 3 |
 
-## E7 – Nimityylit tekoälyn avulla · Sprintti 6
+## E7 – Nimityylit tekoälyn avulla
 
 **Periaate:** tekoäly ajetaan kerran datan rakennusvaiheessa, ei sivun käytön aikana.
 
@@ -113,7 +97,7 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 | 7.3 | **Käsintarkistus:** tagit käydään läpi ja korjaukset tallennetaan erilliseen override-tiedostoon, jotta ne säilyvät uudelleenajoissa. | 3 |
 | 7.4 | **Tyylisuodatin UI:hin.** | 2 |
 
-## E8 – Nimien lisätiedot · Sprintti 7 (valinnainen)
+## E8 – Nimien lisätiedot (valinnainen)
 
 | # | Tarina | SP |
 |---|---|---|
@@ -121,7 +105,7 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 | 8.2 | **Lyhyt kuvaus nimestä:** alkuperä ja muotikausi. Tekoälyn tuottama ja käsin tarkistettu. | 3 |
 | 8.3 | **Nimipäivä:** nykyisen almanakan mukainen nimipäivä, jos sellainen on. | 2 |
 
-## E9 – Esittelyprojektin viimeistely · Sprintti 7
+## E9 – Esittelyprojektin viimeistely
 
 | # | Tarina | SP |
 |---|---|---|
@@ -130,7 +114,7 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 | 9.3 | **README esittelyä varten:** kuvakaappaukset, arkkitehtuuri ja linkki julkaistuun sivuun. | 1 |
 | 9.4 | **Suorituskyky:** JSON jaetaan aikajaksoittain, ja Lighthouse-pisteet ovat yli 90. | 2 |
 
-## E10 – Sukunimet ja talonnimet · Backlog
+## E10 – Sukunimet ja talonnimet
 
 | # | Tarina | SP |
 |---|---|---|
