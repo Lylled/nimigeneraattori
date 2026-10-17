@@ -108,8 +108,19 @@ button.generoi:hover {
   flex-basis: 100%;
 }
 
+.kirjaimet summary {
+  width: fit-content;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.kirjaimet .valittu {
+  font-weight: normal;
+}
+
 .kirjainvalinnat {
   display: flex;
+  margin-top: 0.6rem;
   flex-wrap: wrap;
   gap: 0.35rem;
 }
@@ -189,11 +200,6 @@ button.generoi:hover {
 
 .kategoria li:last-child {
   border-bottom: 0;
-}
-
-.merkki {
-  font-size: 0.75rem;
-  color: var(--muted);
 }
 
 footer {

@@ -26,10 +26,9 @@ const KATEGORIAT: { avain: Kategoria; otsikko: string; kuvaus: string }[] = [
   },
 ]
 
-const SUKUPUOLET: { arvo: Sukupuoli | 'molemmat'; nimi: string }[] = [
+const SUKUPUOLET: { arvo: Sukupuoli; nimi: string }[] = [
   { arvo: 'nainen', nimi: 'Nainen' },
   { arvo: 'mies', nimi: 'Mies' },
-  { arvo: 'molemmat', nimi: 'Molemmat' },
 ]
 
 const KIRJAIMET = kaytetytAlkukirjaimet()
@@ -139,9 +138,18 @@ function App() {
           </div>
         </fieldset>
 
-        <fieldset className="kentta kirjaimet">
-          <legend>Alkukirjain</legend>
-          <div className="kirjainvalinnat">
+        <details className="kentta kirjaimet">
+          <summary>
+            Alkukirjain:{' '}
+            <span className="valittu">
+              {alkukirjaimet.length > 0 ? alkukirjaimet.join(', ') : 'kaikki'}
+            </span>
+          </summary>
+          <div
+            className="kirjainvalinnat"
+            role="group"
+            aria-label="Alkukirjaimet"
+          >
             {KIRJAIMET.map((kirjain) => (
               <button
                 key={kirjain}
@@ -162,7 +170,7 @@ function App() {
               Kaikki kirjaimet
             </button>
           </div>
-        </fieldset>
+        </details>
 
         <button
           type="button"
@@ -182,15 +190,8 @@ function App() {
               <p className="tyhja">Ei nimiä valituilla alkukirjaimilla.</p>
             )}
             <ul>
-              {tulos[avain].map(({ nimi, sukupuoli: s }) => (
-                <li key={`${s}-${nimi}`}>
-                  {nimi}
-                  {sukupuoli === 'molemmat' && (
-                    <span className="merkki" aria-label={s}>
-                      {s === 'nainen' ? 'N' : 'M'}
-                    </span>
-                  )}
-                </li>
+              {tulos[avain].map(({ nimi }) => (
+                <li key={nimi}>{nimi}</li>
               ))}
             </ul>
           </div>

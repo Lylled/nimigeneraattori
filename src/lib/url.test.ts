@@ -13,16 +13,16 @@ const lue = (haku: string) => lueAsetukset(haku, OLETUS, VUODET, KIRJAIMET)
 
 describe('lueAsetukset', () => {
   it('lukee kaikki asetukset', () => {
-    expect(lue('?vuosi=1985&sukupuoli=molemmat&kirjaimet=a,Ä')).toEqual({
+    expect(lue('?vuosi=1985&sukupuoli=mies&kirjaimet=a,Ä')).toEqual({
       vuosi: 1985,
-      sukupuoli: 'molemmat',
+      sukupuoli: 'mies',
       alkukirjaimet: ['A', 'Ä'],
     })
   })
 
   it('käyttää oletuksia puuttuville ja virheellisille arvoille', () => {
     expect(lue('')).toEqual(OLETUS)
-    expect(lue('?vuosi=1850&sukupuoli=kissa&kirjaimet=Q,E,E')).toEqual({
+    expect(lue('?vuosi=1850&sukupuoli=molemmat&kirjaimet=Q,E,E')).toEqual({
       ...OLETUS,
       alkukirjaimet: ['E'],
     })
