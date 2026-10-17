@@ -154,6 +154,23 @@ export interface GenerointiAsetukset {
   /** Sama siemen tuottaa samat nimet; oletuksena satunnainen. */
   siemen?: number
   rajat?: Rajat
+  /**
+   * Arvotaan vain nimiä, jotka alkavat jollakin näistä kirjaimista. Tyhjä
+   * lista tarkoittaa kaikkia. Suodatus tehdään luokittelun jälkeen, joten
+   * nimen kategoria ei riipu valituista kirjaimista.
+   */
+  alkukirjaimet?: readonly string[]
+}
+
+/** Kirjaimet, joilla alkaa vähintään yksi aineiston nimi, aakkosjärjestyksessä. */
+export function kaytetytAlkukirjaimet(data: NimiData = OLETUSDATA): string[] {
+  const kirjaimet = new Set<string>()
+  for (const jaksot of Object.values(data.nimet)) {
+    for (const rivit of Object.values(jaksot)) {
+      for (const [nimi] of rivit) kirjaimet.add(nimi[0].toLocaleUpperCase('fi'))
+    }
+  }
+  return [...kirjaimet].sort((a, b) => a.localeCompare(b, 'fi'))
 }
 
 /** Arpoo nimet kuhunkin kategoriaan. Sama nimi ei toistu yhdellä kerralla. */
@@ -164,12 +181,20 @@ export function generoi(
     maara = 5,
     siemen = Math.floor(Math.random() * 2 ** 32),
     rajat = OLETUSRAJAT,
+    alkukirjaimet = [],
   }: GenerointiAsetukset,
   data: NimiData = OLETUSDATA,
 ): Tulos {
   const sukupuolet: Sukupuoli[] =
     sukupuoli === 'molemmat' ? ['nainen', 'mies'] : [sukupuoli]
-  const ehdokkaat = sukupuolet.flatMap((s) => luokittele(vuosi, s, data, rajat))
+  const kirjaimet = new Set(alkukirjaimet.map((k) => k.toLocaleUpperCase('fi')))
+  const ehdokkaat = sukupuolet
+    .flatMap((s) => luokittele(vuosi, s, data, rajat))
+    .filter(
+      (e) =>
+        kirjaimet.size === 0 ||
+        kirjaimet.has(e.nimi[0].toLocaleUpperCase('fi')),
+    )
   const satunnainen = luoSatunnainen(siemen)
 
   const arvo = (kategoria: Kategoria) =>

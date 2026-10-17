@@ -1,11 +1,13 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import {
   OLETUSDATA,
   generoi,
+  kaytetytAlkukirjaimet,
   type Kategoria,
   type Sukupuoli,
 } from './lib/generator'
+import { kirjoitaAsetukset, lueAsetukset, type HakuAsetukset } from './lib/url'
 
 const ENSIMMAINEN = OLETUSDATA.jaksot[0].alku
 const VIIMEINEN = OLETUSDATA.jaksot[OLETUSDATA.jaksot.length - 1].loppu
@@ -30,18 +32,45 @@ const SUKUPUOLET: { arvo: Sukupuoli | 'molemmat'; nimi: string }[] = [
   { arvo: 'molemmat', nimi: 'Molemmat' },
 ]
 
+const KIRJAIMET = kaytetytAlkukirjaimet()
+
+const ALKUASETUKSET = lueAsetukset(
+  window.location.search,
+  { vuosi: 1925, sukupuoli: 'nainen', alkukirjaimet: [] },
+  { min: ENSIMMAINEN, max: VIIMEINEN },
+  KIRJAIMET,
+)
+
 const uusiSiemen = () => Math.floor(Math.random() * 2 ** 32)
 
 function App() {
-  const [vuosi, setVuosi] = useState(1925)
-  const [vuosiTeksti, setVuosiTeksti] = useState('1925')
-  const [sukupuoli, setSukupuoli] = useState<Sukupuoli | 'molemmat'>('nainen')
+  const [vuosi, setVuosi] = useState(ALKUASETUKSET.vuosi)
+  const [vuosiTeksti, setVuosiTeksti] = useState(String(ALKUASETUKSET.vuosi))
+  const [sukupuoli, setSukupuoli] = useState<HakuAsetukset['sukupuoli']>(
+    ALKUASETUKSET.sukupuoli,
+  )
+  const [alkukirjaimet, setAlkukirjaimet] = useState(
+    ALKUASETUKSET.alkukirjaimet,
+  )
   const [siemen, setSiemen] = useState(uusiSiemen)
 
   const tulos = useMemo(
-    () => generoi({ vuosi, sukupuoli, siemen }),
-    [vuosi, sukupuoli, siemen],
+    () => generoi({ vuosi, sukupuoli, siemen, alkukirjaimet }),
+    [vuosi, sukupuoli, siemen, alkukirjaimet],
   )
+
+  // Asetukset näkyvät osoitteessa, jotta haun voi jakaa linkkinä.
+  useEffect(() => {
+    const haku = kirjoitaAsetukset({ vuosi, sukupuoli, alkukirjaimet })
+    window.history.replaceState(null, '', haku)
+  }, [vuosi, sukupuoli, alkukirjaimet])
+
+  const vaihdaKirjain = (kirjain: string) =>
+    setAlkukirjaimet((valitut) =>
+      valitut.includes(kirjain)
+        ? valitut.filter((k) => k !== kirjain)
+        : KIRJAIMET.filter((k) => k === kirjain || valitut.includes(k)),
+    )
 
   const vaihdaVuosi = (teksti: string) => {
     setVuosiTeksti(teksti)
@@ -110,7 +139,36 @@ function App() {
           </div>
         </fieldset>
 
-        <button type="button" onClick={() => setSiemen(uusiSiemen())}>
+        <fieldset className="kentta kirjaimet">
+          <legend>Alkukirjain</legend>
+          <div className="kirjainvalinnat">
+            {KIRJAIMET.map((kirjain) => (
+              <button
+                key={kirjain}
+                type="button"
+                className="kirjain"
+                aria-pressed={alkukirjaimet.includes(kirjain)}
+                onClick={() => vaihdaKirjain(kirjain)}
+              >
+                {kirjain}
+              </button>
+            ))}
+            <button
+              type="button"
+              className="tyhjenna"
+              disabled={alkukirjaimet.length === 0}
+              onClick={() => setAlkukirjaimet([])}
+            >
+              Kaikki kirjaimet
+            </button>
+          </div>
+        </fieldset>
+
+        <button
+          type="button"
+          className="generoi"
+          onClick={() => setSiemen(uusiSiemen())}
+        >
           Generoi uudelleen
         </button>
       </form>
@@ -120,6 +178,9 @@ function App() {
           <div key={avain} className="kategoria">
             <h2>{otsikko}</h2>
             <p className="ohje">{kuvaus}</p>
+            {tulos[avain].length === 0 && (
+              <p className="tyhja">Ei nimiä valituilla alkukirjaimilla.</p>
+            )}
             <ul>
               {tulos[avain].map(({ nimi, sukupuoli: s }) => (
                 <li key={`${s}-${nimi}`}>
