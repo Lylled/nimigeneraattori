@@ -1,8 +1,8 @@
 """Yhdistää Nimipalvelun top 100 -listat ja ensimmäisen nimen osuudet.
 
 1. Korjataan Nimipalvelun virhe: top 100 -listoilla jokaisen jakson lukuun on
-   lisätty myös vuosina 2020–2026 syntyneet. (Esim. Aino –1899: nimihaku
-   5 127, lista 9 653; erotus 4 526 = Ainot 2020–2026.) Korjattu määrä saadaan
+   lisätty myös vuosina 2020–2026 syntyneet. (Esim. Aino 1920–1929:
+   nimihaku 11 504, lista 16 030; erotus 4 526 = Ainot 2020–2026.) Korjattu määrä saadaan
    vähentämällä nimen 2020–2026-luku. Jos nimi ei ole 2020–2026 top 100:ssa,
    sen luku on listan pienintä pienempi mutta tuntematon; silloin mitään ei
    vähennetä ja rivi merkitään (korjaus_epavarma = 1).

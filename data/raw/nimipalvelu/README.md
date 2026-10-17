@@ -8,7 +8,6 @@ Jokaiselle jaksolle tehdään oma tiedosto tähän hakemistoon:
 
 | Tiedosto | Jakso | Sivun osoite (vaihda `sivu=1` … `sivu=10`) |
 |---|---|---|
-| `1899.txt` | –1899 | https://nimipalvelu.dvv.fi/suosituimmat-etunimet?vuosikymmen=1899&sivu=1 |
 | `1900.txt` | 1900–1909 | https://nimipalvelu.dvv.fi/suosituimmat-etunimet?vuosikymmen=1900&sivu=1 |
 | `1910.txt` … `2010.txt` | 1910–1919 … 2010–2019 | sama kaava |
 | `2020.txt` | 2020–2026 | https://nimipalvelu.dvv.fi/suosituimmat-etunimet?vuosikymmen=2020&sivu=1 |
