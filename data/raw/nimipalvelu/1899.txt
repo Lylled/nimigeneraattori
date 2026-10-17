@@ -1,0 +1,243 @@
+Valitse vuosikymmen
+–1899
+Tyhjennä
+
+Sija	Miehet	Lukumäärä
+1.	Johannes	18 770
+2.	Juho	16 131
+3.	Emil	9 907
+4.	Väinö	8 780
+5.	Olavi	8 418
+6.	Matti	8 350
+7.	Juhani	8 105
+8.	Ilmari	7 334
+9.	Johan	7 251
+10.	Kalle	7 183
+Sija	Naiset	Lukumäärä
+1.	Maria	65 759
+2.	Anna	26 347
+3.	Sofia	22 179
+4.	Matilda	14 122
+5.	Hilma	12 646
+6.	Johanna	12 151
+7.	Emilia	11 895
+8.	Amanda	11 774
+9.	Hilda	11 658
+10.	Ida	10 847
+Sivu 1 / 10
+
+Sija	Miehet	Lukumäärä
+11.	Eino	7 169
+12.	Mikael	7 151
+13.	Toivo	6 765
+14.	Antti	6 749
+15.	August	6 186
+16.	Heikki	6 087
+17.	Otto	6 071
+18.	Oliver	5 981
+19.	Frans	5 913
+20.	Onni	5 867
+Sija	Naiset	Lukumäärä
+11.	Iida	9 853
+12.	Aino	9 653
+13.	Aurora	9 125
+14.	Hilja	8 870
+15.	Aleksandra	8 623
+16.	Olga	8 206
+17.	Helmi	8 177
+18.	Olivia	7 356
+19.	Vilhelmiina	6 998
+20.	Helena	6 947
+Sivu 2 / 10
+
+Sija	Miehet	Lukumäärä
+21.	Karl	5 648
+22.	Elias	5 550
+23.	Eemil	5 294
+24.	Edvard	5 231
+25.	Vilhelm	5 076
+26.	Kustaa	5 068
+27.	Oskar	4 995
+28.	Vihtori	4 879
+29.	Jaakko	4 860
+30.	Vilho	4 698
+Sija	Naiset	Lukumäärä
+21.	Lyydia	6 902
+22.	Alma	6 765
+23.	Aina	6 447
+24.	Elisabet	6 424
+25.	Elsa	6 385
+26.	Alina	6 129
+27.	Lydia	6 125
+28.	Selma	5 972
+29.	Lempi	5 530
+30.	Martta	5 521
+Sivu 3 / 10
+
+Sija	Miehet	Lukumäärä
+31.	Matias	4 648
+32.	Oskari	4 555
+33.	Lauri	4 504
+34.	Armas	4 456
+35.	Henrik	4 426
+36.	Jalmari	4 359
+37.	Leo	4 197
+38.	Antero	3 983
+39.	Viljami	3 817
+40.	Viktor	3 701
+Sija	Naiset	Lukumäärä
+31.	Ellen	5 390
+32.	Elina	4 955
+33.	Emma	4 609
+34.	Linnea	4 442
+35.	Vilhelmina	4 388
+36.	Tyyne	4 131
+37.	Liisa	4 122
+38.	Irene	4 065
+39.	Fanny	3 952
+40.	Amalia	3 777
+Sivu 4 / 10
+
+Sija	Miehet	Lukumäärä
+41.	Erik	3 667
+42.	Arvid	3 597
+43.	Aukusti	3 557
+44.	Anton	3 451
+45.	Alexander	3 406
+46.	Nikolai	3 335
+47.	Aleksanteri	3 326
+48.	Aleksander	3 251
+49.	Hugo	3 181
+50.	Tapani	3 178
+Sija	Naiset	Lukumäärä
+41.	Eeva	3 769
+42.	Josefiina	3 756
+43.	Ilona	3 711
+44.	Aliina	3 631
+45.	Saima	3 622
+46.	Katariina	3 570
+47.	Ester	3 525
+48.	Josefina	3 435
+49.	Kaisa	3 239
+50.	Katri	3 197
+Sivu 5 / 10
+
+Sija	Miehet	Lukumäärä
+51.	Alvar	3 086
+52.	Alfred	3 063
+53.	Yrjö	3 009
+54.	Eemeli	2 969
+55.	Tapio	2 901
+56.	Herman	2 840
+57.	Samuel	2 834
+58.	Pekka	2 794
+59.	Aatos	2 758
+60.	Veikko	2 675
+Sija	Naiset	Lukumäärä
+51.	Lilja	3 183
+52.	Hulda	3 174
+53.	Elli	3 125
+54.	Alexandra	3 105
+55.	Elisabeth	2 836
+56.	Edla	2 829
+57.	Kristiina	2 783
+58.	Elviira	2 772
+59.	Elin	2 758
+60.	Susanna	2 757
+Sivu 6 / 10
+
+Sija	Miehet	Lukumäärä
+61.	Edvin	2 649
+62.	Kaarle	2 636
+63.	Kaarlo	2 614
+64.	Benjamin	2 547
+65.	Kristian	2 524
+66.	Fredrik	2 481
+67.	Niilo	2 476
+68.	Julius	2 396
+69.	Aarne	2 341
+70.	Sulo	2 302
+Sija	Naiset	Lukumäärä
+61.	Karoliina	2 729
+62.	Jenny	2 720
+63.	Hanna	2 611
+64.	Kerttu	2 417
+65.	Aada	2 412
+66.	Aava	2 350
+67.	Viola	2 321
+68.	Augusta	2 296
+69.	Eveliina	2 287
+70.	Loviisa	2 282
+Sivu 7 / 10
+
+Sija	Miehet	Lukumäärä
+71.	Oiva	2 267
+72.	Eeli	2 255
+73.	Albert	2 233
+74.	Aleksi	2 228
+75.	Sakari	2 211
+76.	Urho	2 195
+77.	Paavo	2 192
+78.	Daniel	2 146
+79.	Viljo	2 145
+80.	Valdemar	2 012
+Sija	Naiset	Lukumäärä
+71.	Eliina	2 196
+72.	Anni	2 178
+73.	Sigrid	2 175
+74.	Lyyli	2 172
+75.	Edit	2 122
+76.	Isla	2 078
+77.	Kustaava	2 054
+78.	Eevi	2 041
+79.	Lovisa	1 970
+80.	Inkeri	1 913
+Sivu 8 / 10
+
+Sija	Miehet	Lukumäärä
+81.	Eliel	1 996
+82.	Akseli	1 994
+83.	Iivari	1 947
+84.	Noel	1 946
+85.	Mikko	1 930
+86.	Evert	1 923
+87.	Arvo	1 921
+88.	Einar	1 864
+89.	Kalevi	1 863
+90.	Verner	1 837
+Sija	Naiset	Lukumäärä
+81.	Siiri	1 907
+82.	Ella	1 890
+83.	Edith	1 859
+84.	Kaarina	1 846
+85.	Dagmar	1 798
+86.	Julia	1 776
+87.	Signe	1 752
+88.	Aili	1 732
+89.	Eva	1 709
+90.	Tilda	1 693
+Sivu 9 / 10
+
+Sija	Miehet	Lukumäärä
+91.	Martti	1 812
+92.	Joel	1 811
+93.	Artturi	1 796
+94.	Gabriel	1 786
+95.	Juhana	1 717
+96.	Aaron	1 662
+97.	Rafael	1 650
+98.	Ville	1 629
+99.	Taavetti	1 623
+100.	Anders	1 599
+Sija	Naiset	Lukumäärä
+91.	Ingrid	1 690
+92.	Alisa	1 606
+93.	Saimi	1 605
+94.	Hilla	1 604
+95.	Sylvia	1 566
+96.	Miina	1 559
+97.	Livia	1 546
+98.	Elvira	1 545
+99.	Rauha	1 521
+100.	Venla	1 499
+Sivu 10 / 10
