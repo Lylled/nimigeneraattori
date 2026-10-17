@@ -47,7 +47,7 @@ Yhdelle nimelle näytetään haltijoiden määrä syntymävuosikymmenittäin ja 
 
 1. **Ensimmäiset ja muut etunimet ovat samassa luvussa.** Palvelun mukaan lukuihin sisältyvät *"voimassa olevat etunimet (sekä ensimmäiset että muut etunimet)"*. Siksi listojen kärjessä ovat tyypilliset toiset nimet, kuten Johannes, Olavi, Maria ja Juhani, eivätkä nimet, joilla ihmisiä oikeasti kutsuttiin. Korjausyrityksestä ks. [Havainto](#havainto-ensimmäisen-nimen-osuus-vääristää-vanhoja-jaksoja).
 2. **Mukana ovat myös kuolleet**, joista käytetään kuolinhetkellä voimassa olleita nimiä. Vanhimmat ikäluokat kattavat kuitenkin vain ihmiset, jotka ovat päätyneet väestötietojärjestelmään. Siksi käytetään **osuuksia jakson sisällä**, ei absoluuttisia määriä.
-3. **Luokka –1899 on yksi kasa**, eikä sitä voi jakaa vuosikymmeniin. Historiallinen data (E6) kattaa tämän ajan paremmin.
+3. **Luokka –1899 on yksi kasa**, josta ei näe syntymävuosikymmentä. Siksi se **jätetään pois**, ja Nimipalvelun data alkaa vuodesta 1900. Ennen vuotta 1900 syntyneiden nimet tulevat historiallisesta datasta (E6).
 4. **robots.txt** (`User-Agent: * / Disallow: /*?*`) kieltää kaikkien kyselyparametrillisten osoitteiden automaattisen haun. Juuri niissä data on. **Nimipalvelua ei siis pidä kaapia automaattisesti.** Tätä selvitystä varten haettiin käsin muutama yksittäinen sivu.
 
 ## 2. Avoindata.fi: Väestötietojärjestelmän suomalaisten nimiaineistot
@@ -82,11 +82,30 @@ DVV:ltä ei pyydetä aineistoa, vaan data kootaan itse.
 
 1. **Top 100 -listat kerätään Nimipalvelusta käsin.** Ohje on tiedostossa [`data/raw/nimipalvelu/README.md`](../data/raw/nimipalvelu/README.md). Jäsennin `scripts/parse_nimipalvelu.py` tuottaa niistä tiedoston `data/processed/nimipalvelu_top100.csv`.
 2. **Ensimmäisen nimen osuus** lasketaan avoindata.fi:n etunimitilastosta skriptillä `scripts/first_name_share.py`. Tulos on tiedostossa `data/processed/first_name_share.csv`.
-3. **Yhdistäminen:** `scripts/build_decades.py` tuottaa tiedoston `data/processed/decades.csv`, jossa on jokaiselle nimelle sekä alkuperäinen sija että ensimmäisen nimen osuudella korjattu sija.
+3. **Yhdistäminen:** `scripts/build_decades.py` tuottaa tiedoston `data/processed/decades.csv`. Siinä jokaisen nimen luku on korjattu Nimipalvelun virheen osalta (ks. alla), ja mukana on myös ensimmäisen nimen osuudella korjattu sija.
 4. **Kategoriat sijoituksen mukaan** (tarkennetaan tarinassa 3.1):
    - hyvin yleinen: sijat 1–20
    - yleinen: sijat 21–60
    - hieman harvinaisempi: sijat 61–100 sekä nimet, jotka olivat top 100:ssa viereisellä jaksolla mutta eivät tällä
+
+### Havainto: top 100 -listoissa on mukana 2020–2026 syntyneet
+
+Kaikki 13 jaksoa 1900–1909 … 2020–2026 on kerätty (2 600 riviä). Kerätessä huomattiin, että Nimipalvelun **Suosituimmat etunimet** -listoilla jokaisen vanhemman jakson lukuun on lisätty myös vuosina 2020–2026 syntyneet. Esimerkiksi Ainon luvut nimihaussa (17.10.2026) ja top 100 -listoilla:
+
+| Jakso | Nimihaku | Top 100 -lista | Erotus |
+|---|---|---|---|
+| –1899 | 5 127 | 9 653 | 4 526 |
+| 1920–1929 | 11 504 | 16 030 | 4 526 |
+| 1970–1979 | 699 | 5 225 | 4 526 |
+| 2020–2026 | 4 526 | 4 526 | 0 |
+
+Erotus on kaikilla jaksoilla täsmälleen sama kuin 2020–2026 syntyneiden Ainojen määrä. Virheen takia nykyään suositut nimet päätyvät vanhoille listoille. Esimerkiksi *Aava* (2 350), *Isla*, *Noel*, *Hilla* ja *Livia* olivat jakson –1899 top 100:ssa, vaikka niiden todellinen määrä on 0. Myös esimerkiksi Isla (2 078) on 1900–1909-listalla.
+
+**Korjaus** (`scripts/build_decades.py`): jokaisen vanhemman jakson luvusta vähennetään nimen 2020–2026-luku (`lukumaara_korjattu`), ja nimet järjestetään uudelleen (`sija_korjattu`).
+- Jos nimi ei ole 2020–2026 top 100:ssa, sen 2020–2026-luku on alle listan pienimmän luvun (noin 800) mutta muuten tuntematon. Silloin mitään ei vähennetä, ja rivi merkitään `korjaus_epavarma = 1`.
+- Virheen takia osa todellisista sijoista 90–100 on jäänyt listoilta pois. Korjattuja listoja kannattaa siksi käyttää noin 90 ensimmäiseen sijaan asti.
+
+Korjauksen jälkeen jakso 1900–1909 näyttää aikakaudelle uskottavalta. Miehillä kärjessä ovat Johannes, Eino, Väinö, Toivo ja Juho, naisilla Maria, Anna, Martta, Hilja ja Tyyne.
 
 ### Havainto: ensimmäisen nimen osuus vääristää vanhoja jaksoja
 

@@ -1,6 +1,6 @@
 """Jäsentää Nimipalvelusta käsin kopioidut top 100 -listat CSV-tiedostoksi.
 
-Syöte: data/raw/nimipalvelu/<jakso>.txt, esim. 1920.txt tai 1899.txt (= –1899).
+Syöte: data/raw/nimipalvelu/<jakso>.txt, esim. 1920.txt.
 Tiedostoon liitetään jakson kaikki 10 sivua peräkkäin sellaisenaan.
 
 Tuloste: data/processed/nimipalvelu_top100.csv
@@ -19,8 +19,9 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "raw" / "nimipalvelu"
 OUT_FILE = ROOT / "data" / "processed" / "nimipalvelu_top100.csv"
 
-# Jaksot Nimipalvelun vuosikymmen-parametrin mukaan; 1899 tarkoittaa "–1899".
-PERIODS = [1899] + list(range(1900, 2030, 10))
+# Jaksot Nimipalvelun vuosikymmen-parametrin mukaan. Luokka "–1899" jätetään
+# pois, koska siitä ei näe syntymävuosikymmentä.
+PERIODS = list(range(1900, 2030, 10))
 
 HEADER_RE = re.compile(r"Sija\s+(Miehet|Naiset)")
 # Lukumäärän tuhaterottimena voi olla välilyönti, sitova välilyönti tai ohut
@@ -28,7 +29,7 @@ HEADER_RE = re.compile(r"Sija\s+(Miehet|Naiset)")
 # sijaa ("100.") lueta osaksi lukua.
 ROW_RE = re.compile(
     r"(?<![\d.])(\d{1,3})\.\s+([^\d\t\r\n.]+?)\s+"
-    r"(\d{1,3}(?:[   ]\d{3}(?![\d.]))*)(?![\d.])"
+    r"(\d{1,3}(?:[ \u00a0\u202f]\d{3}(?![\d.]))*)(?![\d.])"
 )
 GENDERS = {"Miehet": "mies", "Naiset": "nainen"}
 
