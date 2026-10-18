@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import './App.css'
+import { NimiKortti } from './NimiKortti'
 import {
   HISTORIADATA,
   HISTORIARAJAT,
@@ -9,6 +10,7 @@ import {
   generoi,
   kaytetytAlkukirjaimet,
   rajaaJaksot,
+  type GeneroituNimi,
   type Kategoria,
   type NimiData,
   type Rajat,
@@ -158,6 +160,7 @@ function App() {
   )
   const [tyylit, setTyylit] = useState(ALKUASETUKSET.tyylit)
   const [siemen, setSiemen] = useState(uusiSiemen)
+  const [valittuNimi, setValittuNimi] = useState<GeneroituNimi | null>(null)
   const valilehdet = useRef<Partial<Record<Osio, HTMLButtonElement | null>>>({})
 
   const tiedot = OSIOT[osio]
@@ -358,6 +361,10 @@ function App() {
           </button>
         </form>
 
+        <p className="ohje vihje">
+          Valitse nimi nähdäksesi sen alkuperän ja suosion.
+        </p>
+
         <section className="tulokset" aria-live="polite" aria-label="Nimet">
           {KATEGORIAT.map(({ avain, otsikko }) => (
             <div key={avain} className="kategoria">
@@ -367,23 +374,50 @@ function App() {
                 <p className="tyhja">Ei nimiä valituilla rajauksilla.</p>
               )}
               <ul>
-                {tulos[avain].map(({ nimi, kirjattu }) => (
-                  <li key={nimi}>
-                    {nimi}
-                    {kirjattu && (
-                      <span
-                        className="kirjattu"
-                        title="Kirkonkirjoihin kirjattu muoto"
-                      >
-                        ({kirjattu})
-                      </span>
-                    )}
+                {tulos[avain].map((n) => (
+                  <li key={n.nimi}>
+                    <button
+                      type="button"
+                      className="nimi"
+                      aria-haspopup="dialog"
+                      onClick={() => setValittuNimi(n)}
+                    >
+                      {n.nimi}
+                      {n.kirjattu && (
+                        <span
+                          className="kirjattu"
+                          title="Kirkonkirjoihin kirjattu muoto"
+                        >
+                          ({n.kirjattu})
+                        </span>
+                      )}
+                    </button>
                   </li>
                 ))}
               </ul>
             </div>
           ))}
         </section>
+
+        {valittuNimi && (
+          <NimiKortti
+            key={valittuNimi.nimi}
+            {...valittuNimi}
+            arvio={
+              osio === 'historia' || perinne !== 'kaikki'
+                ? {
+                    otsikko:
+                      perinne === 'kaikki'
+                        ? `Arvioitu yleisyys ${tiedot.min}–${tiedot.max}`
+                        : `Arvioitu yleisyys ${tiedot.min}–${tiedot.max}, ${perinteenTiedot.nimi.toLocaleLowerCase('fi')} nimiperinne`,
+                    data,
+                    rajat,
+                  }
+                : undefined
+            }
+            onClose={() => setValittuNimi(null)}
+          />
+        )}
 
         <footer>
           <p>

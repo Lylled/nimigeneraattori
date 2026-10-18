@@ -103,6 +103,8 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 
 ## E8 – Nimien lisätiedot (valinnainen)
 
+**Tilanne:** suosiokäyrä (8.1) ja kuvaukset (8.2) on tehty nimikorttiin. Kuvaukset on kirjoitettu tekoälyn avustamana, ja ne odottavat käsintarkistusta (`data/info/kuvaukset.tsv`). Nimipäivä (8.3) jätetään pois: suomalaisten ja suomenruotsalaisten nimipäiväluetteloiden tekijänoikeus kuuluu Helsingin yliopistolle.
+
 | # | Tarina | SP |
 |---|---|---|
 | 8.1 | **Suosiokäyrä:** nimen osuus aikajanalla pienenä kaaviona. | 3 |
