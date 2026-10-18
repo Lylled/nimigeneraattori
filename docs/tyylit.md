@@ -6,7 +6,7 @@ Tagit on tehty käsin (Claude, tarkistettavissa). Korjaukset tehdään suoraan C
 
 | Tyyli | Avain | Määritelmä | Esimerkkejä |
 |---|---|---|---|
-| Luonto | `luonto` | Nimen taustalla on luontoon liittyvä sana: kasvi, eläin, sää, vuodenaika, taivaankappale tai maisema. | Lumi, Pihla, Vuokko, Suvi, Otso, Vesa, Luna |
+| Luonto | `luonto` | Nimen taustalla on luontoon liittyvä sana: kasvi, eläin, sää, vuodenaika, taivaankappale, maisema tai luonnon aarre. | Lumi, Pihla, Vuokko, Suvi, Otso, Vesa, Helmi, Luna |
 | Raamatullinen | `raamatullinen` | Raamatusta tunnistettava nimi tai sen läheinen muoto. Kansanomaiset muunnelmat (Matti, Antti, Pekka) eivät kuulu tähän, koska niitä ei enää mielletä raamatullisiksi. | Saara, Ester, Elias, Joona, Samuel, Iisakki |
 | Kansallisromanttinen | `kansallisromanttinen` | Kalevalan ja kansanrunouden nimet, muinaisnimet sekä kansallisen heräämisen aikana suosiin nostetut suomenkieliset nimet. Suomenruotsalaisessa perinteessä vastaavat ovat 1800-luvulla uudelleen käyttöön otetut muinaispohjoismaiset nimet. | Aino, Kyllikki, Väinö, Ilmari, Suoma; Ragnar, Sigrid, Freja |
 | Hyve- ja tunne | `hyve` | Nimi on hyveen, tunteen tai hellittelyn sana. | Toivo, Lempi, Rauha, Onni, Armas, Sulo, Tyyne |

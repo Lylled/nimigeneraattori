@@ -22,7 +22,8 @@ export const TYYLIT: TyylinTiedot[] = [
   {
     avain: 'luonto',
     nimi: 'Luonto',
-    kuvaus: 'Kasvit, eläimet, sää ja taivas, esim. Lumi, Pihla, Otso',
+    kuvaus:
+      'Kasvit, eläimet, sää, taivas ja luonnon aarteet, esim. Lumi, Pihla, Helmi',
   },
   {
     avain: 'raamatullinen',
