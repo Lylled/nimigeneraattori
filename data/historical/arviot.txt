@@ -1,0 +1,597 @@
+# Arvio vuosina 1700–1899 syntyneiden yleisimmistä etunimistä
+#
+# Tämä EI ole tilasto. Ennen vuotta 1900 syntyneistä ei ole kattavaa avointa
+# nimitilastoa, joten listat on koottu käsin nimihistorian yleistiedon
+# pohjalta ja tarkistettu suuntaa antavasti seuraavia vasten (ks.
+# docs/data-sources.md):
+#   - HisKi-otos: noin 2 300 vuoden 1890 alussa kastettua lasta, vain lapsen
+#     ensimmäinen etunimi
+#   - Tuomas Salsten julkaisemat vuosikymmenlistat 1860–1890-luvuilla
+#     syntyneistä (kuolleiden luettelot 1955–1970 ja Kelan reikäkortit)
+#   - Hellevi Arjava: Alpiini ja Otteljaana (SKS 2005) ja Eero Kiviniemi:
+#     Rakkaan lapsen monet nimet (1982) nimien yleisistä suosionvaihteluista
+#
+# Muoto: [alkuvuosi-loppuvuosi sukupuoli], sen jälkeen nimet arvioidussa
+# yleisyysjärjestyksessä yleisimmästä alkaen, yksi riviä kohti. Suluissa on
+# tarvittaessa muoto, jolla nimi tavallisesti kirjattiin kirkonkirjoihin.
+# Ne jäävät pois vuodesta 1860 alkaen, koska silloin ruotsalaiset muodot
+# (Johan, Karl) olivat jo myös omia nimiään suomalaisten muotojen rinnalla.
+#
+# Ortodoksisen Karjalan nimistö (esim. Iivana, Vasili, Okahvia) ei vielä ole
+# mukana.
+
+[1700-1749 nainen]
+Maria
+Anna
+Kaisa (Catharina)
+Liisa (Elisabeth)
+Kaarina (Karin)
+Priita (Brita)
+Valpuri (Walborg)
+Marketta (Margareta)
+Leena (Helena)
+Kristiina (Christina)
+Eeva (Eva)
+Kirsti (Kerstin)
+Susanna
+Matleena (Magdalena)
+Elin
+Aune (Agneta)
+Kerttu (Gertrud)
+Saara (Sara)
+Inkeri (Ingeborg)
+Elsa
+Juliaana (Juliana)
+Regina
+Beata
+Sofia (Sophia)
+Dorotea (Dorothea)
+Hedvig
+Johanna
+Agata (Agatha)
+Martta (Martha)
+Ulriikka (Ulrica)
+Barbara (Barbro)
+Lucia
+Rebekka (Rebecka)
+Annikka (Annika)
+Hanna
+
+[1700-1749 mies]
+Matti (Matts)
+Juho (Johan)
+Antti (Anders)
+Heikki (Henrik)
+Jaakko (Jacob)
+Erkki (Erik)
+Tuomas (Thomas)
+Mikko (Michel)
+Pekka (Petter)
+Simo (Simon)
+Lauri (Lars)
+Juhana (Johannes)
+Yrjö (Jöran)
+Olli (Olof)
+Martti (Mårten)
+Paavo (Påhl)
+Niilo (Nils)
+Hannu (Hans)
+Kaarle (Carl)
+Iisakki (Isak)
+Aapo (Abraham)
+Eljas (Elias)
+Samuli (Samuel)
+Kaapro (Gabriel)
+Taavetti (David)
+Taneli (Daniel)
+Aatami (Adam)
+Tahvo (Staffan)
+Sipi (Sigfrid)
+Nuutti (Knut)
+Klemetti (Clemet)
+Reko (Gregorius)
+Sakari (Zacharias)
+Pertti (Bertil)
+Risto (Christer)
+Mauno (Magnus)
+Jooseppi (Josef)
+Markku (Marcus)
+Luukas (Lucas)
+Esaias
+Joonas (Jonas)
+Kustaa (Gustaf)
+Tobias
+
+[1750-1799 nainen]
+Maria
+Anna
+Kaisa (Catharina)
+Liisa (Elisabeth)
+Priita (Brita)
+Kaarina (Karin)
+Leena (Helena)
+Marketta (Margareta)
+Valpuri (Walborg)
+Kristiina (Christina)
+Eeva (Eva)
+Sofia (Sophia)
+Susanna
+Matleena (Magdalena)
+Loviisa (Lovisa)
+Ulriikka (Ulrica)
+Kirsti (Kerstin)
+Hedvig
+Juliaana (Juliana)
+Saara (Sara)
+Johanna
+Aune (Agneta)
+Elin
+Beata
+Kerttu (Gertrud)
+Charlotta
+Riikka (Fredrica)
+Kustaava (Gustava)
+Inkeri (Ingeborg)
+Regina
+Elsa
+Dorotea (Dorothea)
+Martta (Martha)
+Karoliina (Carolina)
+Agata (Agatha)
+Barbara (Barbro)
+Rebekka (Rebecka)
+
+[1750-1799 mies]
+Matti (Matts)
+Juho (Johan)
+Antti (Anders)
+Heikki (Henrik)
+Jaakko (Jacob)
+Erkki (Erik)
+Juhana (Johannes)
+Tuomas (Thomas)
+Mikko (Michel)
+Pekka (Petter)
+Kaarle (Carl)
+Kustaa (Gustaf)
+Simo (Simon)
+Lauri (Lars)
+Iisakki (Isak)
+Aapo (Abraham)
+Eljas (Elias)
+Yrjö (Jöran)
+Olli (Olof)
+Paavo (Påhl)
+Samuli (Samuel)
+Martti (Mårten)
+Niilo (Nils)
+Taavetti (David)
+Kaapro (Gabriel)
+Aatami (Adam)
+Taneli (Daniel)
+Hannu (Hans)
+Sakari (Zacharias)
+Tahvo (Staffan)
+Fredrik
+Nuutti (Knut)
+Sipi (Sigfrid)
+Reko (Gregorius)
+Klemetti (Clemet)
+Adolf
+Jooseppi (Josef)
+Joonas (Jonas)
+Risto (Christer)
+Esaias
+Salomon
+Efraim
+Tobias
+Benjamin
+Mauno (Magnus)
+Markku (Marcus)
+Luukas (Lucas)
+Israel
+
+[1800-1829 nainen]
+Maria
+Anna
+Kaisa (Catharina)
+Liisa (Elisabeth)
+Eeva (Eva)
+Leena (Helena)
+Kristiina (Christina)
+Sofia (Sophia)
+Priita (Brita)
+Marketta (Margareta)
+Loviisa (Lovisa)
+Johanna
+Ulriikka (Ulrica)
+Kaarina (Karin)
+Valpuri (Walborg)
+Susanna
+Matleena (Magdalena)
+Hedvig
+Kustaava (Gustava)
+Riikka (Fredrica)
+Juliaana (Juliana)
+Karoliina (Carolina)
+Charlotta
+Saara (Sara)
+Aune (Agneta)
+Beata
+Henriikka (Henrica)
+Vilhelmiina (Wilhelmina)
+Elin
+Amalia
+Mariana
+Regina
+Kerttu (Gertrud)
+Dorotea (Dorothea)
+Inkeri (Ingeborg)
+Martta (Martha)
+Agata (Agatha)
+Josefiina (Josefina)
+
+[1800-1829 mies]
+Juho (Johan)
+Matti (Matts)
+Antti (Anders)
+Heikki (Henrik)
+Kaarle (Carl)
+Kustaa (Gustaf)
+Jaakko (Jacob)
+Erkki (Erik)
+Pekka (Petter)
+Mikko (Michel)
+Tuomas (Thomas)
+Juhana (Johannes)
+Iisakki (Isak)
+Aapo (Abraham)
+Simo (Simon)
+Fredrik
+Eljas (Elias)
+Lauri (Lars)
+Samuli (Samuel)
+Taavetti (David)
+Yrjö (Jöran)
+Aatami (Adam)
+Olli (Olof)
+Paavo (Påhl)
+Martti (Mårten)
+Niilo (Nils)
+Taneli (Daniel)
+Kaapro (Gabriel)
+Sakari (Zacharias)
+Adolf
+Hannu (Hans)
+Vilhelm (Wilhelm)
+Joonas (Jonas)
+Jooseppi (Josef)
+Salomon
+Efraim
+Tahvo (Staffan)
+Israel
+Benjamin
+Emanuel
+Risto (Christer)
+Esaias
+Nuutti (Knut)
+Klemetti (Clemet)
+Mauno (Magnus)
+Aleksanteri (Alexander)
+
+[1830-1859 nainen]
+Maria
+Anna
+Kaisa (Catharina)
+Liisa (Elisabeth)
+Eeva (Eva)
+Sofia (Sophia)
+Kristiina (Christina)
+Johanna
+Leena (Helena)
+Loviisa (Lovisa)
+Vilhelmiina (Wilhelmina)
+Karoliina (Carolina)
+Kustaava (Gustava)
+Riikka (Fredrica)
+Ulriikka (Ulrica)
+Henriikka (Henrica)
+Juliaana (Juliana)
+Charlotta
+Matilda (Mathilda)
+Amanda
+Priita (Brita)
+Marketta (Margareta)
+Susanna
+Hedvig
+Matleena (Magdalena)
+Aleksandra (Alexandra)
+Amalia
+Josefiina (Josefina)
+Emilia
+Augusta
+Albertiina (Albertina)
+Valpuri (Walborg)
+Saara (Sara)
+Kaarina (Karin)
+Beata
+Mariana
+Serafia (Seraphia)
+Ida
+Edla
+Emma
+Olga
+Natalia
+Fanny
+Hilda
+
+[1830-1859 mies]
+Juho (Johan)
+Matti (Matts)
+Antti (Anders)
+Kaarle (Carl)
+Heikki (Henrik)
+Kustaa (Gustaf)
+Jaakko (Jacob)
+Erkki (Erik)
+Pekka (Petter)
+Mikko (Michel)
+Juhana (Johannes)
+Tuomas (Thomas)
+Iisakki (Isak)
+Aapo (Abraham)
+Fredrik
+Aleksanteri (Alexander)
+Simo (Simon)
+Eljas (Elias)
+Vilhelm (Wilhelm)
+Samuli (Samuel)
+Taavetti (David)
+August
+Adolf
+Lauri (Lars)
+Yrjö (Jöran)
+Aatami (Adam)
+Olli (Olof)
+Paavo (Påhl)
+Martti (Mårten)
+Niilo (Nils)
+Taneli (Daniel)
+Kaapro (Gabriel)
+Sakari (Zacharias)
+Frans
+Herman
+Edvard
+Emanuel
+Israel
+Salomon
+Efraim
+Joonas (Jonas)
+Jooseppi (Josef)
+Vihtori (Victor)
+Otto
+Konstantin
+Leander
+Emil
+Hannu (Hans)
+Benjamin
+
+[1860-1879 nainen]
+Maria
+Anna
+Ida
+Amanda
+Matilda
+Hilma
+Hilda
+Vilhelmiina
+Olga
+Edla
+Iida
+Eeva
+Johanna
+Sofia
+Kristiina
+Emma
+Alma
+Selma
+Aleksandra
+Karoliina
+Loviisa
+Augusta
+Kaisa
+Liisa
+Helena
+Amalia
+Josefiina
+Hedvig
+Albertiina
+Emilia
+Charlotta
+Henriikka
+Kustaava
+Serafia
+Hulda
+Fanny
+Tekla
+Aina
+Lyydia
+Elin
+Natalia
+Ottilia
+Juliaana
+Susanna
+Ulriikka
+Vendla
+Agnes
+
+[1860-1879 mies]
+Juho
+Kalle
+Matti
+Johan
+Antti
+Heikki
+Karl
+Frans
+Kustaa
+August
+Otto
+Pekka
+Johannes
+Jaakko
+Mikko
+Vihtori
+Taavetti
+Emil
+Aleksanteri
+Erkki
+Juhana
+Iisakki
+Fredrik
+Tuomas
+Simo
+Aapo
+Herman
+Vilhelm
+Edvard
+Gustaf
+Henrik
+Oskari
+Eemeli
+Eljas
+Samuli
+Adolf
+Hjalmar
+Arvid
+Albert
+Konstantin
+Evert
+Leander
+Jooseppi
+Anders
+Erik
+Lauri
+Kaarlo
+Jalmari
+Alfred
+Ernst
+
+[1880-1899 nainen]
+Anna
+Maria
+Ida
+Hilma
+Hilda
+Aina
+Olga
+Hilja
+Amanda
+Alma
+Iida
+Aino
+Helmi
+Selma
+Lempi
+Martta
+Elsa
+Matilda
+Edla
+Hanna
+Emma
+Hulda
+Fanny
+Helena
+Lyydia
+Saima
+Johanna
+Elina
+Jenny
+Aleksandra
+Sofia
+Vilhelmiina
+Tyyne
+Signe
+Ester
+Elli
+Impi
+Kaisa
+Amalia
+Aliina
+Siiri
+Lyyli
+Rauha
+Eeva
+Liisa
+Elin
+Ellen
+Edit
+Senja
+Naimi
+Suoma
+Julia
+Anni
+Vieno
+Katri
+
+[1880-1899 mies]
+Juho
+Kalle
+Matti
+Johan
+Karl
+Antti
+Otto
+Frans
+Väinö
+Johannes
+Emil
+Heikki
+August
+Kustaa
+Lauri
+Yrjö
+Toivo
+Kaarlo
+Jalmari
+Vihtori
+Oskari
+Eino
+Hugo
+Jaakko
+Pekka
+Mikko
+Juhana
+Paavo
+Vilhelm
+Edvard
+Aleksanteri
+Arvid
+Hjalmar
+Onni
+Arvo
+Eemeli
+Artturi
+Akseli
+Vilho
+Viljo
+Uuno
+Aarne
+Sulo
+Armas
+Erkki
+Tuomas
+Herman
+Viktor
+Nikolai
+Anton
+Elias
+Iivari
+Urho
+Einar
+Alfred
+Evert
+Nestori
+Taavetti
+Henrik
+Martti

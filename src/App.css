@@ -13,12 +13,55 @@ h1 {
   font-size: 1.25rem;
 }
 
+.valilehdet {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 2rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.valilehdet [role='tab'] {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: -1px;
+  padding: 0.6rem 1rem;
+  font: inherit;
+  font-weight: bold;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.5rem 0.5rem 0 0;
+  cursor: pointer;
+}
+
+.valilehdet [role='tab'][aria-selected='true'] {
+  color: var(--text);
+  background: var(--surface);
+  border-color: var(--line);
+  border-bottom-color: var(--surface);
+}
+
+.vuosivali {
+  font-size: 0.8rem;
+  font-weight: normal;
+}
+
+.huomio {
+  margin: 1.25rem 0 0;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--accent);
+  border-radius: 0.25rem;
+  background: var(--surface);
+}
+
 .haku {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem 2.5rem;
   align-items: flex-start;
-  margin: 2rem 0;
+  margin: 1.25rem 0 2rem;
   padding: 1.25rem;
   border: 1px solid var(--line);
   border-radius: 0.5rem;
@@ -196,6 +239,11 @@ button.generoi:hover {
   padding: 0.3rem 0;
   font-size: 1.2rem;
   border-bottom: 1px solid var(--line);
+}
+
+.kategoria .kirjattu {
+  font-size: 0.875rem;
+  color: var(--muted);
 }
 
 .kategoria li:last-child {

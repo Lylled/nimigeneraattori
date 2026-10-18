@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
+  HISTORIADATA,
+  HISTORIARAJAT,
   OLETUSDATA,
   generoi,
   jaksoPainot,
@@ -89,6 +91,26 @@ describe('luokittele', () => {
     expect(paino('Kerttu')).toBeCloseTo(0.2)
     expect(tulos[0].nimi).toBe('Aino')
   })
+
+  it('ottaa kirjatun muodon painavimmalta jaksolta', () => {
+    const data: NimiData = {
+      ...DATA,
+      nimet: {
+        nainen: {
+          '1910': [['Kaisa', 1, 1, 'Catharina']],
+          '1920': [['Kaisa', 1, 1, 'Cajsa']],
+        },
+        mies: {},
+      },
+    }
+    expect(luokittele(1912, 'nainen', data, RAJAT)[0].kirjattu).toBe(
+      'Catharina',
+    )
+    expect(luokittele(1923, 'nainen', data, RAJAT)[0].kirjattu).toBe('Cajsa')
+    expect(luokittele(1914.5, 'nainen', DATA, RAJAT)[0]).not.toHaveProperty(
+      'kirjattu',
+    )
+  })
 })
 
 describe('painotettuOtos', () => {
@@ -150,6 +172,37 @@ describe('generoi', () => {
       const tulos = generoi({ vuosi, sukupuoli: 'molemmat', siemen: 1 })
       expect(tulos.hyvinYleinen.length).toBeGreaterThan(0)
     }
+  })
+})
+
+describe('historialliset arviot', () => {
+  const { jaksot } = HISTORIADATA
+
+  it('kattaa vuodet 1700–1899 ja jatkuu tilastoista', () => {
+    expect(jaksot[0].alku).toBe(1700)
+    expect(jaksot[jaksot.length - 1].loppu + 1).toBe(OLETUSDATA.jaksot[0].alku)
+  })
+
+  it('täyttää kaikki kategoriat koko aikavälillä', () => {
+    for (let vuosi = 1700; vuosi <= 1899; vuosi += 11) {
+      for (const sukupuoli of ['nainen', 'mies'] as const) {
+        const tulos = generoi(
+          { vuosi, sukupuoli, siemen: vuosi, rajat: HISTORIARAJAT },
+          HISTORIADATA,
+        )
+        for (const nimet of Object.values(tulos)) expect(nimet).toHaveLength(5)
+      }
+    }
+  })
+
+  it('palauttaa kirkonkirjojen muodon vanhoille nimille', () => {
+    const matti = luokittele(1750, 'mies', HISTORIADATA, HISTORIARAJAT).find(
+      (e) => e.nimi === 'Matti',
+    )
+    expect(matti).toMatchObject({
+      kategoria: 'hyvinYleinen',
+      kirjattu: 'Matts',
+    })
   })
 })
 
