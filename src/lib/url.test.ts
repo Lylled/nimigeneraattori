@@ -13,14 +13,22 @@ const OSIOT: Record<Osio, OsionRajat> = {
     min: 1900,
     max: 2026,
     kirjaimet: ['A', 'E', 'Ä'],
+    tyylit: ['luonto', 'hyve'],
   },
-  historia: { oletusvuosi: 1850, min: 1700, max: 1899, kirjaimet: ['A', 'K'] },
+  historia: {
+    oletusvuosi: 1850,
+    min: 1700,
+    max: 1899,
+    kirjaimet: ['A', 'K'],
+    tyylit: ['luonto', 'saatylainen'],
+  },
 }
 const OLETUS: HakuAsetukset = {
   osio: 'tilastot',
   vuosi: 1925,
   sukupuoli: 'nainen',
   alkukirjaimet: [],
+  tyylit: [],
 }
 
 const lue = (haku: string) =>
@@ -33,6 +41,7 @@ describe('lueAsetukset', () => {
       vuosi: 1985,
       sukupuoli: 'mies',
       alkukirjaimet: ['A', 'Ä'],
+      tyylit: [],
     })
   })
 
@@ -52,8 +61,22 @@ describe('lueAsetukset', () => {
       vuosi: 1785,
       sukupuoli: 'nainen',
       alkukirjaimet: ['K'],
+      tyylit: [],
     })
     expect(lue('?osio=historia&vuosi=1925').vuosi).toBe(1850)
+  })
+})
+
+describe('tyylit', () => {
+  it('lukee ja kirjoittaa osion sallitut tyylit', () => {
+    expect(lue('?tyylit=hyve,saatylainen,hyve,muu').tyylit).toEqual(['hyve'])
+    expect(lue('?osio=historia&tyylit=saatylainen').tyylit).toEqual([
+      'saatylainen',
+    ])
+    const asetukset: HakuAsetukset = { ...OLETUS, tyylit: ['luonto', 'hyve'] }
+    const haku = kirjoitaAsetukset(asetukset)
+    expect(haku).toBe('?vuosi=1925&sukupuoli=nainen&tyylit=luonto,hyve')
+    expect(lue(haku)).toEqual(asetukset)
   })
 })
 
@@ -64,6 +87,7 @@ describe('kirjoitaAsetukset', () => {
       vuosi: 1905,
       sukupuoli: 'mies',
       alkukirjaimet: ['A', 'E'],
+      tyylit: [],
     }
     const haku = kirjoitaAsetukset(asetukset)
     expect(haku).toBe('?vuosi=1905&sukupuoli=mies&kirjaimet=A,E')

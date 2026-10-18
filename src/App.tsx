@@ -18,6 +18,7 @@ import {
   type Osio,
   type OsionRajat,
 } from './lib/url'
+import { TYYLIT, type Tyyli } from './lib/tyylit'
 
 interface OsionTiedot extends OsionRajat {
   otsikko: string
@@ -40,6 +41,7 @@ const OSIOT: Record<Osio, OsionTiedot> = {
     ...vuodet(OLETUSDATA),
     oletusvuosi: 1925,
     kirjaimet: kaytetytAlkukirjaimet(OLETUSDATA),
+    tyylit: TYYLIT.filter((t) => !t.vainHistoria).map((t) => t.avain),
     kuvaukset: {
       hyvinYleinen: 'Aikakauden 20 suosituinta',
       yleinen: 'Sijat 21–60',
@@ -55,6 +57,7 @@ const OSIOT: Record<Osio, OsionTiedot> = {
     ...vuodet(HISTORIADATA),
     oletusvuosi: 1850,
     kirjaimet: kaytetytAlkukirjaimet(HISTORIADATA),
+    tyylit: TYYLIT.map((t) => t.avain),
     kuvaukset: {
       hyvinYleinen: 'Aikakauden yleisimpiä',
       yleinen: 'Tavallisia nimiä',
@@ -98,6 +101,7 @@ function App() {
   const [alkukirjaimet, setAlkukirjaimet] = useState(
     ALKUASETUKSET.alkukirjaimet,
   )
+  const [tyylit, setTyylit] = useState(ALKUASETUKSET.tyylit)
   const [siemen, setSiemen] = useState(uusiSiemen)
   const valilehdet = useRef<Partial<Record<Osio, HTMLButtonElement | null>>>({})
 
@@ -107,23 +111,39 @@ function App() {
   const tulos = useMemo(
     () =>
       generoi(
-        { vuosi, sukupuoli, siemen, alkukirjaimet, rajat: tiedot.rajat },
+        {
+          vuosi,
+          sukupuoli,
+          siemen,
+          alkukirjaimet,
+          tyylit,
+          rajat: tiedot.rajat,
+        },
         tiedot.data,
       ),
-    [tiedot, vuosi, sukupuoli, siemen, alkukirjaimet],
+    [tiedot, vuosi, sukupuoli, siemen, alkukirjaimet, tyylit],
   )
 
   // Asetukset näkyvät osoitteessa, jotta haun voi jakaa linkkinä.
   useEffect(() => {
-    const haku = kirjoitaAsetukset({ osio, vuosi, sukupuoli, alkukirjaimet })
+    const haku = kirjoitaAsetukset({
+      osio,
+      vuosi,
+      sukupuoli,
+      alkukirjaimet,
+      tyylit,
+    })
     window.history.replaceState(null, '', haku)
-  }, [osio, vuosi, sukupuoli, alkukirjaimet])
+  }, [osio, vuosi, sukupuoli, alkukirjaimet, tyylit])
 
   const vaihdaOsio = (uusi: Osio) => {
     setOsio(uusi)
-    // Pidetään vain kirjaimet, joilla uudessa osiossa on nimiä.
+    // Pidetään vain kirjaimet ja tyylit, jotka ovat käytössä uudessa osiossa.
     setAlkukirjaimet((valitut) =>
       valitut.filter((k) => OSIOT[uusi].kirjaimet.includes(k)),
+    )
+    setTyylit((valitut) =>
+      valitut.filter((t) => OSIOT[uusi].tyylit.includes(t)),
     )
   }
 
@@ -141,13 +161,6 @@ function App() {
     vaihdaOsio(seuraava)
     valilehdet.current[seuraava]?.focus()
   }
-
-  const vaihdaKirjain = (kirjain: string) =>
-    setAlkukirjaimet((valitut) =>
-      valitut.includes(kirjain)
-        ? valitut.filter((k) => k !== kirjain)
-        : tiedot.kirjaimet.filter((k) => k === kirjain || valitut.includes(k)),
-    )
 
   return (
     <main className="app">
@@ -223,39 +236,23 @@ function App() {
             </div>
           </fieldset>
 
-          <details className="kentta kirjaimet">
-            <summary>
-              Alkukirjain:{' '}
-              <span className="valittu">
-                {alkukirjaimet.length > 0 ? alkukirjaimet.join(', ') : 'kaikki'}
-              </span>
-            </summary>
-            <div
-              className="kirjainvalinnat"
-              role="group"
-              aria-label="Alkukirjaimet"
-            >
-              {tiedot.kirjaimet.map((kirjain) => (
-                <button
-                  key={kirjain}
-                  type="button"
-                  className="kirjain"
-                  aria-pressed={alkukirjaimet.includes(kirjain)}
-                  onClick={() => vaihdaKirjain(kirjain)}
-                >
-                  {kirjain}
-                </button>
-              ))}
-              <button
-                type="button"
-                className="tyhjenna"
-                disabled={alkukirjaimet.length === 0}
-                onClick={() => setAlkukirjaimet([])}
-              >
-                Kaikki kirjaimet
-              </button>
-            </div>
-          </details>
+          <Monivalinta
+            otsikko="Tyyli"
+            ryhma="Tyylit"
+            kaikki="Kaikki tyylit"
+            vaihtoehdot={TYYLIT.filter((t) => tiedot.tyylit.includes(t.avain))}
+            valitut={tyylit}
+            onChange={(v: Tyyli[]) => setTyylit(v)}
+          />
+
+          <Monivalinta
+            otsikko="Alkukirjain"
+            ryhma="Alkukirjaimet"
+            kaikki="Kaikki kirjaimet"
+            vaihtoehdot={tiedot.kirjaimet.map((k) => ({ avain: k, nimi: k }))}
+            valitut={alkukirjaimet}
+            onChange={setAlkukirjaimet}
+          />
 
           <button
             type="button"
@@ -272,7 +269,7 @@ function App() {
               <h2>{otsikko}</h2>
               <p className="ohje">{tiedot.kuvaukset[avain]}</p>
               {tulos[avain].length === 0 && (
-                <p className="tyhja">Ei nimiä valituilla alkukirjaimilla.</p>
+                <p className="tyhja">Ei nimiä valituilla rajauksilla.</p>
               )}
               <ul>
                 {tulos[avain].map(({ nimi, kirjattu }) => (
@@ -298,6 +295,77 @@ function App() {
         </footer>
       </div>
     </main>
+  )
+}
+
+/**
+ * Avattava valikko, josta voi valita useita vaihtoehtoja. Tyhjä valinta
+ * tarkoittaa kaikkia. Valitut pidetään vaihtoehtojen järjestyksessä.
+ */
+function Monivalinta<T extends string>({
+  otsikko,
+  ryhma,
+  kaikki,
+  vaihtoehdot,
+  valitut,
+  onChange,
+}: {
+  otsikko: string
+  ryhma: string
+  kaikki: string
+  vaihtoehdot: readonly { avain: T; nimi: string; kuvaus?: string }[]
+  valitut: readonly T[]
+  onChange: (valitut: T[]) => void
+}) {
+  const vaihda = (avain: T) =>
+    onChange(
+      vaihtoehdot
+        .map((v) => v.avain)
+        .filter((a) => (a === avain) !== valitut.includes(a)),
+    )
+  const nimi = (avain: T) => vaihtoehdot.find((v) => v.avain === avain)?.nimi
+  const kuvaukset = vaihtoehdot.filter((v) => v.kuvaus)
+
+  return (
+    <details className="kentta monivalinta">
+      <summary>
+        {otsikko}:{' '}
+        <span className="valittu">
+          {valitut.length > 0 ? valitut.map(nimi).join(', ') : 'kaikki'}
+        </span>
+      </summary>
+      <div className="vaihtoehdot" role="group" aria-label={ryhma}>
+        {vaihtoehdot.map((v) => (
+          <button
+            key={v.avain}
+            type="button"
+            className="vaihtoehto"
+            aria-pressed={valitut.includes(v.avain)}
+            onClick={() => vaihda(v.avain)}
+          >
+            {v.nimi}
+          </button>
+        ))}
+        <button
+          type="button"
+          className="tyhjenna"
+          disabled={valitut.length === 0}
+          onClick={() => onChange([])}
+        >
+          {kaikki}
+        </button>
+      </div>
+      {kuvaukset.length > 0 && (
+        <dl className="kuvaukset">
+          {kuvaukset.map((v) => (
+            <div key={v.avain}>
+              <dt>{v.nimi}</dt>
+              <dd>{v.kuvaus}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </details>
   )
 }
 
