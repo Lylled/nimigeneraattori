@@ -1,11 +1,16 @@
+import historiadata from '../data/historical.json'
 import nimidata from '../data/names.json'
 import { luoSatunnainen, painotettuOtos } from './random'
 
 export type Sukupuoli = 'nainen' | 'mies'
 export type Kategoria = 'hyvinYleinen' | 'yleinen' | 'harvinaisempi'
 
-/** [nimi, haltijoiden määrä jaksolla, osuus ensimmäisenä etunimenä] */
-export type NimiRivi = [string, number, number]
+/**
+ * [nimi, haltijoiden määrä jaksolla, osuus ensimmäisenä etunimenä,
+ * kirkonkirjoihin kirjattu muoto]. Historiallisissa arvioissa määrä on
+ * sijoituksesta johdettu paino.
+ */
+export type NimiRivi = [string, number, number, string?]
 
 export interface Jakso {
   alku: number
@@ -27,22 +32,29 @@ export interface Rajat {
 
 export const OLETUSRAJAT: Rajat = { hyvinYleinen: 20, yleinen: 60 }
 
+/** Historialliset listat ovat lyhyempiä, ja nimistö keskittyi harvoihin nimiin. */
+export const HISTORIARAJAT: Rajat = { hyvinYleinen: 12, yleinen: 30 }
+
 export interface Ehdokas {
   nimi: string
   sukupuoli: Sukupuoli
   /** Nimen painotettu osuus valitun vuoden ympäristössä; käytetään arvonnassa. */
   paino: number
   kategoria: Kategoria
+  /** Muoto, jolla nimi tavallisesti kirjattiin kirkonkirjoihin, jos se poikkeaa. */
+  kirjattu?: string
 }
 
 export interface GeneroituNimi {
   nimi: string
   sukupuoli: Sukupuoli
+  kirjattu?: string
 }
 
 export type Tulos = Record<Kategoria, GeneroituNimi[]>
 
 export const OLETUSDATA = nimidata as unknown as NimiData
+export const HISTORIADATA = historiadata as unknown as NimiData
 
 /**
  * Laskee, kuinka paljon kukin jakso painaa annettuna syntymävuonna.
@@ -97,11 +109,15 @@ export function luokittele(
   const nimet = data.nimet[sukupuoli]
 
   const pisteet = new Map<string, number>()
-  for (const [jakso, paino] of painot) {
+  // Kirjattu muoto otetaan painavimmalta jaksolta, jolla se on annettu.
+  const kirjatut = new Map<string, string>()
+  const jarjestys = [...painot].sort((a, b) => b[1] - a[1])
+  for (const [jakso, paino] of jarjestys) {
     const rivit = nimet[jakso] ?? []
     const yhteensa = rivit.reduce((s, [, maara]) => s + maara, 0)
-    for (const [nimi, maara] of rivit) {
+    for (const [nimi, maara, , kirjattu] of rivit) {
       pisteet.set(nimi, (pisteet.get(nimi) ?? 0) + (paino * maara) / yhteensa)
+      if (kirjattu && !kirjatut.has(nimi)) kirjatut.set(nimi, kirjattu)
     }
   }
 
@@ -116,11 +132,12 @@ export function luokittele(
         : i < rajat.yleinen
           ? 'yleinen'
           : 'harvinaisempi',
+    ...(kirjatut.has(nimi) && { kirjattu: kirjatut.get(nimi) }),
   }))
 
   const pienin = jarjestetty[jarjestetty.length - 1]?.[1] ?? 1
   for (const jakso of viereisetJaksot(painot, data.jaksot)) {
-    for (const [nimi] of nimet[jakso] ?? []) {
+    for (const [nimi, , , kirjattu] of nimet[jakso] ?? []) {
       if (pisteet.has(nimi)) continue
       pisteet.set(nimi, pienin / 2)
       ehdokkaat.push({
@@ -128,6 +145,7 @@ export function luokittele(
         sukupuoli,
         paino: pienin / 2,
         kategoria: 'harvinaisempi',
+        ...(kirjattu && { kirjattu }),
       })
     }
   }
@@ -203,7 +221,11 @@ export function generoi(
       (e) => e.paino,
       maara,
       satunnainen,
-    ).map(({ nimi, sukupuoli }) => ({ nimi, sukupuoli }))
+    ).map(({ nimi, sukupuoli, kirjattu }) => ({
+      nimi,
+      sukupuoli,
+      ...(kirjattu && { kirjattu }),
+    }))
 
   return {
     hyvinYleinen: arvo('hyvinYleinen'),

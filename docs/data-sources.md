@@ -123,3 +123,22 @@ Testiajo vuoden 1920 sivuilla 1 ja 10 osoitti, että osuus kuvaa **nykyisiä elo
 ### Tekijänmerkintä
 
 Sivulle ja READMEen lisätään: *"Lähde: Digi- ja väestötietovirasto, Väestötietojärjestelmän suomalaisten nimiaineistot, CC BY 4.0."*
+
+## Historialliset nimet 1700–1899: arviot
+
+Ennen vuotta 1900 syntyneistä ei ole kattavaa avointa nimitilastoa. Siksi sivun **Historialliset nimet** -välilehti perustuu käsin koottuihin **arvioihin** (`data/historical/arviot.txt`), ja sivulla kerrotaan, ettei kyse ole tilastosta.
+
+- **Jaksot:** 1700–1749, 1750–1799, 1800–1829, 1830–1859, 1860–1879 ja 1880–1899. Jokaisella jaksolla on 35–60 nimeä sukupuolta kohti arvioidussa yleisyysjärjestyksessä.
+- **Paino** johdetaan sijoituksesta (1 / sija, Zipfin laki), koska lukumääriä ei ole. Se vastaa karkeasti aikaa, jolloin muutama nimi kattoi suuren osan kastetuista.
+- **Kirjattu muoto:** ennen vuotta 1860 nimet ovat suomenkielisinä puhemuotoina (Matti), ja suluissa on muoto, jolla ne tavallisesti kirjattiin ruotsinkielisiin kirkonkirjoihin (Matts). Vuodesta 1860 alkaen ruotsalaiset muodot (Johan, Karl) ovat omina niminään, koska niitä käytettiin myös sellaisinaan.
+- **Ei mukana:** ortodoksisen Karjalan nimistö (Iivana, Vasili …) ja alueelliset erot.
+
+### Mihin arviot on tarkistettu
+
+| Lähde | Kattavuus | Käyttö |
+|---|---|---|
+| HisKi, kastetut 1890 (käsin haettu otos) | noin 2 300 kastettua tammi–maaliskuussa 1890, 15 ensimmäistä per seurakunta, vain lapsen ensimmäinen etunimi | 1880–1899-jakson kärkinimien ja kirjoitusasujen tarkistus. Otosta ei tallenneta repoon. |
+| Tuomas Salste: [Yleisimmät etunimet 1860–1970 (kuolleet 1955–1970)](https://www.tuomas.salste.net/suku/etunimet-kuolleet.html) ja [1860–1929 (Kela)](https://www.tuomas.salste.net/suku/etunimet-kela.html) | vuosikymmenten top 100, vain ensimmäiset etunimet (kuolleet) | 1860–1899-jaksojen järjestyksen vertailu. Listoja ei ole kopioitu, koska ne eivät ole avoimella lisenssillä (© Tuomas Salste). |
+| Hellevi Arjava: *Alpiini ja Otteljaana. Kangasniemeläisten etunimet 1684–1899* (SKS 2005); Eero Kiviniemi: *Rakkaan lapsen monet nimet* (1982) | yksittäisiä pitäjiä ja yleiset suosionvaihtelut | 1700–1800-lukujen nimistön yleislinjat (esim. Maria noin viidesosalla tytöistä) |
+
+HisKin robots.txt kieltää automaattiset haut (`Disallow: /hiski/`), joten laajempaa otosta ei haeta skriptillä. Jos arvioita halutaan tarkentaa, tarkistetaan käsin haettuja otoksia vasten tai pyydetään Suomen Sukuhistorialliselta Yhdistykseltä aineistoa.

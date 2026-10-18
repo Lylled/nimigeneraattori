@@ -76,6 +76,8 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 
 **Tavoite:** nimien yleisyydet kirkonkirjoista (HisKi) 25 vuoden jaksoille.
 
+**Tilanne:** HisKin robots.txt kieltää automaattiset haut, ja käsin haettu otos jää pieneksi. Siksi vuodet 1700–1899 on toteutettu ensin **arvioina** omalle välilehdelleen (`data/historical/arviot.txt`, ks. docs/data-sources.md). Kirjattu ja puhuttu muoto (6.5) ja UI (6.7) on tehty arvioiden osalta. Arvioita voi myöhemmin tarkentaa tai korvata HisKi-otoksilla.
+
 | # | Tarina | SP |
 |---|---|---|
 | 6.1 | **HisKin käyttöehdot ja hakutapa:** selvitetään, mitä saa hakea ja kuinka tiheästi, sekä miten kastettujen tiedot saadaan ulos.<br>*Valmis kun:* menetelmä on kirjattu ja käyttöehdot tarkistettu. | 3 |

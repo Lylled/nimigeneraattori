@@ -30,6 +30,15 @@ Tiedosto tehdään skriptillä `scripts/build_names_json.py` taulukosta `data/pr
 - **Osuus ensimmäisenä etunimenä** (0–1) tulee avoindata.fi:n etunimitilastosta ja kuvaa elossa olevia haltijoita. Generaattori ei vielä käytä sitä (ks. #12).
 - Nimet, joiden korjattu lukumäärä on 0, jätetään pois. Siksi jaksolla voi olla alle 100 nimeä.
 
+## Historialliset arviot (`src/data/historical.json`)
+
+Tiedosto tehdään skriptillä `scripts/build_historical_json.py` tiedostosta `data/historical/arviot.txt`. Rakenne on sama kuin yllä, mutta:
+
+- **Lukumäärän tilalla on paino** 1 / sija, koska arvioissa on vain järjestys.
+- **Osuus ensimmäisenä etunimenä** on aina 1, koska arviot koskevat ensimmäistä etunimeä.
+- **Valinnainen neljäs kenttä** on muoto, jolla nimi kirjattiin kirkonkirjoihin, esim. `["Matti", 1.0, 1, "Matts"]`.
+- **Kategoriarajat** ovat `HISTORIARAJAT`: sijat 1–12 ovat hyvin yleisiä, 13–30 yleisiä ja loput hieman harvinaisempia, koska listat ovat lyhyempiä ja nimistö keskittyi harvoihin nimiin.
+
 ## Generointi (`src/lib/generator.ts`)
 
 1. **Jaksojen painot** (`jaksoPainot`): syntymävuoden paino jakautuu lineaarisesti kahden lähimmän jakson keskikohtien välillä. Esimerkiksi vuosi 1919 on 55 % 1910-lukua ja 45 % 1920-lukua.

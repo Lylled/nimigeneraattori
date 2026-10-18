@@ -1,19 +1,35 @@
 import { describe, expect, it } from 'vitest'
-import { kirjoitaAsetukset, lueAsetukset, type HakuAsetukset } from './url'
+import {
+  kirjoitaAsetukset,
+  lueAsetukset,
+  type HakuAsetukset,
+  type Osio,
+  type OsionRajat,
+} from './url'
 
+const OSIOT: Record<Osio, OsionRajat> = {
+  tilastot: {
+    oletusvuosi: 1925,
+    min: 1900,
+    max: 2026,
+    kirjaimet: ['A', 'E', 'Ä'],
+  },
+  historia: { oletusvuosi: 1850, min: 1700, max: 1899, kirjaimet: ['A', 'K'] },
+}
 const OLETUS: HakuAsetukset = {
+  osio: 'tilastot',
   vuosi: 1925,
   sukupuoli: 'nainen',
   alkukirjaimet: [],
 }
-const VUODET = { min: 1900, max: 2026 }
-const KIRJAIMET = ['A', 'E', 'Ä']
 
-const lue = (haku: string) => lueAsetukset(haku, OLETUS, VUODET, KIRJAIMET)
+const lue = (haku: string) =>
+  lueAsetukset(haku, { osio: 'tilastot', sukupuoli: 'nainen' }, OSIOT)
 
 describe('lueAsetukset', () => {
   it('lukee kaikki asetukset', () => {
     expect(lue('?vuosi=1985&sukupuoli=mies&kirjaimet=a,Ä')).toEqual({
+      osio: 'tilastot',
       vuosi: 1985,
       sukupuoli: 'mies',
       alkukirjaimet: ['A', 'Ä'],
@@ -27,12 +43,24 @@ describe('lueAsetukset', () => {
       alkukirjaimet: ['E'],
     })
     expect(lue('?vuosi=abc').vuosi).toBe(1925)
+    expect(lue('?osio=muu').osio).toBe('tilastot')
+  })
+
+  it('tarkistaa vuoden ja kirjaimet valitun osion rajoista', () => {
+    expect(lue('?osio=historia&vuosi=1785&kirjaimet=K,E')).toEqual({
+      osio: 'historia',
+      vuosi: 1785,
+      sukupuoli: 'nainen',
+      alkukirjaimet: ['K'],
+    })
+    expect(lue('?osio=historia&vuosi=1925').vuosi).toBe(1850)
   })
 })
 
 describe('kirjoitaAsetukset', () => {
   it('tuottaa luettavan osoitteen, jonka voi lukea takaisin', () => {
     const asetukset: HakuAsetukset = {
+      osio: 'tilastot',
       vuosi: 1905,
       sukupuoli: 'mies',
       alkukirjaimet: ['A', 'E'],
@@ -44,5 +72,16 @@ describe('kirjoitaAsetukset', () => {
 
   it('jättää kirjaimet pois, kun niitä ei ole valittu', () => {
     expect(kirjoitaAsetukset(OLETUS)).toBe('?vuosi=1925&sukupuoli=nainen')
+  })
+
+  it('kirjoittaa historiaosion osoitteeseen', () => {
+    const asetukset: HakuAsetukset = {
+      ...OLETUS,
+      osio: 'historia',
+      vuosi: 1785,
+    }
+    const haku = kirjoitaAsetukset(asetukset)
+    expect(haku).toBe('?osio=historia&vuosi=1785&sukupuoli=nainen')
+    expect(lue(haku)).toEqual(asetukset)
   })
 })
