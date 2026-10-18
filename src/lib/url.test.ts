@@ -25,6 +25,7 @@ const OSIOT: Record<Osio, OsionRajat> = {
 }
 const OLETUS: HakuAsetukset = {
   osio: 'tilastot',
+  perinne: 'kaikki',
   vuosi: 1925,
   sukupuoli: 'nainen',
   alkukirjaimet: [],
@@ -38,6 +39,7 @@ describe('lueAsetukset', () => {
   it('lukee kaikki asetukset', () => {
     expect(lue('?vuosi=1985&sukupuoli=mies&kirjaimet=a,Ä')).toEqual({
       osio: 'tilastot',
+      perinne: 'kaikki',
       vuosi: 1985,
       sukupuoli: 'mies',
       alkukirjaimet: ['A', 'Ä'],
@@ -58,6 +60,7 @@ describe('lueAsetukset', () => {
   it('tarkistaa vuoden ja kirjaimet valitun osion rajoista', () => {
     expect(lue('?osio=historia&vuosi=1785&kirjaimet=K,E')).toEqual({
       osio: 'historia',
+      perinne: 'kaikki',
       vuosi: 1785,
       sukupuoli: 'nainen',
       alkukirjaimet: ['K'],
@@ -80,10 +83,28 @@ describe('tyylit', () => {
   })
 })
 
+describe('nimiperinne', () => {
+  it('lukee ja kirjoittaa perinteen, oletus jää pois', () => {
+    expect(lue('?perinne=muu').perinne).toBe('kaikki')
+    const asetukset: HakuAsetukset = {
+      ...OLETUS,
+      osio: 'historia',
+      perinne: 'ortodoksinen',
+      vuosi: 1850,
+    }
+    const haku = kirjoitaAsetukset(asetukset)
+    expect(haku).toBe(
+      '?osio=historia&perinne=ortodoksinen&vuosi=1850&sukupuoli=nainen',
+    )
+    expect(lue(haku)).toEqual(asetukset)
+  })
+})
+
 describe('kirjoitaAsetukset', () => {
   it('tuottaa luettavan osoitteen, jonka voi lukea takaisin', () => {
     const asetukset: HakuAsetukset = {
       osio: 'tilastot',
+      perinne: 'kaikki',
       vuosi: 1905,
       sukupuoli: 'mies',
       alkukirjaimet: ['A', 'E'],

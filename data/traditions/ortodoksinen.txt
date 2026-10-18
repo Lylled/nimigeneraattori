@@ -1,0 +1,595 @@
+# Arvio ortodoksisten (karjalaisten ja muiden ortodoksien) yleisimmistä
+# etunimistä 1700–2026
+#
+# Tämä EI ole tilasto. Väestötiedoista ei saa nimiä uskontokunnan mukaan,
+# joten listat on koottu käsin ja ne ovat arvioita. Lähteet:
+#   - Outi Patronen: Raja-Karjalan ortodoksien nimenvalinta ja
+#     ristimänimivalikoima 1890–1914. Virittäjä 1/2020, s. 84–101.
+#     https://journal.fi/virittaja/article/view/64161
+#     Taulukko 1: 12 yleisintä nimeä Ägläjärvellä (1913) ja Kaitajärvellä
+#     (1910) kantajamäärineen. Jaksojen 1860–1899 ja 1900–1929 kärki
+#     perustuu tähän (esim. Anna 40, Maria 36, Jevdokia 20; Ivan 38,
+#     Vasili 24, Feodor 17).
+#   - Denis Kuzmin: Old Karelian personal names. ESUKA – JEFUL 13–2 (2022),
+#     s. 247–273. https://doi.org/10.12697/jeful.2022.13.2.08
+#     Karjalaiset kansankieliset muodot (taulukko 2).
+#   - Denis Kuzmin: Naisten nimet Karjalassa (esitelmä, Helsingin yliopisto).
+#     https://blogs.helsinki.fi/personal-name-systems/files/2017/02/KuzminDenis_Naistennimet_Karjalassa.pdf
+#     Vuoden 1650–51 karjalaisluettelon naisten nimet (Maria 127,
+#     Fedosja 44, Fevronja 28 …); jaksojen 1700–1859 pohja.
+#   - Pertti Lampi (toim.): Perinteisiä karjalaisia etunimiä. Karjalan
+#     Kielen Seura 2009.
+#   - Vuodesta 1930 alkaen yleistieto: suomalaistuminen sotien jälkeen ja
+#     1990-luvulta venäjänkielisten maahanmuuttajien nimet.
+#
+# Karjalaisen muodon perässä suluissa on kirkonkirjoihin kirjattu
+# kirkkoslaavilainen tai venäläinen muoto (Iivana → Ioann). Nimet, joille
+# ei ole vakiintunutta suomalaista tai karjalaista muotoa, ovat kirjatussa
+# muodossaan.
+
+[1700-1799 nainen]
+Maria
+Fedosja (Feodosia)
+Hovronja (Fevronia)
+Anna
+Outi (Jevdokia)
+Okahvia (Agafia)
+Marfa
+Paraskeva
+Akilina
+Irina
+Matrona
+Pelagia
+Tatjana
+Ustinja (Ustinia)
+Anisja (Anisia)
+Fekla
+Natalia
+Jelena
+Varvara
+Domna
+Maura (Mavra)
+Ksenia
+Marina
+Darja
+Stepanida
+Solomonida
+Vassa
+Feodora
+Jekaterina
+Agrafena
+Uljana (Juliania)
+Anastasia
+Jefrosinja (Jefrosinia)
+Olga
+Sofia
+Anfisa
+Agnia
+
+[1700-1799 mies]
+Iivana (Ioann)
+Vasili
+Fedor (Feodor)
+Miihkali (Mihail)
+Petri (Petr)
+Ontrei (Andrei)
+Teppana (Stefan)
+Simana (Simeon)
+Grigori
+Jyrki (Georgi)
+Mikiitta (Nikita)
+Jakov
+Miikkula (Nikolai)
+Mitro (Dimitri)
+Kirill
+Aleksei
+Hilippä (Filipp)
+Pavel
+Kondrat (Kondrati)
+Timofei
+Jefrem
+Larion (Illarion)
+Osip (Iosif)
+Trofim
+Tihon
+Prokopi
+Kauril (Gavriil)
+Matvei
+Foma
+Sergei
+Artemi
+Afanasi
+Savva
+Kuzma
+Spiridon
+Danila (Daniil)
+
+[1800-1859 nainen]
+Maria
+Anna
+Outi (Jevdokia)
+Fedosja (Feodosia)
+Hovronja (Fevronia)
+Marfa
+Okahvia (Agafia)
+Paraskeva
+Akilina
+Irina
+Matrona
+Pelagia
+Tatjana
+Natalia
+Jelena
+Ustinja (Ustinia)
+Anisja (Anisia)
+Fekla
+Varvara
+Darja
+Maura (Mavra)
+Ksenia
+Marina
+Domna
+Jekaterina
+Vassa
+Stepanida
+Agrafena
+Anastasia
+Uljana (Juliania)
+Jefrosinja (Jefrosinia)
+Solomonida
+Feodora
+Olga
+
+[1800-1859 mies]
+Iivana (Ioann)
+Vasili
+Fedor (Feodor)
+Petri (Petr)
+Miihkali (Mihail)
+Ontrei (Andrei)
+Jyrki (Georgi)
+Teppana (Stefan)
+Simana (Simeon)
+Miikkula (Nikolai)
+Grigori
+Jakov
+Mikiitta (Nikita)
+Aleksei
+Mitro (Dimitri)
+Kirill
+Pavel
+Hilippä (Filipp)
+Timofei
+Jevfimi
+Kondrat (Kondrati)
+Jefrem
+Larion (Illarion)
+Osip (Iosif)
+Matvei
+Kauril (Gavriil)
+Trofim
+Tihon
+Prokopi
+Afanasi
+Foma
+Sergei
+Kuzma
+Savva
+Artemi
+Aleksanteri (Aleksandr)
+Ignati
+
+[1860-1899 nainen]
+Anna
+Maria
+Outi (Jevdokia)
+Marfa
+Akilina
+Irina
+Pelagia
+Matrona
+Jelena
+Paraskeva
+Natalia
+Tatjana
+Varvara
+Okahvia (Agafia)
+Anastasia
+Olga
+Sofia
+Vassa
+Vera
+Jekaterina
+Hovronja (Fevronia)
+Fedosja (Feodosia)
+Darja
+Ksenia
+Ustinja (Ustinia)
+Anisja (Anisia)
+Fekla
+Marina
+Jefrosinja (Jefrosinia)
+Agrafena
+Stepanida
+Domna
+Maura (Mavra)
+Aleksandra
+Nadežda
+
+[1860-1899 mies]
+Iivana (Ioann)
+Vasili
+Petri (Petr)
+Fedor (Feodor)
+Jyrki (Georgi)
+Miihkali (Mihail)
+Ontrei (Andrei)
+Teppana (Stefan)
+Miikkula (Nikolai)
+Jakov
+Aleksei
+Jevfimi
+Pavel
+Mitro (Dimitri)
+Simana (Simeon)
+Kirill
+Mikiitta (Nikita)
+Aleksanteri (Aleksandr)
+Grigori
+Hilippä (Filipp)
+Kondrat (Kondrati)
+Timofei
+Jefrem
+Matvei
+Osip (Iosif)
+Sergei
+Ignati
+Kuzma
+Larion (Illarion)
+Tihon
+Trofim
+Afanasi
+Prokopi
+Kauril (Gavriil)
+Foma
+Savva
+Artemi
+Maksim
+Konstantin
+
+[1900-1929 nainen]
+Anna
+Maria
+Aleksandra
+Outi (Jevdokia)
+Marfa
+Irina
+Akilina
+Jelena
+Natalia
+Tatjana
+Varvara
+Pelagia
+Matrona
+Anastasia
+Paraskeva
+Olga
+Sofia
+Vera
+Vassa
+Jekaterina
+Nadežda
+Ljubov
+Klavdia
+Lidia
+Nina
+Valentina
+Okahvia (Agafia)
+Darja
+Ksenia
+Fekla
+Helmi
+Aino
+Martta
+Elsa
+Hilja
+
+[1900-1929 mies]
+Iivana (Ioann)
+Vasili
+Fedor (Feodor)
+Petri (Petr)
+Aleksanteri (Aleksandr)
+Miihkali (Mihail)
+Jyrki (Georgi)
+Nikolai
+Ontrei (Andrei)
+Teppana (Stefan)
+Pavel
+Jakov
+Aleksei
+Mitro (Dimitri)
+Simana (Simeon)
+Kirill
+Mikiitta (Nikita)
+Sergei
+Grigori
+Konstantin
+Matvei
+Jevfimi
+Timofei
+Maksim
+Hilippä (Filipp)
+Arseni
+Leonid
+Vladimir
+Eino
+Toivo
+Väinö
+Paavo
+
+[1930-1959 nainen]
+Anna
+Maria
+Helena
+Irina
+Tatjana
+Natalia
+Aleksandra
+Olga
+Nina
+Raisa
+Vera
+Lidia
+Sofia
+Jelena
+Anastasia
+Katariina
+Eeva
+Ksenia
+Martta
+Galina
+Aino
+Helmi
+Sirkka
+Aili
+Anja
+Tuula
+Raija
+Eila
+Kaarina
+Kerttu
+Marja
+Liisa
+Annikki
+Valentina
+Ljudmila
+
+[1930-1959 mies]
+Nikolai
+Vasili
+Aleksanteri
+Ivan
+Sergei
+Mikael
+Johannes
+Pietari
+Konstantin
+Paavo
+Viktor
+Boris
+Vladimir
+Jaakko
+Eino
+Toivo
+Väinö
+Veikko
+Erkki
+Antti
+Pekka
+Mikko
+Teuvo
+Tapani
+Simo
+Yrjö
+Martti
+Timo
+Arvo
+Kalevi
+Aleksei
+Dimitri
+Georgi
+Jevgeni
+Leonid
+
+[1960-1989 nainen]
+Maria
+Anna
+Helena
+Irina
+Tatjana
+Natalia
+Katariina
+Sofia
+Jelena
+Olga
+Aleksandra
+Anastasia
+Kristiina
+Johanna
+Tiina
+Marina
+Nina
+Tanja
+Sari
+Päivi
+Minna
+Riitta
+Outi
+Anne
+Eeva
+Paula
+Hanna
+Elina
+Arja
+Larisa
+
+[1960-1989 mies]
+Mikael
+Johannes
+Nikolai
+Aleksanteri
+Sergei
+Konstantin
+Pietari
+Andreas
+Juha
+Timo
+Jari
+Mika
+Petri
+Jukka
+Pekka
+Markku
+Jyrki
+Ilja
+Simo
+Matti
+Antti
+Kari
+Sami
+Mikko
+Vasili
+Tuomas
+Daniel
+Dimitri
+Joonas
+Teemu
+
+[1990-2009 nainen]
+Sofia
+Anna
+Maria
+Anastasia
+Aleksandra
+Emilia
+Helena
+Darja
+Polina
+Viktoria
+Alina
+Jekaterina
+Ksenia
+Natalia
+Katariina
+Jelena
+Iida
+Ella
+Veera
+Olga
+Kristina
+Valeria
+Elisa
+Irina
+Tatjana
+Julia
+Marina
+Diana
+Veronika
+Kira
+
+[1990-2009 mies]
+Elias
+Nikolai
+Johannes
+Mikael
+Aleksanteri
+Daniel
+Konstantin
+Maksim
+Nikita
+Ilja
+Artjom
+Daniil
+Joona
+Matias
+Sebastian
+Samuel
+Aleksi
+Dmitri
+Andrei
+Ivan
+Kirill
+Roman
+Denis
+Pavel
+Sergei
+Aleksei
+Vladislav
+Mihail
+Artur
+Joonas
+
+[2010-2026 nainen]
+Sofia
+Maria
+Anna
+Anastasia
+Aleksandra
+Emilia
+Eva
+Polina
+Viktoria
+Alisa
+Varvara
+Vera
+Olivia
+Ella
+Jelena
+Darja
+Ksenia
+Milana
+Valeria
+Veronika
+Eevi
+Iida
+Aino
+Isabella
+Kira
+Mila
+Alina
+Elisa
+Arina
+Jekaterina
+
+[2010-2026 mies]
+Elias
+Mikael
+Aleksanteri
+Nikolai
+Johannes
+Daniel
+Matvei
+Maksim
+Artjom
+Mark
+Lev
+Leo
+Timofei
+David
+Platon
+Konstantin
+Sebastian
+Samuel
+Ilja
+Lukas
+Nikita
+Aleksi
+Matias
+Joona
+Oliver
+Eemil
+Ivan
+Fjodor
+Roman
+Miron

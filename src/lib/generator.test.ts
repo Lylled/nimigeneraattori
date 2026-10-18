@@ -3,10 +3,12 @@ import {
   HISTORIADATA,
   HISTORIARAJAT,
   OLETUSDATA,
+  PERINNEDATA,
   generoi,
   jaksoPainot,
   kaytetytAlkukirjaimet,
   luokittele,
+  rajaaJaksot,
   type NimiData,
 } from './generator'
 import { luoSatunnainen, painotettuOtos } from './random'
@@ -250,6 +252,51 @@ describe('alkukirjaimet', () => {
       alkukirjaimet: ['Q'],
     })
     expect(Object.values(tulos).flat()).toEqual([])
+  })
+})
+
+describe('nimiperinteet', () => {
+  it('rajaa jaksot välilehden vuosiväliin', () => {
+    const rajattu = rajaaJaksot(DATA, 1910, 1929)
+    expect(rajattu.jaksot.map((j) => j.alku)).toEqual([1910, 1920])
+    expect(Object.keys(rajattu.nimet.nainen)).toEqual(['1910', '1920'])
+  })
+
+  it('kattavat molemmat välilehdet ja täyttävät kategoriat', () => {
+    for (const data of Object.values(PERINNEDATA)) {
+      for (const [min, max] of [
+        [1700, 1899],
+        [1900, 2026],
+      ]) {
+        const rajattu = rajaaJaksot(data, min, max)
+        expect(rajattu.jaksot[0].alku).toBe(min)
+        expect(rajattu.jaksot[rajattu.jaksot.length - 1].loppu).toBe(max)
+        for (let vuosi = min; vuosi <= max; vuosi += 13) {
+          for (const sukupuoli of ['nainen', 'mies'] as const) {
+            const tulos = generoi(
+              { vuosi, sukupuoli, siemen: vuosi, rajat: HISTORIARAJAT },
+              rajattu,
+            )
+            for (const nimet of Object.values(tulos)) {
+              expect(nimet).toHaveLength(5)
+            }
+          }
+        }
+      }
+    }
+  })
+
+  it('palauttaa ortodoksisille nimille kirjatun muodon', () => {
+    const iivana = luokittele(
+      1890,
+      'mies',
+      PERINNEDATA.ortodoksinen,
+      HISTORIARAJAT,
+    ).find((e) => e.nimi === 'Iivana')
+    expect(iivana).toMatchObject({
+      kategoria: 'hyvinYleinen',
+      kirjattu: 'Ioann',
+    })
   })
 })
 

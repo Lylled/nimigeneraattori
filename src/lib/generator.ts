@@ -1,5 +1,7 @@
 import historiadata from '../data/historical.json'
 import nimidata from '../data/names.json'
+import ortodoksinen from '../data/ortodoksinen.json'
+import suomenruotsalainen from '../data/suomenruotsalainen.json'
 import { luoSatunnainen, painotettuOtos } from './random'
 import { NIMITYYLIT, type Tyyli } from './tyylit'
 
@@ -56,6 +58,32 @@ export type Tulos = Record<Kategoria, GeneroituNimi[]>
 
 export const OLETUSDATA = nimidata as unknown as NimiData
 export const HISTORIADATA = historiadata as unknown as NimiData
+
+/** Nimiperinteiden arviot 1700–2026, ks. data/traditions/. */
+export const PERINNEDATA = {
+  suomenruotsalainen: suomenruotsalainen as unknown as NimiData,
+  ortodoksinen: ortodoksinen as unknown as NimiData,
+}
+
+/**
+ * Palauttaa aineistosta vain jaksot, jotka ovat kokonaan välillä min–max.
+ * Nimiperinteiden aineisto jaetaan näin välilehdille.
+ */
+export function rajaaJaksot(
+  data: NimiData,
+  min: number,
+  max: number,
+): NimiData {
+  const jaksot = data.jaksot.filter((j) => j.alku >= min && j.loppu <= max)
+  const mukana = (jakso: string) => jaksot.some((j) => String(j.alku) === jakso)
+  const rajaa = (nimet: Record<string, NimiRivi[]>) =>
+    Object.fromEntries(Object.entries(nimet).filter(([j]) => mukana(j)))
+  return {
+    ...data,
+    jaksot,
+    nimet: { nainen: rajaa(data.nimet.nainen), mies: rajaa(data.nimet.mies) },
+  }
+}
 
 /**
  * Laskee, kuinka paljon kukin jakso painaa annettuna syntymävuonna.

@@ -4,7 +4,7 @@ Lähde on data/styles/tyylit.csv (sarakkeet nimi, tyylit; tyylit välilyönnill�
 erotettuina). Tagit on tehty käsin, ja niitä voi korjata suoraan CSV:hen.
 Tyylien määritelmät ovat tiedostossa docs/tyylit.md.
 
-Skripti tarkistaa, että jokaisella names.json- ja historical.json-tiedoston
+Skripti tarkistaa, että jokaisella src/data-hakemiston nimiaineiston
 nimellä on vähintään yksi tyyli ja ettei CSV:ssä ole tuntemattomia nimiä tai
 tyylejä. Näin uudet nimet eivät jää huomaamatta tagaamatta.
 
@@ -20,7 +20,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 IN_FILE = ROOT / "data" / "styles" / "tyylit.csv"
-DATA_FILES = [ROOT / "src" / "data" / "names.json", ROOT / "src" / "data" / "historical.json"]
+DATA_FILES = [
+    ROOT / "src" / "data" / f
+    for f in ("names.json", "historical.json", "suomenruotsalainen.json", "ortodoksinen.json")
+]
 OUT_FILE = ROOT / "src" / "data" / "styles.json"
 
 STYLES = (
