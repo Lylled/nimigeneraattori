@@ -142,3 +142,28 @@ Ennen vuotta 1900 syntyneistä ei ole kattavaa avointa nimitilastoa. Siksi sivun
 | Hellevi Arjava: *Alpiini ja Otteljaana. Kangasniemeläisten etunimet 1684–1899* (SKS 2005); Eero Kiviniemi: *Rakkaan lapsen monet nimet* (1982) | yksittäisiä pitäjiä ja yleiset suosionvaihtelut | 1700–1800-lukujen nimistön yleislinjat (esim. Maria noin viidesosalla tytöistä) |
 
 HisKin robots.txt kieltää automaattiset haut (`Disallow: /hiski/`), joten laajempaa otosta ei haeta skriptillä. Jos arvioita halutaan tarkentaa, tarkistetaan käsin haettuja otoksia vasten tai pyydetään Suomen Sukuhistorialliselta Yhdistykseltä aineistoa.
+
+## Nimiperinteet: suomenruotsalainen ja ortodoksinen (arviot 1700–2026)
+
+Väestötiedoista ei saa nimiä äidinkielen tai uskontokunnan mukaan. Siksi **Nimiperinne**-valinnan listat ovat käsin koottuja **arvioita**, ja sivu kertoo sen. Listat ovat tiedostoissa `data/traditions/suomenruotsalainen.txt` ja `data/traditions/ortodoksinen.txt`, ja lähteet on lueteltu kunkin tiedoston alussa. Muoto ja painot ovat samat kuin historiallisissa arvioissa. Jaksot ovat 1700–1799, 1800–1859, 1860–1899, 1900–1929, 1930–1959, 1960–1989, 1990–2009 ja 2010–2026, ja ne jaetaan välilehdille vuoden 1900 kohdalta.
+
+### Suomenruotsalaiset
+
+| Lähde | Käyttö |
+|---|---|
+| DVV:n vuosittaiset nimitiedotteet ruotsinkielisille lapsille: [STT 2024](https://www.sttinfo.fi/tiedote/70140148/aino-ja-eino-uudet-lasten-suosikkinimet?lang=fi) (2023: Ellen, Astrid, Ebba, Saga; Liam, Theo, Alvar) ja [Yle 2022](https://yle.fi/a/7-10015320) (2021: Saga, Stella, Ellen, Edith, Olivia; Liam, Oliver, Benjamin, William, Alvar) | jakson 2010–2026 kärki |
+| Kirkonkirjojen ruotsalaiset nimimuodot (ks. historialliset arviot) ja nimihistorian yleistieto | jaksot 1700–2009 |
+
+DVV julkaisee ruotsinkielisten top-listat vuosittain, mutta sen sivut estävät automaattiset haut. Jos listat kopioidaan käsin, jakson 2010–2026 voi korvata niillä.
+
+### Ortodoksiset
+
+| Lähde | Käyttö |
+|---|---|
+| Outi Patronen: [Raja-Karjalan ortodoksien nimenvalinta ja ristimänimivalikoima 1890–1914](https://journal.fi/virittaja/article/view/64161). Virittäjä 1/2020. Taulukossa 1 ovat 12 yleisintä nimeä kantajamäärineen Ägläjärvellä (1913) ja Kaitajärvellä (1910). | jaksojen 1860–1929 kärki (Anna, Maria, Jevdokia; Ivan, Vasili, Feodor) |
+| Denis Kuzmin: [Old Karelian personal names](https://doi.org/10.12697/jeful.2022.13.2.08). ESUKA – JEFUL 13–2 (2022). | karjalaiset kansankieliset muodot (Iivana, Ontrei, Okahvia, Outi …) |
+| Denis Kuzmin: [Naisten nimet Karjalassa](https://blogs.helsinki.fi/personal-name-systems/files/2017/02/KuzminDenis_Naistennimet_Karjalassa.pdf). Vuoden 1650–51 karjalaisluettelo (Maria 127, Fedosja 44, Fevronja 28 …). | jaksot 1700–1859 |
+| Pertti Lampi (toim.): Perinteisiä karjalaisia etunimiä. Karjalan Kielen Seura 2009. | kansankieliset muodot |
+| Yleistieto: ortodoksien suomalaistuminen sotien jälkeen ja venäjänkielisten maahanmuutto 1990-luvulta alkaen | jaksot 1930–2026 |
+
+Karjalaisen muodon perässä on suluissa kirkonkirjoihin kirjattu kirkkoslaavilainen tai venäläinen muoto (Iivana → Ioann). Kuzminin aineiston hellittelymuodot (esim. Ančuri, Čokoi) on jätetty pois, koska ne eivät olleet virallisia nimiä.

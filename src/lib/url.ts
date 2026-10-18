@@ -4,8 +4,12 @@ import type { Tyyli } from './tyylit'
 /** Tilastot perustuvat DVV:n dataan, historia käsin koottuihin arvioihin. */
 export type Osio = 'tilastot' | 'historia'
 
+/** Koko Suomi käyttää osion omaa dataa, muut perinteet omia arvioitaan. */
+export type Perinne = 'kaikki' | 'suomenruotsalainen' | 'ortodoksinen'
+
 export interface HakuAsetukset {
   osio: Osio
+  perinne: Perinne
   vuosi: number
   sukupuoli: Sukupuoli
   alkukirjaimet: string[]
@@ -22,11 +26,12 @@ export interface OsionRajat {
 }
 
 const OSIOT = ['tilastot', 'historia'] as const
+const PERINTEET = ['kaikki', 'suomenruotsalainen', 'ortodoksinen'] as const
 const SUKUPUOLET = ['nainen', 'mies'] as const
 
 /**
  * Lukee hakuasetukset osoitteen kyselyosasta, esim.
- * `?osio=historia&vuosi=1785&sukupuoli=nainen&kirjaimet=A,E&tyylit=luonto`.
+ * `?osio=historia&perinne=ortodoksinen&vuosi=1785&sukupuoli=nainen&kirjaimet=A`.
  * Puuttuvat tai virheelliset arvot korvataan oletuksilla. Vuosi, kirjaimet ja
  * tyylit tarkistetaan valitun osion rajoja vasten.
  */
@@ -51,6 +56,7 @@ export function lueAsetukset(
 
   return {
     osio,
+    perinne: PERINTEET.find((pr) => pr === p.get('perinne')) ?? 'kaikki',
     vuosi:
       p.has('vuosi') &&
       Number.isInteger(vuosi) &&
@@ -65,11 +71,12 @@ export function lueAsetukset(
 }
 
 /**
- * Muodostaa asetuksista kyselyosan, jonka voi jakaa linkkinä. Tilastojen
- * osio on oletus, joten sitä ei kirjoiteta osoitteeseen.
+ * Muodostaa asetuksista kyselyosan, jonka voi jakaa linkkinä. Oletuksia
+ * (tilastojen osio, koko Suomi) ei kirjoiteta osoitteeseen.
  */
 export function kirjoitaAsetukset({
   osio,
+  perinne,
   vuosi,
   sukupuoli,
   alkukirjaimet,
@@ -77,6 +84,7 @@ export function kirjoitaAsetukset({
 }: HakuAsetukset): string {
   const p = new URLSearchParams()
   if (osio !== 'tilastot') p.set('osio', osio)
+  if (perinne !== 'kaikki') p.set('perinne', perinne)
   p.set('vuosi', String(vuosi))
   p.set('sukupuoli', sukupuoli)
   if (alkukirjaimet.length > 0) p.set('kirjaimet', alkukirjaimet.join(','))

@@ -5,8 +5,10 @@ import {
   HISTORIARAJAT,
   OLETUSDATA,
   OLETUSRAJAT,
+  PERINNEDATA,
   generoi,
   kaytetytAlkukirjaimet,
+  rajaaJaksot,
   type Kategoria,
   type NimiData,
   type Rajat,
@@ -17,6 +19,7 @@ import {
   lueAsetukset,
   type Osio,
   type OsionRajat,
+  type Perinne,
 } from './lib/url'
 import { TYYLIT, type Tyyli } from './lib/tyylit'
 
@@ -70,6 +73,57 @@ const OSIOT: Record<Osio, OsionTiedot> = {
 
 const OSIOJARJESTYS: Osio[] = ['tilastot', 'historia']
 
+const PERINTEET: {
+  arvo: Perinne
+  nimi: string
+  huomio?: { otsikko: string; teksti: string }
+  lahde?: string
+  /** Tiedosto, jonka alussa lähteet on lueteltu. */
+  lahdetiedosto?: string
+}[] = [
+  { arvo: 'kaikki', nimi: 'Koko Suomi' },
+  {
+    arvo: 'suomenruotsalainen',
+    nimi: 'Suomenruotsalainen',
+    huomio: {
+      otsikko: 'Suomenruotsalaiset nimet ovat arvioita, eivät tilastotietoa.',
+      teksti:
+        'Väestötiedoissa nimiä ei eritellä äidinkielen mukaan, joten listat on koottu nimihistorian ja DVV:n vuosittaisten nimitiedotteiden pohjalta.',
+    },
+    lahde:
+      'Arviot perustuvat nimihistorian yleistietoon ja DVV:n tiedotteisiin ruotsinkielisille lapsille annetuista nimistä.',
+    lahdetiedosto: 'data/traditions/suomenruotsalainen.txt',
+  },
+  {
+    arvo: 'ortodoksinen',
+    nimi: 'Ortodoksinen',
+    huomio: {
+      otsikko: 'Ortodoksiset nimet ovat arvioita, eivät tilastotietoa.',
+      teksti:
+        'Listat perustuvat karjalaisten ortodoksien nimistön tutkimuksiin ja uudemmilta ajoilta yleistietoon; 1990-luvulta mukana ovat myös venäjänkielisten nimet. Suluissa on kirkonkirjoihin kirjattu kirkkoslaavilainen tai venäläinen muoto.',
+    },
+    lahde:
+      'Arviot perustuvat Outi Patronen (Virittäjä 1/2020) ja Denis Kuzminin (ESUKA – JEFUL 2022) tutkimuksiin karjalaisten ortodoksien nimistä.',
+    lahdetiedosto: 'data/traditions/ortodoksinen.txt',
+  },
+]
+
+/** Osion aineisto valitulle nimiperinteelle. */
+const aineisto = (osio: Osio, perinne: Perinne): NimiData =>
+  perinne === 'kaikki'
+    ? OSIOT[osio].data
+    : rajaaJaksot(PERINNEDATA[perinne], OSIOT[osio].min, OSIOT[osio].max)
+
+// Osoitteesta luettavat kirjaimet sallitaan kaikista osion perinteistä.
+for (const osio of Object.keys(OSIOT) as Osio[]) {
+  const kirjaimet = PERINTEET.flatMap(({ arvo }) =>
+    kaytetytAlkukirjaimet(aineisto(osio, arvo)),
+  )
+  OSIOT[osio].kirjaimet = [...new Set(kirjaimet)].sort((a, b) =>
+    a.localeCompare(b, 'fi'),
+  )
+}
+
 const KATEGORIAT: { avain: Kategoria; otsikko: string }[] = [
   { avain: 'hyvinYleinen', otsikko: 'Hyvin yleinen' },
   { avain: 'yleinen', otsikko: 'Yleinen' },
@@ -97,6 +151,7 @@ function App() {
     historia: OSIOT.historia.oletusvuosi,
     [ALKUASETUKSET.osio]: ALKUASETUKSET.vuosi,
   })
+  const [perinne, setPerinne] = useState(ALKUASETUKSET.perinne)
   const [sukupuoli, setSukupuoli] = useState(ALKUASETUKSET.sukupuoli)
   const [alkukirjaimet, setAlkukirjaimet] = useState(
     ALKUASETUKSET.alkukirjaimet,
@@ -107,6 +162,13 @@ function App() {
 
   const tiedot = OSIOT[osio]
   const vuosi = vuodetOsioittain[osio]
+  const perinteenTiedot = PERINTEET.find((p) => p.arvo === perinne)!
+  const data = useMemo(() => aineisto(osio, perinne), [osio, perinne])
+  const kirjaimet = useMemo(() => kaytetytAlkukirjaimet(data), [data])
+  // Perinteiden arviot ovat lyhyitä listoja kuten historialliset nimet.
+  const rajat = perinne === 'kaikki' ? tiedot.rajat : HISTORIARAJAT
+  const kuvaukset =
+    perinne === 'kaikki' ? tiedot.kuvaukset : OSIOT.historia.kuvaukset
 
   const tulos = useMemo(
     () =>
@@ -117,34 +179,43 @@ function App() {
           siemen,
           alkukirjaimet,
           tyylit,
-          rajat: tiedot.rajat,
+          rajat,
         },
-        tiedot.data,
+        data,
       ),
-    [tiedot, vuosi, sukupuoli, siemen, alkukirjaimet, tyylit],
+    [data, rajat, vuosi, sukupuoli, siemen, alkukirjaimet, tyylit],
   )
 
   // Asetukset näkyvät osoitteessa, jotta haun voi jakaa linkkinä.
   useEffect(() => {
     const haku = kirjoitaAsetukset({
       osio,
+      perinne,
       vuosi,
       sukupuoli,
       alkukirjaimet,
       tyylit,
     })
     window.history.replaceState(null, '', haku)
-  }, [osio, vuosi, sukupuoli, alkukirjaimet, tyylit])
+  }, [osio, perinne, vuosi, sukupuoli, alkukirjaimet, tyylit])
+
+  // Pidetään vain kirjaimet, joilla uudessa aineistossa on nimiä.
+  const rajaaKirjaimet = (uusi: NimiData) => {
+    const sallitut = kaytetytAlkukirjaimet(uusi)
+    setAlkukirjaimet((valitut) => valitut.filter((k) => sallitut.includes(k)))
+  }
 
   const vaihdaOsio = (uusi: Osio) => {
     setOsio(uusi)
-    // Pidetään vain kirjaimet ja tyylit, jotka ovat käytössä uudessa osiossa.
-    setAlkukirjaimet((valitut) =>
-      valitut.filter((k) => OSIOT[uusi].kirjaimet.includes(k)),
-    )
+    rajaaKirjaimet(aineisto(uusi, perinne))
     setTyylit((valitut) =>
       valitut.filter((t) => OSIOT[uusi].tyylit.includes(t)),
     )
+  }
+
+  const vaihdaPerinne = (uusi: Perinne) => {
+    setPerinne(uusi)
+    rajaaKirjaimet(aineisto(osio, uusi))
   }
 
   const valilehtiNappain = (e: KeyboardEvent) => {
@@ -200,7 +271,13 @@ function App() {
       </div>
 
       <div id="osio" role="tabpanel" aria-labelledby={`valilehti-${osio}`}>
-        {osio === 'historia' && (
+        {perinteenTiedot.huomio && (
+          <p className="huomio">
+            <strong>{perinteenTiedot.huomio.otsikko}</strong>{' '}
+            {perinteenTiedot.huomio.teksti}
+          </p>
+        )}
+        {osio === 'historia' && perinne === 'kaikki' && (
           <p className="huomio">
             <strong>Nimet ovat arvioita, eivät tilastotietoa.</strong> Ennen
             vuotta 1900 syntyneistä ei ole kattavaa nimitilastoa, joten
@@ -236,6 +313,24 @@ function App() {
             </div>
           </fieldset>
 
+          <fieldset className="kentta">
+            <legend>Nimiperinne</legend>
+            <div className="valinnat">
+              {PERINTEET.map(({ arvo, nimi }) => (
+                <label key={arvo} className="valinta">
+                  <input
+                    type="radio"
+                    name="perinne"
+                    value={arvo}
+                    checked={perinne === arvo}
+                    onChange={() => vaihdaPerinne(arvo)}
+                  />
+                  {nimi}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
           <Monivalinta
             otsikko="Tyyli"
             ryhma="Tyylit"
@@ -249,7 +344,7 @@ function App() {
             otsikko="Alkukirjain"
             ryhma="Alkukirjaimet"
             kaikki="Kaikki kirjaimet"
-            vaihtoehdot={tiedot.kirjaimet.map((k) => ({ avain: k, nimi: k }))}
+            vaihtoehdot={kirjaimet.map((k) => ({ avain: k, nimi: k }))}
             valitut={alkukirjaimet}
             onChange={setAlkukirjaimet}
           />
@@ -267,7 +362,7 @@ function App() {
           {KATEGORIAT.map(({ avain, otsikko }) => (
             <div key={avain} className="kategoria">
               <h2>{otsikko}</h2>
-              <p className="ohje">{tiedot.kuvaukset[avain]}</p>
+              <p className="ohje">{kuvaukset[avain]}</p>
               {tulos[avain].length === 0 && (
                 <p className="tyhja">Ei nimiä valituilla rajauksilla.</p>
               )}
@@ -291,7 +386,19 @@ function App() {
         </section>
 
         <footer>
-          <p>{tiedot.lahde}</p>
+          <p>
+            {perinteenTiedot.lahde ?? tiedot.lahde}
+            {perinteenTiedot.lahdetiedosto && (
+              <>
+                {' '}
+                <a
+                  href={`https://github.com/Lylled/nimigeneraattori/blob/main/${perinteenTiedot.lahdetiedosto}`}
+                >
+                  Lähdeluettelo
+                </a>
+              </>
+            )}
+          </p>
         </footer>
       </div>
     </main>

@@ -1,11 +1,13 @@
-"""Muuntaa käsin kootut historialliset nimiarviot selaimen käyttämäksi JSONiksi.
+"""Muuntaa käsin kootut nimiarviot selaimen käyttämäksi JSONiksi.
 
-Lähde on data/historical/arviot.txt, jossa nimet ovat jaksoittain arvioidussa
-yleisyysjärjestyksessä. Lukumääriä ei ole, joten nimen paino johdetaan
+Lähteinä ovat historialliset arviot (data/historical/arviot.txt) ja
+nimiperinteiden arviot (data/traditions/*.txt), joissa nimet ovat jaksoittain
+arvioidussa yleisyysjärjestyksessä. Lukumääriä ei ole, joten nimen paino johdetaan
 sijoituksesta Zipfin lain mukaan (paino = 1 / sija). Se vastaa karkeasti
 historiallista nimistöä, jossa muutama nimi kattoi suuren osan kastetuista.
 
-Tuloste: src/data/historical.json (sama rakenne kuin names.json, ks.
+Tulosteet: src/data/historical.json, src/data/suomenruotsalainen.json ja
+src/data/ortodoksinen.json (sama rakenne kuin names.json, ks.
 docs/data-schema.md)
 
 Käyttö:
@@ -20,10 +22,27 @@ ROOT = Path(__file__).resolve().parent.parent
 IN_FILE = ROOT / "data" / "historical" / "arviot.txt"
 OUT_FILE = ROOT / "src" / "data" / "historical.json"
 
-SOURCE = (
-    "Arvio, joka perustuu nimihistorian yleistietoon, HisKi-otokseen "
-    "vuodelta 1890 ja julkaistuihin nimitutkimuksiin"
-)
+# (lähde, tuloste, tekijänmerkintä)
+JOBS = [
+    (
+        IN_FILE,
+        OUT_FILE,
+        "Arvio, joka perustuu nimihistorian yleistietoon, HisKi-otokseen "
+        "vuodelta 1890 ja julkaistuihin nimitutkimuksiin",
+    ),
+    (
+        ROOT / "data" / "traditions" / "suomenruotsalainen.txt",
+        ROOT / "src" / "data" / "suomenruotsalainen.json",
+        "Arvio, joka perustuu nimihistorian yleistietoon ja DVV:n "
+        "tiedotteisiin ruotsinkielisille lapsille annetuista nimistä",
+    ),
+    (
+        ROOT / "data" / "traditions" / "ortodoksinen.txt",
+        ROOT / "src" / "data" / "ortodoksinen.json",
+        "Arvio, joka perustuu Outi Patronen (Virittäjä 2020) ja Denis "
+        "Kuzminin tutkimuksiin karjalaisten ortodoksien nimistä",
+    ),
+]
 SEXES = ("nainen", "mies")
 HEADER = re.compile(r"^\[(\d{4})-(\d{4}) (nainen|mies)\]$")
 NAME = re.compile(r"^(\S+)(?: \(([^()]+)\))?$")
@@ -53,7 +72,7 @@ def parse(text):
     return periods
 
 
-def build(periods):
+def build(periods, source):
     ordered = sorted(periods)
     for (start, end), (next_start, _) in zip(ordered, ordered[1:]):
         if next_start != end + 1:
@@ -69,20 +88,21 @@ def build(periods):
                 for rank, (name, recorded) in enumerate(by_sex[sex], start=1)
             ]
     return {
-        "lahde": SOURCE,
+        "lahde": source,
         "jaksot": [{"alku": s, "loppu": e} for s, e in ordered],
         "nimet": names,
     }
 
 
 def main():
-    data = build(parse(IN_FILE.read_text(encoding="utf-8")))
-    OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with OUT_FILE.open("w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
-        f.write("\n")
-    count = sum(len(e) for g in data["nimet"].values() for e in g.values())
-    print(f"{count} nimeä → {OUT_FILE.relative_to(ROOT)}")
+    for in_file, out_file, source in JOBS:
+        data = build(parse(in_file.read_text(encoding="utf-8")), source)
+        out_file.parent.mkdir(parents=True, exist_ok=True)
+        with out_file.open("w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
+            f.write("\n")
+        count = sum(len(e) for g in data["nimet"].values() for e in g.values())
+        print(f"{count} nimeä → {out_file.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

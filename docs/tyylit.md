@@ -8,9 +8,9 @@ Tagit on tehty käsin (Claude, tarkistettavissa). Korjaukset tehdään suoraan C
 |---|---|---|---|
 | Luonto | `luonto` | Nimen taustalla on luontoon liittyvä sana: kasvi, eläin, sää, vuodenaika, taivaankappale tai maisema. | Lumi, Pihla, Vuokko, Suvi, Otso, Vesa, Luna |
 | Raamatullinen | `raamatullinen` | Raamatusta tunnistettava nimi tai sen läheinen muoto. Kansanomaiset muunnelmat (Matti, Antti, Pekka) eivät kuulu tähän, koska niitä ei enää mielletä raamatullisiksi. | Saara, Ester, Elias, Joona, Samuel, Iisakki |
-| Kansallisromanttinen | `kansallisromanttinen` | Kalevalan ja kansanrunouden nimet, muinaisnimet sekä kansallisen heräämisen aikana suosiin nostetut suomenkieliset nimet. | Aino, Kyllikki, Väinö, Ilmari, Untamo, Suoma |
+| Kansallisromanttinen | `kansallisromanttinen` | Kalevalan ja kansanrunouden nimet, muinaisnimet sekä kansallisen heräämisen aikana suosiin nostetut suomenkieliset nimet. Suomenruotsalaisessa perinteessä vastaavat ovat 1800-luvulla uudelleen käyttöön otetut muinaispohjoismaiset nimet. | Aino, Kyllikki, Väinö, Ilmari, Suoma; Ragnar, Sigrid, Freja |
 | Hyve- ja tunne | `hyve` | Nimi on hyveen, tunteen tai hellittelyn sana. | Toivo, Lempi, Rauha, Onni, Armas, Sulo, Tyyne |
-| Perinteinen | `perinteinen` | Suomalaistuneet almanakkanimet. Ne ovat vierasperäisiä (useimmiten kristillisiä tai germaanisia) nimiä suomalaisessa asussa, ja mukana ovat myös 1900-luvun lyhentyneet muodot. | Matti, Kaisa, Juho, Liisa, Pirjo, Timo |
+| Perinteinen | `perinteinen` | Kunkin nimiperinteen vakiintuneet almanakka- ja kalenterinimet. Suomenkielisessä perinteessä ne ovat vierasperäisiä (useimmiten kristillisiä tai germaanisia) nimiä suomalaisessa asussa, 1900-luvun lyhentyneet muodot mukaan lukien. Suomenruotsalaisessa perinteessä ne ovat ruotsalaisia kalenterinimiä, ortodoksisessa kirkkokalenterin nimiä ja niiden karjalaisia muotoja. | Matti, Kaisa, Pirjo; Lars, Karin; Iivana, Okahvia |
 | Säätyläinen | `saatylainen` | Aatelin, papiston ja porvariston suosimat eurooppalaiset nimet. **Valittavissa vain Historialliset nimet -välilehdellä.** 1900-luvulta alkaen samoista nimistä tuli valtavirtaa, joten jako ei enää kerro säädystä. | Fredrik, Gustaf, Charlotta, Ottilia, Aurora |
 | Kansainvälinen | `kansainvalinen` | Nimi on samanlainen monessa eri kielessä. | Anna, Maria, Emma, Leo, Daniel, Sofia |
 

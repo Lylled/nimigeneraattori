@@ -39,6 +39,10 @@ Tiedosto tehdään skriptillä `scripts/build_historical_json.py` tiedostosta `d
 - **Valinnainen neljäs kenttä** on muoto, jolla nimi kirjattiin kirkonkirjoihin, esim. `["Matti", 1.0, 1, "Matts"]`.
 - **Kategoriarajat** ovat `HISTORIARAJAT`: sijat 1–12 ovat hyvin yleisiä, 13–30 yleisiä ja loput hieman harvinaisempia, koska listat ovat lyhyempiä ja nimistö keskittyi harvoihin nimiin.
 
+## Nimiperinteet (`src/data/suomenruotsalainen.json`, `src/data/ortodoksinen.json`)
+
+Tiedostot tehdään samalla skriptillä tiedostoista `data/traditions/*.txt`, ja niiden rakenne on sama kuin historiallisissa arvioissa. Jaksot kattavat vuodet 1700–2026. Sivu jakaa ne välilehdille funktiolla `rajaaJaksot` (`src/lib/generator.ts`), ja kategoriarajoina käytetään `HISTORIARAJAT`-arvoja.
+
 ## Nimityylit (`src/data/styles.json`)
 
 Tiedosto tehdään skriptillä `scripts/build_styles_json.py` tiedostosta `data/styles/tyylit.csv`. Muoto on `{"nimi": ["tyyli", …]}`, ja siinä on jokainen kummankin aineiston nimi. Tyylit on kuvattu tiedostossa [tyylit.md](tyylit.md).
