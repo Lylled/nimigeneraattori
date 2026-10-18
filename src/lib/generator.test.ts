@@ -10,6 +10,7 @@ import {
   type NimiData,
 } from './generator'
 import { luoSatunnainen, painotettuOtos } from './random'
+import { NIMITYYLIT } from './tyylit'
 
 const JAKSOT = [
   { alku: 1900, loppu: 1909 },
@@ -249,6 +250,45 @@ describe('alkukirjaimet', () => {
       alkukirjaimet: ['Q'],
     })
     expect(Object.values(tulos).flat()).toEqual([])
+  })
+})
+
+describe('tyylit', () => {
+  it('arpoo vain valittujen tyylien nimiä', () => {
+    const tulos = generoi({
+      vuosi: 1914,
+      sukupuoli: 'nainen',
+      siemen: 2,
+      tyylit: ['luonto', 'hyve'],
+    })
+    const kaikki = Object.values(tulos).flat()
+    expect(kaikki.length).toBeGreaterThan(0)
+    for (const { nimi } of kaikki) {
+      expect(NIMITYYLIT[nimi].some((t) => t === 'luonto' || t === 'hyve')).toBe(
+        true,
+      )
+    }
+  })
+
+  it('yhdistää tyylit ja alkukirjaimet', () => {
+    const nimityylit = {
+      Aino: ['kansallisromanttinen' as const],
+      Helmi: ['hyve' as const],
+    }
+    const tulos = generoi(
+      {
+        vuosi: 1914.5,
+        sukupuoli: 'nainen',
+        tyylit: ['hyve', 'kansallisromanttinen'],
+        alkukirjaimet: ['H'],
+        nimityylit,
+        rajat: RAJAT,
+      },
+      DATA,
+    )
+    expect(Object.values(tulos).flat()).toEqual([
+      { nimi: 'Helmi', sukupuoli: 'nainen' },
+    ])
   })
 })
 

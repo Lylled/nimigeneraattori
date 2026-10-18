@@ -1,6 +1,7 @@
 import historiadata from '../data/historical.json'
 import nimidata from '../data/names.json'
 import { luoSatunnainen, painotettuOtos } from './random'
+import { NIMITYYLIT, type Tyyli } from './tyylit'
 
 export type Sukupuoli = 'nainen' | 'mies'
 export type Kategoria = 'hyvinYleinen' | 'yleinen' | 'harvinaisempi'
@@ -178,6 +179,14 @@ export interface GenerointiAsetukset {
    * nimen kategoria ei riipu valituista kirjaimista.
    */
   alkukirjaimet?: readonly string[]
+  /**
+   * Arvotaan vain nimiä, joilla on jokin näistä tyyleistä. Tyhjä lista
+   * tarkoittaa kaikkia. Suodatus tehdään alkukirjainten tapaan luokittelun
+   * jälkeen.
+   */
+  tyylit?: readonly Tyyli[]
+  /** Nimien tyylit; oletuksena src/data/styles.json. */
+  nimityylit?: Readonly<Record<string, readonly Tyyli[]>>
 }
 
 /** Kirjaimet, joilla alkaa vähintään yksi aineiston nimi, aakkosjärjestyksessä. */
@@ -200,6 +209,8 @@ export function generoi(
     siemen = Math.floor(Math.random() * 2 ** 32),
     rajat = OLETUSRAJAT,
     alkukirjaimet = [],
+    tyylit = [],
+    nimityylit = NIMITYYLIT,
   }: GenerointiAsetukset,
   data: NimiData = OLETUSDATA,
 ): Tulos {
@@ -210,8 +221,10 @@ export function generoi(
     .flatMap((s) => luokittele(vuosi, s, data, rajat))
     .filter(
       (e) =>
-        kirjaimet.size === 0 ||
-        kirjaimet.has(e.nimi[0].toLocaleUpperCase('fi')),
+        (kirjaimet.size === 0 ||
+          kirjaimet.has(e.nimi[0].toLocaleUpperCase('fi'))) &&
+        (tyylit.length === 0 ||
+          tyylit.some((t) => nimityylit[e.nimi]?.includes(t))),
     )
   const satunnainen = luoSatunnainen(siemen)
 

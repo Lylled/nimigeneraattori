@@ -92,6 +92,8 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 
 **Periaate:** tekoäly ajetaan kerran datan rakennusvaiheessa, ei sivun käytön aikana.
 
+**Tilanne:** tyylit on toteutettu. Nimiä oli vain 592, joten ne tagattiin käsin istunnossa ilman API-skriptiä (7.2). Tagit ovat tiedostossa `data/styles/tyylit.csv` ja niitä korjataan suoraan siihen (7.3). Tyylit: luonto, raamatullinen, kansallisromanttinen, hyve- ja tunne, perinteinen, säätyläinen (vain historia) ja kansainvälinen; ks. docs/tyylit.md. Suomenruotsalaiset ja ortodoksiset nimet toteutetaan erikseen nimiperinteinä.
+
 | # | Tarina | SP |
 |---|---|---|
 | 7.1 | **Tyylikategoriat:** sovitaan luokittelu (esim. luonto, raamatullinen, kansallisromanttinen / kalevalainen, ruotsalainen, kuninkaallinen / säätyläis, pyhimys / almanakka, moderni) ja kirjoitetaan jokaiselle määritelmä ja esimerkit. | 2 |

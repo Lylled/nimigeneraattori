@@ -39,6 +39,10 @@ Tiedosto tehdään skriptillä `scripts/build_historical_json.py` tiedostosta `d
 - **Valinnainen neljäs kenttä** on muoto, jolla nimi kirjattiin kirkonkirjoihin, esim. `["Matti", 1.0, 1, "Matts"]`.
 - **Kategoriarajat** ovat `HISTORIARAJAT`: sijat 1–12 ovat hyvin yleisiä, 13–30 yleisiä ja loput hieman harvinaisempia, koska listat ovat lyhyempiä ja nimistö keskittyi harvoihin nimiin.
 
+## Nimityylit (`src/data/styles.json`)
+
+Tiedosto tehdään skriptillä `scripts/build_styles_json.py` tiedostosta `data/styles/tyylit.csv`. Muoto on `{"nimi": ["tyyli", …]}`, ja siinä on jokainen kummankin aineiston nimi. Tyylit on kuvattu tiedostossa [tyylit.md](tyylit.md).
+
 ## Generointi (`src/lib/generator.ts`)
 
 1. **Jaksojen painot** (`jaksoPainot`): syntymävuoden paino jakautuu lineaarisesti kahden lähimmän jakson keskikohtien välillä. Esimerkiksi vuosi 1919 on 55 % 1910-lukua ja 45 % 1920-lukua.
@@ -49,4 +53,5 @@ Tiedosto tehdään skriptillä `scripts/build_historical_json.py` tiedostosta `d
    - loput: hieman harvinaisempi
 
    "Hieman harvinaisempiin" lisätään myös painavimman jakson naapurijaksojen nimet, jotka eivät ole valitun vuoden listoilla.
-4. **Arvonta** (`generoi`): kustakin kategoriasta arvotaan painotetusti ilman toistoja. Siemenluvulla tulos on toistettava.
+4. **Suodatus:** alkukirjaimet ja tyylit rajataan luokittelun jälkeen, joten ne eivät muuta nimen kategoriaa.
+5. **Arvonta** (`generoi`): kustakin kategoriasta arvotaan painotetusti ilman toistoja. Siemenluvulla tulos on toistettava.

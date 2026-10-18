@@ -147,28 +147,28 @@ button.generoi:hover {
   filter: brightness(1.1);
 }
 
-.kirjaimet {
+.monivalinta {
   flex-basis: 100%;
 }
 
-.kirjaimet summary {
+.monivalinta summary {
   width: fit-content;
   font-weight: bold;
   cursor: pointer;
 }
 
-.kirjaimet .valittu {
+.monivalinta .valittu {
   font-weight: normal;
 }
 
-.kirjainvalinnat {
+.vaihtoehdot {
   display: flex;
   margin-top: 0.6rem;
   flex-wrap: wrap;
   gap: 0.35rem;
 }
 
-.kirjain,
+.vaihtoehto,
 .tyhjenna {
   min-width: 2.25rem;
   padding: 0.3rem 0.5rem;
@@ -180,7 +180,7 @@ button.generoi:hover {
   cursor: pointer;
 }
 
-.kirjain[aria-pressed='true'] {
+.vaihtoehto[aria-pressed='true'] {
   font-weight: bold;
   color: var(--on-accent);
   background: var(--accent);
@@ -195,6 +195,32 @@ button.generoi:hover {
 .tyhjenna:disabled {
   cursor: default;
   opacity: 0.5;
+}
+
+.kuvaukset {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0.75rem 0 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.kuvaukset div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.4rem;
+}
+
+.kuvaukset dt {
+  font-weight: bold;
+}
+
+.kuvaukset dt::after {
+  content: ':';
+}
+
+.kuvaukset dd {
+  margin: 0;
 }
 
 .tyhja {
