@@ -681,3 +681,40 @@ footer a {
     transition: none;
   }
 }
+
+/* Menetelmät ja lähteet */
+.menetelmat {
+  max-width: 44rem;
+}
+
+.menetelmat a {
+  color: var(--accent-text);
+}
+
+.menetelmat section {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.menetelmat h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.menetelmat section p,
+.menetelmat ul {
+  margin: 0.5rem 0 0;
+}
+
+.menetelmat li + li {
+  margin-top: 0.4rem;
+}
+
+.menetelmat code {
+  font-size: 0.85em;
+  overflow-wrap: anywhere;
+}
