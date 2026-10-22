@@ -260,7 +260,8 @@ button.generoi:hover {
 
 .kategoria li {
   display: flex;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0 0.5rem;
   align-items: baseline;
   padding: 0.3rem 0;
   font-size: 1.2rem;
@@ -295,12 +296,14 @@ footer a {
   margin: 0 0 0.75rem;
 }
 
-button.nimi {
-  display: flex;
+.kokonimi {
+  display: inline-flex;
   flex-wrap: wrap;
-  gap: 0 0.5rem;
-  align-items: baseline;
-  width: 100%;
+  column-gap: 0.3em;
+}
+
+button.nimi {
+  display: inline;
   padding: 0;
   font: inherit;
   text-align: left;
@@ -308,11 +311,12 @@ button.nimi {
   background: none;
   border: 0;
   cursor: pointer;
+  text-decoration: underline dotted var(--line);
+  text-underline-offset: 0.2em;
 }
 
 button.nimi:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+  text-decoration: underline solid currentColor;
 }
 
 .nimikortti {
@@ -381,7 +385,7 @@ button.nimi:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
-  margin: 0;
+  margin: 0 0 0.4rem;
   padding: 0;
   list-style: none;
 }
@@ -511,22 +515,28 @@ button.nimi:hover {
   opacity: 0.7;
 }
 
-.nimimuoto {
-  margin: 0.75rem 0 0;
-  padding: 0;
-  border: 0;
+.infolaatikko {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  background: var(--bg);
 }
 
-.nimimuoto legend {
-  padding: 0;
-  margin-bottom: 0.3rem;
+.infolaatikko summary {
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.nimimuoto .valinta {
-  align-items: flex-start;
-  margin-bottom: 0.3rem;
+.infolaatikko ul {
+  margin: 0.5rem 0;
+  padding-left: 1.2rem;
 }
 
-.nimimuoto .valinta input {
-  margin-top: 0.35rem;
+.infolaatikko li {
+  margin-bottom: 0.35rem;
+}
+
+.infolaatikko a {
+  color: var(--accent);
 }
