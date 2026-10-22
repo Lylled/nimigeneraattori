@@ -68,7 +68,6 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 | # | Tarina | SP |
 |---|---|---|
 | 5.1 | **Alkukirjain:** suodatin yhdelle tai useammalle kirjaimelle.<br>Jos kategoriaan ei jää nimiä, näytetään selkeä ilmoitus. | 2 |
-| 5.3 | **Nimen lukitus:** hyvän etunimen voi lukita ja arpoa vain toisen nimen uudelleen. | 2 |
 | 5.4 | **Jaettava URL:** hakuasetukset tallentuvat osoitteeseen (`?v=1885&s=n`). | 1 |
 
 ## E6 – Historiallinen data 1650–1899
