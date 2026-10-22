@@ -118,7 +118,7 @@ Testiajo vuoden 1920 sivuilla 1 ja 10 osoitti, että osuus kuvaa **nykyisiä elo
 **Johtopäätös:** korjausta ei käytetä sellaisenaan sijoitusten uudelleenjärjestämiseen, ainakaan ennen 1960-lukua. `decades.csv` sisältää kuitenkin molemmat sijat, joten ratkaisu tehdään tarinassa 3.1 oikean, kerätyn datan perusteella. Vaihtoehtoja ovat esimerkiksi:
 - alkuperäiset sijat sellaisinaan
 - korjaus vain uusimmille jaksoille
-- matalan osuuden nimien merkitseminen "usein toisena nimenä" ja niiden käyttö toisen etunimen generoinnissa (#23)
+- matalan osuuden nimien merkitseminen "usein toisena nimenä"
 
 ### Tekijänmerkintä
 
