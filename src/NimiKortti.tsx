@@ -40,8 +40,8 @@ export interface ArvioTiedot {
 
 const HUOMAUTUS = (
   <p className="ohje huomautus">
-    Kuvaukset on kirjoitettu tekoälyn avustamana, eikä niitä ole vielä
-    tarkistettu kokonaan; ne voivat sisältää virheitä.
+    Kuvaukset on kirjoitettu tekoälyn avustamana ja voivat sisältää virheitä.
+    Tarkista tärkeät tiedot.
   </p>
 )
 
