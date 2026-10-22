@@ -307,7 +307,7 @@ function App() {
       <header>
         <h1>Nimigeneraattori</h1>
         <p className="lead">
-          Aikakauteen sopivia suomalaisia etunimiä kirjan hahmoille.
+          Aikakauteen sopivia suomalaisia etunimiä luoviin projekteihin.
         </p>
       </header>
 
