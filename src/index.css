@@ -1,13 +1,15 @@
 :root {
-  --bg: #f4f5f2;
+  --bg: #eefaf6;
   --surface: #ffffff;
-  --surface-2: #f0f2ee;
+  --surface-2: #eef6f3;
   --text: #17201d;
   --muted: #5b6762;
-  --line: #e2e6e1;
-  --accent: #1f6f5c;
-  --accent-soft: #e3f1ec;
-  --on-accent: #ffffff;
+  --line: #dbe8e3;
+  --accent: #5fc9ac;
+  --accent-soft: #d9f3ea;
+  --on-accent: #0b1a15;
+  /* Tekstinä korostusväri tummennetaan, jotta se erottuu valkoiselta. */
+  --accent-text: #1a7a62;
   --focus: #2563eb;
   --error: #c0362c;
   --shadow: 0 1px 2px rgb(16 24 20 / 0.04), 0 8px 24px rgb(16 24 20 / 0.06);
@@ -38,6 +40,7 @@
     --accent: #5fc9ac;
     --accent-soft: #1d3a32;
     --on-accent: #0b1a15;
+    --accent-text: #5fc9ac;
     --focus: #7aa7ff;
     --error: #f08a80;
     --shadow: 0 1px 2px rgb(0 0 0 / 0.3);
