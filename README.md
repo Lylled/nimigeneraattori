@@ -1,6 +1,6 @@
 # nimigeneraattori
 
-Nimigeneraattori kirjan hahmoille. Valitse syntymävuosi, niin sivu ehdottaa aikakauteen sopivia suomalaisia etunimiä kolmessa kategoriassa: **hyvin yleinen**, **yleinen** ja **hieman harvinaisempi**.
+Nimigeneraattori luoviin projekteihin, kuten kirjojen ja pelien hahmoille. Valitse syntymävuosi, niin sivu ehdottaa aikakauteen sopivia suomalaisia etunimiä kolmessa kategoriassa: **hyvin yleinen**, **yleinen** ja **hieman harvinaisempi**.
 
 Sivusto: https://lylled.github.io/nimigeneraattori/
 
