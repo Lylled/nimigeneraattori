@@ -68,8 +68,6 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 | # | Tarina | SP |
 |---|---|---|
 | 5.1 | **Alkukirjain:** suodatin yhdelle tai useammalle kirjaimelle.<br>Jos kategoriaan ei jää nimiä, näytetään selkeä ilmoitus. | 2 |
-| 5.2 | **Toinen etunimi:** valinnainen toinen (ja kolmas) etunimi samalta aikakaudelta. | 3 |
-| 5.3 | **Nimen lukitus:** hyvän etunimen voi lukita ja arpoa vain toisen nimen uudelleen. | 2 |
 | 5.4 | **Jaettava URL:** hakuasetukset tallentuvat osoitteeseen (`?v=1885&s=n`). | 1 |
 
 ## E6 – Historiallinen data 1650–1899
@@ -121,6 +119,8 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 | 9.4 | **Suorituskyky:** JSON jaetaan aikajaksoittain, ja Lighthouse-pisteet ovat yli 90. | 2 |
 
 ## E10 – Sukunimet ja talonnimet
+
+**Tilanne:** toteutettu. Mukana on 621 sukunimeä DVV:n sukunimitilastosta, ja niille on arvioitu tyyppi, alue ja käyttöönottovuosi. Historiallisille nimille generoidaan aikakauden mukainen isännimi ja talonnimi, ja nimimuodon voi valita. Merkinnät odottavat käsintarkistusta (`data/surnames/sukunimet.tsv`).
 
 | # | Tarina | SP |
 |---|---|---|

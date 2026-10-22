@@ -9,6 +9,7 @@ import {
   PERINNEDATA,
   generoi,
   kaytetytAlkukirjaimet,
+  luokittele,
   rajaaJaksot,
   type GeneroituNimi,
   type Kategoria,
@@ -23,6 +24,14 @@ import {
   type OsionRajat,
   type Perinne,
 } from './lib/url'
+import { luoSatunnainen } from './lib/random'
+import {
+  ALUEET,
+  generoiSukunimi,
+  type Alue,
+  type GeneroituSukunimi,
+  type Nimimuoto,
+} from './lib/sukunimet'
 import { TYYLIT, type Tyyli } from './lib/tyylit'
 
 interface OsionTiedot extends OsionRajat {
@@ -126,6 +135,40 @@ for (const osio of Object.keys(OSIOT) as Osio[]) {
   )
 }
 
+/** Nimiperinne määrää alueen: suomenruotsalaiset rannikolta, ortodoksit Karjalasta. */
+const PERINTEEN_ALUE: Partial<Record<Perinne, Alue>> = {
+  suomenruotsalainen: 'rannikko',
+  ortodoksinen: 'karjala',
+}
+
+const NIMIMUODOT: { arvo: Nimimuoto; nimi: string; kuvaus: string }[] = [
+  {
+    arvo: 'auto',
+    nimi: 'Aikakauden mukaan',
+    kuvaus:
+      'Idässä sukunimi; lännessä ja Pohjanmaalla isännimi ja talonnimi ennen 1880, sen jälkeen yhä useammin sukunimi.',
+  },
+  {
+    arvo: 'isa',
+    nimi: 'Isännimi',
+    kuvaus: 'Isän nimen mukaan, kuten kirkonkirjoissa: Juhonpoika (Johansson).',
+  },
+  {
+    arvo: 'isatalo',
+    nimi: 'Isännimi ja talonnimi',
+    kuvaus: 'Lisäksi talo, jonka nimellä hahmo tunnettiin kylässä.',
+  },
+  {
+    arvo: 'suku',
+    nimi: 'Sukunimi',
+    kuvaus:
+      'Perinnöllinen sukunimi, kuten itäsuomalaisilla, säätyläisillä ja kaupunkilaisilla.',
+  },
+]
+
+/** Isän nimi arvotaan noin 30 vuotta aiemmin syntyneiden nimistä. */
+const ISAN_IKA = 30
+
 const KATEGORIAT: { avain: Kategoria; otsikko: string }[] = [
   { avain: 'hyvinYleinen', otsikko: 'Hyvin yleinen' },
   { avain: 'yleinen', otsikko: 'Yleinen' },
@@ -159,6 +202,9 @@ function App() {
     ALKUASETUKSET.alkukirjaimet,
   )
   const [tyylit, setTyylit] = useState(ALKUASETUKSET.tyylit)
+  const [sukunimi, setSukunimi] = useState(ALKUASETUKSET.sukunimi)
+  const [alue, setAlue] = useState(ALKUASETUKSET.alue)
+  const [muoto, setMuoto] = useState(ALKUASETUKSET.muoto)
   const [siemen, setSiemen] = useState(uusiSiemen)
   const [valittuNimi, setValittuNimi] = useState<GeneroituNimi | null>(null)
   const valilehdet = useRef<Partial<Record<Osio, HTMLButtonElement | null>>>({})
@@ -189,6 +235,46 @@ function App() {
     [data, rajat, vuosi, sukupuoli, siemen, alkukirjaimet, tyylit],
   )
 
+  const perinteenAlue = PERINTEEN_ALUE[perinne]
+  // Vuodesta 1900 alkaen hahmolla on aina sukunimi.
+  const kaytettyMuoto = osio === 'tilastot' ? 'suku' : muoto
+
+  const sukunimet = useMemo(() => {
+    const tuloksia = new Map<string, GeneroituSukunimi>()
+    if (!sukunimi) return tuloksia
+    const isanVuosi = Math.max(data.jaksot[0].alku, vuosi - ISAN_IKA)
+    const isat = luokittele(isanVuosi, 'mies', data, rajat)
+    const satunnainen = luoSatunnainen((siemen ^ 0x9e3779b9) >>> 0)
+    for (const n of Object.values(tulos).flat()) {
+      tuloksia.set(
+        n.nimi,
+        generoiSukunimi(
+          {
+            vuosi,
+            sukupuoli: n.sukupuoli,
+            alue: perinteenAlue ?? alue,
+            muoto: kaytettyMuoto,
+            isat,
+            ruotsiksi: perinne === 'suomenruotsalainen',
+          },
+          satunnainen,
+        ),
+      )
+    }
+    return tuloksia
+  }, [
+    sukunimi,
+    tulos,
+    data,
+    rajat,
+    vuosi,
+    siemen,
+    perinteenAlue,
+    alue,
+    kaytettyMuoto,
+    perinne,
+  ])
+
   // Asetukset näkyvät osoitteessa, jotta haun voi jakaa linkkinä.
   useEffect(() => {
     const haku = kirjoitaAsetukset({
@@ -198,9 +284,22 @@ function App() {
       sukupuoli,
       alkukirjaimet,
       tyylit,
+      sukunimi,
+      alue,
+      muoto,
     })
     window.history.replaceState(null, '', haku)
-  }, [osio, perinne, vuosi, sukupuoli, alkukirjaimet, tyylit])
+  }, [
+    osio,
+    perinne,
+    vuosi,
+    sukupuoli,
+    alkukirjaimet,
+    tyylit,
+    sukunimi,
+    alue,
+    muoto,
+  ])
 
   // Pidetään vain kirjaimet, joilla uudessa aineistossa on nimiä.
   const rajaaKirjaimet = (uusi: NimiData) => {
@@ -334,6 +433,62 @@ function App() {
             </div>
           </fieldset>
 
+          <fieldset className="kentta sukunimet">
+            <legend>Sukunimi</legend>
+            <label className="valinta">
+              <input
+                type="checkbox"
+                checked={sukunimi}
+                onChange={(e) => setSukunimi(e.target.checked)}
+              />
+              Näytä sukunimi
+            </label>
+            {sukunimi && (
+              <div className="sukunimiasetukset">
+                <label className="alue">
+                  Alue{' '}
+                  <select
+                    value={perinteenAlue ?? alue}
+                    disabled={perinteenAlue !== undefined}
+                    aria-describedby="alue-ohje"
+                    onChange={(e) => setAlue(e.target.value as Alue)}
+                  >
+                    {ALUEET.map(({ arvo, nimi }) => (
+                      <option key={arvo} value={arvo}>
+                        {nimi}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <p id="alue-ohje" className="ohje">
+                  {perinteenAlue
+                    ? 'Alue määräytyy valitun nimiperinteen mukaan.'
+                    : 'Sukunimet ovat alueelle tyypillisiä; aluejako on arvio.'}
+                </p>
+                {osio === 'historia' && (
+                  <fieldset className="nimimuoto">
+                    <legend>Nimimuoto</legend>
+                    {NIMIMUODOT.map(({ arvo, nimi, kuvaus }) => (
+                      <label key={arvo} className="valinta">
+                        <input
+                          type="radio"
+                          name="muoto"
+                          value={arvo}
+                          checked={muoto === arvo}
+                          onChange={() => setMuoto(arvo)}
+                        />
+                        <span>
+                          {nimi}
+                          <span className="ohje"> – {kuvaus}</span>
+                        </span>
+                      </label>
+                    ))}
+                  </fieldset>
+                )}
+              </div>
+            )}
+          </fieldset>
+
           <Monivalinta
             otsikko="Tyyli"
             ryhma="Tyylit"
@@ -374,26 +529,34 @@ function App() {
                 <p className="tyhja">Ei nimiä valituilla rajauksilla.</p>
               )}
               <ul>
-                {tulos[avain].map((n) => (
-                  <li key={n.nimi}>
-                    <button
-                      type="button"
-                      className="nimi"
-                      aria-haspopup="dialog"
-                      onClick={() => setValittuNimi(n)}
-                    >
-                      {n.nimi}
-                      {n.kirjattu && (
-                        <span
-                          className="kirjattu"
-                          title="Kirkonkirjoihin kirjattu muoto"
-                        >
-                          ({n.kirjattu})
-                        </span>
-                      )}
-                    </button>
-                  </li>
-                ))}
+                {tulos[avain].map((n) => {
+                  const suku = sukunimet.get(n.nimi)
+                  const kirjattu = suku?.kirjattuIsannimi
+                    ? `${n.kirjattu ?? n.nimi} ${suku.kirjattuIsannimi}`
+                    : n.kirjattu
+                  return (
+                    <li key={n.nimi}>
+                      <button
+                        type="button"
+                        className="nimi"
+                        aria-haspopup="dialog"
+                        onClick={() => setValittuNimi(n)}
+                      >
+                        {[n.nimi, suku?.isannimi, suku?.sukunimi]
+                          .filter(Boolean)
+                          .join(' ')}
+                        {kirjattu && (
+                          <span
+                            className="kirjattu"
+                            title="Kirkonkirjoihin kirjattu muoto"
+                          >
+                            ({kirjattu})
+                          </span>
+                        )}
+                      </button>
+                    </li>
+                  )
+                })}
               </ul>
             </div>
           ))}
@@ -403,6 +566,7 @@ function App() {
           <NimiKortti
             key={valittuNimi.nimi}
             {...valittuNimi}
+            suku={sukunimet.get(valittuNimi.nimi)}
             arvio={
               osio === 'historia' || perinne !== 'kaikki'
                 ? {

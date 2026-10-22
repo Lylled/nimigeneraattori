@@ -118,7 +118,7 @@ Testiajo vuoden 1920 sivuilla 1 ja 10 osoitti, että osuus kuvaa **nykyisiä elo
 **Johtopäätös:** korjausta ei käytetä sellaisenaan sijoitusten uudelleenjärjestämiseen, ainakaan ennen 1960-lukua. `decades.csv` sisältää kuitenkin molemmat sijat, joten ratkaisu tehdään tarinassa 3.1 oikean, kerätyn datan perusteella. Vaihtoehtoja ovat esimerkiksi:
 - alkuperäiset sijat sellaisinaan
 - korjaus vain uusimmille jaksoille
-- matalan osuuden nimien merkitseminen "usein toisena nimenä" ja niiden käyttö toisen etunimen generoinnissa (#23)
+- matalan osuuden nimien merkitseminen "usein toisena nimenä"
 
 ### Tekijänmerkintä
 
@@ -167,3 +167,44 @@ DVV julkaisee ruotsinkielisten top-listat vuosittain, mutta sen sivut estävät 
 | Yleistieto: ortodoksien suomalaistuminen sotien jälkeen ja venäjänkielisten maahanmuutto 1990-luvulta alkaen | jaksot 1930–2026 |
 
 Karjalaisen muodon perässä on suluissa kirkonkirjoihin kirjattu kirkkoslaavilainen tai venäläinen muoto (Iivana → Ioann). Kuzminin aineiston hellittelymuodot (esim. Ančuri, Čokoi) on jätetty pois, koska ne eivät olleet virallisia nimiä.
+
+## Sukunimet
+
+### Lukumäärät: DVV:n sukunimitilasto
+
+- **Aineisto:** [Väestötietojärjestelmän suomalaisten nimiaineistot](https://www.avoindata.fi/data/fi/dataset/none), sukunimitilasto (poiminta 4.8.2026, CC BY 4.0). Mukana on 23 265 sukunimeä, joilla on vähintään 20 kantajaa.
+- **Rajoitukset:** luvut kattavat vain elossa olevat Suomen kansalaiset. Tilastossa ei ole aluetta eikä aikakautta, joten luvut kertovat vain nykyisen yleisyyden.
+- **Valinta:** mukaan otettiin 500 yleisintä nimeä ja 121 täydentävää nimeä riveiltä 501+. Täydentävät nimet ovat saamelaisia, Tornionlaakson ja Lapin, Karjalan ja ortodoksien, sääty- ja pappissukujen, ruotsinkielisen rannikon sekä sotilasnimiä.
+
+### Tyyppi, alue ja käyttöönottovuosi: arviot
+
+Tiedoston `data/surnames/sukunimet.tsv` sarakkeet `tyyppi`, `alueet`, `alkaen` ja `kuvaus` on tehty käsin tekoälyn avustamana, eikä niitä ole vielä tarkistettu kokonaan. Rajanveto on monessa kohdassa liukuva. Esimerkiksi Lehtinen tai Aho voi olla sekä vanha länsisuomalainen nimi että vuoden 1906 suomalaistus.
+
+Nimimuodon logiikka perustuu seuraaviin lähteisiin:
+
+| Tieto | Lähde |
+|---|---|
+| Länsi-Suomessa käytettiin isännimiä ja talonnimiä. Talonnimet vakiintuivat sukunimiksi vasta 1800-luvun lopulla. Monet -la/-lä-nimet ovat vanhoja talonnimiä. | [Kielikello: Se tavallinen Virtanen](https://kielikello.fi/se-tavallinen-virtanen/), [Suomen Sukututkimusseura: Henkilönnimet](https://www.genealogia.fi/henkilonnimet/) |
+| Itäsuomalaiset -nen-nimet esiintyvät Savon ja Karjalan asiakirjoissa jo 1500-luvun alussa. | [Wiktionary: -nen](https://en.wiktionary.org/wiki/-nen) |
+| Suomalaistaminen alkoi 1875, rahvaan nimet suomalaistuivat 1880-luvulta alkaen, ja suuret aallot olivat 1906 (noin 25 000–35 000 ihmistä) ja 1935 (noin 100 000). | [Kotus](https://kotus.fi/kolumni/snellmanin-100-vuotispaiva-ja-sukunimien-suomalaistaminen-2/), [Helsingin yliopisto](https://375humanistia.helsinki.fi/johan-vilhelm-snellman/suurnimenmuutto-snellmanin-paivana-1906) |
+| Sukunimilaki annettiin 1920 ja se tuli voimaan 1921: jokaisella piti olla sukunimi. | [Kotus: 1920-luku](https://kotus.fi/ajankohtaista/teemakoosteet/sanoin-saavutettu-yli-satavuotias-suomi/1920-luku/) |
+
+### Generointi (`src/lib/sukunimet.ts`)
+
+**Nimimuoto "aikakauden mukaan":**
+- **Itä-Suomi ja Karjala:** aina sukunimi.
+- **Länsi-Suomi, Pohjanmaa ja Lappi:** isännimi ja talonnimi ennen vuotta 1880. Ruotsinkielisellä rannikolla vain isännimi, koska rannikon talonnimiä ei ole koottu.
+- **Siirtymä 1880–1919:** sukunimen todennäköisyys kasvaa tasaisesti.
+- **Vuodesta 1920 alkaen:** aina sukunimi.
+- **Koko Suomi:** hahmo on 60 %:n todennäköisyydellä isännimialueelta.
+
+**Sukunimen ehdot:**
+- **Aikakausi:** nimi kelpaa, jos se oli käytössä viimeistään hahmon ollessa 25-vuotias. Esimerkiksi 1880 syntynyt saattoi suomalaistaa nimensä vuonna 1906.
+- **Alue:** jos alueelta löytyy aikakaudelle alle 10 nimeä, käytetään koko maan nimiä.
+
+**Isännimi:**
+- Isän nimi arvotaan noin 30 vuotta aiemmin syntyneiden nimistä.
+- Suomenkielinen muoto taivutetaan genetiiviin (Matti → Matinpoika).
+- Kirjattu muoto on ruotsiksi (Mattsson, Mattsdotter). Suomenruotsalaisessa perinteessä isännimi on suoraan ruotsiksi.
+
+**Nimiperinne määrää alueen:** suomenruotsalainen → rannikko, ortodoksinen → Karjala.
