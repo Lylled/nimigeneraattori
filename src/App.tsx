@@ -353,7 +353,7 @@ function App() {
       <header>
         <h1>Nimigeneraattori</h1>
         <p className="lead">
-          Aikakauteen sopivia suomalaisia etunimiä luoviin projekteihin.
+          Aikakauteen sopivia suomalaisia nimiä luoviin projekteihin.
         </p>
       </header>
 
