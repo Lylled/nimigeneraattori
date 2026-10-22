@@ -1,6 +1,13 @@
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
+import {
+  Suspense,
+  lazy,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from 'react'
 import './App.css'
-import { NimiKortti, SukunimiKortti } from './NimiKortti'
 import {
   HISTORIADATA,
   HISTORIARAJAT,
@@ -25,12 +32,8 @@ import {
   type Perinne,
 } from './lib/url'
 import { luoSatunnainen } from './lib/random'
-import {
-  ALUEET,
-  generoiSukunimi,
-  type Alue,
-  type GeneroituSukunimi,
-} from './lib/sukunimet'
+import { ALUEET, type Alue } from './lib/alueet'
+import type { GeneroituSukunimi } from './lib/sukunimet'
 import { TYYLIT, type Tyyli } from './lib/tyylit'
 
 interface OsionTiedot extends OsionRajat {
@@ -160,6 +163,20 @@ const ALKUASETUKSET = lueAsetukset(
   OSIOT,
 )
 
+// Nimikortit ja sukunimet tuovat mukanaan suurimmat aineistot, joten ne
+// ladataan vasta, kun niitä tarvitaan.
+const NimiKortti = lazy(() =>
+  import('./NimiKortti').then((m) => ({ default: m.NimiKortti })),
+)
+const SukunimiKortti = lazy(() =>
+  import('./NimiKortti').then((m) => ({ default: m.SukunimiKortti })),
+)
+type SukunimiModuuli = typeof import('./lib/sukunimet')
+const Menetelmat = lazy(() => import('./Menetelmat'))
+
+/** Metodologiasivu avautuu osoitteesta #menetelmat. */
+const MENETELMAT = '#menetelmat'
+
 const uusiSiemen = () => Math.floor(Math.random() * 2 ** 32)
 
 function App() {
@@ -178,12 +195,15 @@ function App() {
   const [tyylit, setTyylit] = useState(ALKUASETUKSET.tyylit)
   const [sukunimi, setSukunimi] = useState(ALKUASETUKSET.sukunimi)
   const [alue, setAlue] = useState(ALKUASETUKSET.alue)
+  const [sukunimiModuuli, setSukunimiModuuli] =
+    useState<SukunimiModuuli | null>(null)
   const [siemen, setSiemen] = useState(uusiSiemen)
   // Klikattu nimi ja sen osa: etunimi tai suku- / isännimi.
   const [valittu, setValittu] = useState<{
     nimi: GeneroituNimi
     osa: 'etu' | 'suku'
   } | null>(null)
+  const [ankkuri, setAnkkuri] = useState(window.location.hash)
   const valilehdet = useRef<Partial<Record<Osio, HTMLButtonElement | null>>>({})
 
   const tiedot = OSIOT[osio]
@@ -219,14 +239,14 @@ function App() {
 
   const sukunimet = useMemo(() => {
     const tuloksia = new Map<string, GeneroituSukunimi>()
-    if (!sukunimi) return tuloksia
+    if (!sukunimi || !sukunimiModuuli) return tuloksia
     const isanVuosi = Math.max(data.jaksot[0].alku, vuosi - ISAN_IKA)
     const isat = luokittele(isanVuosi, 'mies', data, rajat)
     const satunnainen = luoSatunnainen((siemen ^ 0x9e3779b9) >>> 0)
     for (const n of Object.values(tulos).flat()) {
       tuloksia.set(
         n.nimi,
-        generoiSukunimi(
+        sukunimiModuuli.generoiSukunimi(
           {
             vuosi,
             sukupuoli: n.sukupuoli,
@@ -242,6 +262,7 @@ function App() {
     return tuloksia
   }, [
     sukunimi,
+    sukunimiModuuli,
     tulos,
     data,
     rajat,
@@ -252,6 +273,12 @@ function App() {
     kaytettyMuoto,
     perinne,
   ])
+
+  useEffect(() => {
+    if (sukunimi && !sukunimiModuuli) {
+      void import('./lib/sukunimet').then(setSukunimiModuuli)
+    }
+  }, [sukunimi, sukunimiModuuli])
 
   // Asetukset näkyvät osoitteessa, jotta haun voi jakaa linkkinä.
   useEffect(() => {
@@ -265,8 +292,17 @@ function App() {
       sukunimi,
       alue,
     })
-    window.history.replaceState(null, '', haku)
+    window.history.replaceState(null, '', haku + window.location.hash)
   }, [osio, perinne, vuosi, sukupuoli, alkukirjaimet, tyylit, sukunimi, alue])
+
+  useEffect(() => {
+    const vaihtui = () => {
+      setAnkkuri(window.location.hash)
+      window.scrollTo(0, 0)
+    }
+    window.addEventListener('hashchange', vaihtui)
+    return () => window.removeEventListener('hashchange', vaihtui)
+  }, [])
 
   // Pidetään vain kirjaimet, joilla uudessa aineistossa on nimiä.
   const rajaaKirjaimet = (uusi: NimiData) => {
@@ -300,6 +336,16 @@ function App() {
     e.preventDefault()
     vaihdaOsio(seuraava)
     valilehdet.current[seuraava]?.focus()
+  }
+
+  if (ankkuri === MENETELMAT) {
+    return (
+      <main className="app">
+        <Suspense fallback={null}>
+          <Menetelmat />
+        </Suspense>
+      </main>
+    )
   }
 
   return (
@@ -523,33 +569,35 @@ function App() {
           ))}
         </section>
 
-        {valittu?.osa === 'etu' && (
-          <NimiKortti
-            key={valittu.nimi.nimi}
-            {...valittu.nimi}
-            arvio={
-              osio === 'historia' || perinne !== 'kaikki'
-                ? {
-                    otsikko:
-                      perinne === 'kaikki'
-                        ? `Arvioitu yleisyys ${tiedot.min}–${tiedot.max}`
-                        : `Arvioitu yleisyys ${tiedot.min}–${tiedot.max}, ${perinteenTiedot.nimi.toLocaleLowerCase('fi')} nimiperinne`,
-                    data,
-                    rajat,
-                  }
-                : undefined
-            }
-            onClose={() => setValittu(null)}
-          />
-        )}
-        {valittu?.osa === 'suku' && sukunimet.has(valittu.nimi.nimi) && (
-          <SukunimiKortti
-            key={`suku-${valittu.nimi.nimi}`}
-            suku={sukunimet.get(valittu.nimi.nimi)!}
-            sukupuoli={valittu.nimi.sukupuoli}
-            onClose={() => setValittu(null)}
-          />
-        )}
+        <Suspense fallback={null}>
+          {valittu?.osa === 'etu' && (
+            <NimiKortti
+              key={valittu.nimi.nimi}
+              {...valittu.nimi}
+              arvio={
+                osio === 'historia' || perinne !== 'kaikki'
+                  ? {
+                      otsikko:
+                        perinne === 'kaikki'
+                          ? `Arvioitu yleisyys ${tiedot.min}–${tiedot.max}`
+                          : `Arvioitu yleisyys ${tiedot.min}–${tiedot.max}, ${perinteenTiedot.nimi.toLocaleLowerCase('fi')} nimiperinne`,
+                      data,
+                      rajat,
+                    }
+                  : undefined
+              }
+              onClose={() => setValittu(null)}
+            />
+          )}
+          {valittu?.osa === 'suku' && sukunimet.has(valittu.nimi.nimi) && (
+            <SukunimiKortti
+              key={`suku-${valittu.nimi.nimi}`}
+              suku={sukunimet.get(valittu.nimi.nimi)!}
+              sukupuoli={valittu.nimi.sukupuoli}
+              onClose={() => setValittu(null)}
+            />
+          )}
+        </Suspense>
 
         <footer>
           <p>
@@ -564,6 +612,9 @@ function App() {
                 </a>
               </>
             )}
+          </p>
+          <p>
+            <a href={MENETELMAT}>Menetelmät ja lähteet</a>
           </p>
         </footer>
       </div>

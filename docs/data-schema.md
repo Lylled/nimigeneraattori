@@ -52,7 +52,7 @@ Tiedosto tehdään skriptillä `scripts/build_styles_json.py` tiedostosta `data/
 Tiedosto tehdään skriptillä `scripts/build_info_json.py` tiedostosta `data/info/kuvaukset.tsv` (sarakkeet `nimi`, `alkupera`, `kuvaus`, sarkaimella erotettuina). Muoto on `{"nimi": ["alkuperä", "kuvaus"]}`. Skripti vaatii, että jokaisella aineiston nimellä on kuvaus.
 
 - **Alkuperä** on nimen alkuperäinen lähdekieli. Sallitut arvot: heprea, aramea, kreikka, latina, germaaninen, muinaispohjoismainen, kelttiläinen, slaavilainen, suomi, karjala, unkari, arabia, persia, uudismuodoste (keksitty nimi ilman selvää lähdekieltä) ja epäselvä (tausta kiistanalainen).
-- **Kuvaus** on enintään 260 merkkiä pitkä. Siinä kerrotaan lähtömuoto, merkitys ja tarvittaessa Suomeen liittyvä huomio. Kuvaukset on kirjoitettu tekoälyn avustamana. Epävarmoissa kohdissa on varaukset ("tulkitaan", "mahdollisesti"), eikä niissä mainita lähteettömiä yksityiskohtia, kuten karjalaisia muotoja ilman lähdettä. Sivu kertoo, ettei kuvauksia ole vielä kokonaan tarkistettu.
+- **Kuvaus** on enintään 260 merkkiä pitkä. Siinä kerrotaan lähtömuoto, merkitys ja tarvittaessa Suomeen liittyvä huomio. Kuvaukset on kirjoitettu tekoälyn avustamana. Epävarmoissa kohdissa on varaukset ("tulkitaan", "mahdollisesti"), eikä niissä mainita lähteettömiä yksityiskohtia, kuten karjalaisia muotoja ilman lähdettä. Nimikortissa on huomautus, että kuvaukset on kirjoitettu tekoälyn avustamana ja voivat sisältää virheitä.
 
 ## Suosiokäyrä (`src/lib/nimitiedot.ts`)
 

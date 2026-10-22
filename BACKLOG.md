@@ -111,6 +111,8 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 
 ## E9 – Esittelyprojektin viimeistely
 
+**Tilanne:** toteutettu. Metodologia on sivulla osoitteessa `#menetelmat` (9.1). Ulkoasu uudistettiin moderniksi, eikä erillistä kirkonkirja-teemaa tehty (9.2). README:ssä on kuvakaappaukset ja arkkitehtuuri (9.3). JSONia ei jaettu aikajaksoittain, koska Lighthouse antoi jo 99 pistettä; sen sijaan nimikortit, sukunimet ja metodologiasivu ladataan vasta tarvittaessa (9.4).
+
 | # | Tarina | SP |
 |---|---|---|
 | 9.1 | **Metodologia-sivu:** datalähteet, otanta, kategorioiden rajat, rajoitteet ja tekoälyn osuus. | 2 |

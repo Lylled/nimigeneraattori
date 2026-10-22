@@ -1,5 +1,5 @@
 import type { Sukupuoli } from './generator'
-import type { Alue } from './sukunimet'
+import type { Alue } from './alueet'
 import type { Tyyli } from './tyylit'
 
 /** Tilastot perustuvat DVV:n dataan, historia käsin koottuihin arvioihin. */

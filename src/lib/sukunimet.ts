@@ -1,10 +1,9 @@
 import sukunimidata from '../data/surnames.json'
 import type { Sukupuoli } from './generator'
+import type { Alue } from './alueet'
 import { painotettuOtos } from './random'
 
-/** Alue, jonka mukaan sukunimet ja nimimuoto valitaan. */
-export type Alue =
-  'kaikki' | 'lansi' | 'ita' | 'pohjanmaa' | 'karjala' | 'lappi' | 'rannikko'
+export { ALUEET, type Alue } from './alueet'
 
 /**
  * Miten hahmo nimetään: aikakauden mukaan, pelkällä isännimellä,
@@ -51,16 +50,6 @@ export const SUKUNIMET: SukunimiTieto[] = (
 }))
 
 export const SUKUNIMI = new Map(SUKUNIMET.map((s) => [s.nimi, s]))
-
-export const ALUEET: { arvo: Alue; nimi: string }[] = [
-  { arvo: 'kaikki', nimi: 'Koko Suomi' },
-  { arvo: 'lansi', nimi: 'Länsi-Suomi' },
-  { arvo: 'ita', nimi: 'Itä-Suomi' },
-  { arvo: 'pohjanmaa', nimi: 'Pohjanmaa' },
-  { arvo: 'karjala', nimi: 'Karjala' },
-  { arvo: 'lappi', nimi: 'Lappi' },
-  { arvo: 'rannikko', nimi: 'Ruotsinkielinen rannikko' },
-]
 
 export const TYYPIT: Record<Sukunimityyppi, string> = {
   ita_nen: 'Vanha itäsuomalainen -nen-nimi',
