@@ -1,4 +1,5 @@
 import type { Sukupuoli } from './generator'
+import type { Alue, Nimimuoto } from './sukunimet'
 import type { Tyyli } from './tyylit'
 
 /** Tilastot perustuvat DVV:n dataan, historia käsin koottuihin arvioihin. */
@@ -14,6 +15,10 @@ export interface HakuAsetukset {
   sukupuoli: Sukupuoli
   alkukirjaimet: string[]
   tyylit: Tyyli[]
+  /** Näytetäänkö sukunimi, ja millä alueella ja nimimuodolla. */
+  sukunimi: boolean
+  alue: Alue
+  muoto: Nimimuoto
 }
 
 /** Osion sallitut arvot ja oletusvuosi. */
@@ -28,6 +33,16 @@ export interface OsionRajat {
 const OSIOT = ['tilastot', 'historia'] as const
 const PERINTEET = ['kaikki', 'suomenruotsalainen', 'ortodoksinen'] as const
 const SUKUPUOLET = ['nainen', 'mies'] as const
+const ALUEET = [
+  'kaikki',
+  'lansi',
+  'ita',
+  'pohjanmaa',
+  'karjala',
+  'lappi',
+  'rannikko',
+] as const
+const MUODOT = ['auto', 'isa', 'isatalo', 'suku'] as const
 
 /**
  * Lukee hakuasetukset osoitteen kyselyosasta, esim.
@@ -67,12 +82,15 @@ export function lueAsetukset(
     sukupuoli: SUKUPUOLET.find((s) => s === sukupuoli) ?? oletus.sukupuoli,
     alkukirjaimet: [...new Set(kirjaimet)],
     tyylit: [...new Set(tyylit)],
+    sukunimi: p.get('sukunimi') === '1',
+    alue: ALUEET.find((a) => a === p.get('alue')) ?? 'kaikki',
+    muoto: MUODOT.find((m) => m === p.get('muoto')) ?? 'auto',
   }
 }
 
 /**
  * Muodostaa asetuksista kyselyosan, jonka voi jakaa linkkinä. Oletuksia
- * (tilastojen osio, koko Suomi) ei kirjoiteta osoitteeseen.
+ * (tilastojen osio, koko Suomi, ei sukunimeä) ei kirjoiteta osoitteeseen.
  */
 export function kirjoitaAsetukset({
   osio,
@@ -81,6 +99,9 @@ export function kirjoitaAsetukset({
   sukupuoli,
   alkukirjaimet,
   tyylit,
+  sukunimi,
+  alue,
+  muoto,
 }: HakuAsetukset): string {
   const p = new URLSearchParams()
   if (osio !== 'tilastot') p.set('osio', osio)
@@ -89,5 +110,10 @@ export function kirjoitaAsetukset({
   p.set('sukupuoli', sukupuoli)
   if (alkukirjaimet.length > 0) p.set('kirjaimet', alkukirjaimet.join(','))
   if (tyylit.length > 0) p.set('tyylit', tyylit.join(','))
+  if (sukunimi) {
+    p.set('sukunimi', '1')
+    if (alue !== 'kaikki') p.set('alue', alue)
+    if (muoto !== 'auto') p.set('muoto', muoto)
+  }
   return `?${p.toString().replaceAll('%2C', ',')}`
 }

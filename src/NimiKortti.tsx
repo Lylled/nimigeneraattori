@@ -6,6 +6,12 @@ import {
   suosiokayra,
   type SuosioPiste,
 } from './lib/nimitiedot'
+import {
+  ALUEET,
+  SUKUNIMI,
+  TYYPIT,
+  type GeneroituSukunimi,
+} from './lib/sukunimet'
 import { NIMITYYLIT, TYYLIT } from './lib/tyylit'
 
 const TASOT: Record<Kategoria, string> = {
@@ -31,12 +37,14 @@ export function NimiKortti({
   nimi,
   sukupuoli,
   kirjattu,
+  suku,
   arvio,
   onClose,
 }: {
   nimi: string
   sukupuoli: Sukupuoli
   kirjattu?: string
+  suku?: GeneroituSukunimi
   arvio?: ArvioTiedot
   onClose: () => void
 }) {
@@ -50,6 +58,12 @@ export function NimiKortti({
   const kayra = suosiokayra(nimi, sukupuoli)
   const tasot =
     arvio && arvioidutTasot(nimi, sukupuoli, arvio.data, arvio.rajat)
+  const kokoNimi = [nimi, suku?.isannimi, suku?.sukunimi]
+    .filter(Boolean)
+    .join(' ')
+  const kirjattuNimi = suku?.kirjattuIsannimi
+    ? `${kirjattu ?? nimi} ${suku.kirjattuIsannimi}`
+    : kirjattu
 
   return (
     <dialog
@@ -65,8 +79,10 @@ export function NimiKortti({
       <div className="sisalto">
         <header>
           <h2 id="nimikortti-otsikko">
-            {nimi}
-            {kirjattu && <span className="kirjattu"> ({kirjattu})</span>}
+            {kokoNimi}
+            {kirjattuNimi && (
+              <span className="kirjattu"> ({kirjattuNimi})</span>
+            )}
           </h2>
           <button
             type="button"
@@ -86,6 +102,8 @@ export function NimiKortti({
             </p>
           </section>
         )}
+
+        {suku && <SukunimiTiedot suku={suku} sukupuoli={sukupuoli} />}
 
         {tyylit.length > 0 && (
           <section>
@@ -129,6 +147,50 @@ export function NimiKortti({
         </p>
       </div>
     </dialog>
+  )
+}
+
+/** Sukunimen, talonnimen ja isännimen selitys nimikortissa. */
+function SukunimiTiedot({
+  suku,
+  sukupuoli,
+}: {
+  suku: GeneroituSukunimi
+  sukupuoli: Sukupuoli
+}) {
+  const tieto = suku.sukunimi ? SUKUNIMI.get(suku.sukunimi) : undefined
+  const alueet = tieto?.alueet
+    .map((a) => ALUEET.find((x) => x.arvo === a)?.nimi)
+    .join(', ')
+  return (
+    <section>
+      <h3>
+        {
+          { suku: 'Sukunimi', isa: 'Isännimi', isatalo: 'Isännimi ja talo' }[
+            suku.muoto
+          ]
+        }
+      </h3>
+      {suku.isannimi && (
+        <p>
+          <strong>{suku.isannimi}</strong> on isännimi: hahmo tunnettiin isänsä
+          {sukupuoli === 'mies' ? ' poikana' : ' tyttärenä'}.
+          {suku.kirjattuIsannimi &&
+            ` Kirkonkirjoihin se kirjattiin ruotsiksi muodossa ${suku.kirjattuIsannimi}.`}
+        </p>
+      )}
+      {tieto && (
+        <p>
+          <strong>{tieto.nimi}</strong> ·{' '}
+          {suku.muoto === 'suku' ? `${TYYPIT[tieto.tyyppi]}. ` : 'Talonnimi. '}
+          {tieto.kuvaus}{' '}
+          <span className="ohje">
+            Tyypillinen alue: {alueet}. Nykyisin noin{' '}
+            {tieto.kantajia.toLocaleString('fi')} kantajaa (DVV).
+          </span>
+        </p>
+      )}
+    </section>
   )
 }
 

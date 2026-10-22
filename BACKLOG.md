@@ -120,6 +120,8 @@ Nimigeneraattori kirjan hahmoille: käyttäjä valitsee syntymävuoden (1650 →
 
 ## E10 – Sukunimet ja talonnimet
 
+**Tilanne:** toteutettu. Mukana on 621 sukunimeä DVV:n sukunimitilastosta, ja niille on arvioitu tyyppi, alue ja käyttöönottovuosi. Historiallisille nimille generoidaan aikakauden mukainen isännimi ja talonnimi, ja nimimuodon voi valita. Merkinnät odottavat käsintarkistusta (`data/surnames/sukunimet.tsv`).
+
 | # | Tarina | SP |
 |---|---|---|
 | 10.1 | **Lähdeselvitys:** DVV:n sukunimitilasto, historialliset sukunimet ja talonnimet (HisKi). | 3 |

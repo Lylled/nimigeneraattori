@@ -58,6 +58,26 @@ Tiedosto tehdään skriptillä `scripts/build_info_json.py` tiedostosta `data/in
 
 `suosiokayra` laskee nimen osuuden kunkin vuosikymmenen top 100 -listan haltijoista DVV:n datasta. Jaksot, joilla nimi ei ole listalla, näkyvät käyrässä aukkoina. `arvioidutTasot` muuntaa arvioitujen aineistojen sijoitukset generaattorin kategorioiksi.
 
+## Sukunimet (`src/data/surnames.json`)
+
+Tiedosto tehdään skriptillä `scripts/build_surnames_json.py` tiedostosta `data/surnames/sukunimet.tsv`. Muoto on `{"lahde": "...", "nimet": [[nimi, kantajia, tyyppi, "alue alue", alkaen, kuvaus]]}`, kantajamäärän mukaan laskevassa järjestyksessä.
+
+**Tyypit:**
+- `ita_nen`: vanha itäinen -nen-nimi
+- `lansi_vanha`: vanha länsisuomalainen nimi
+- `talonnimi`
+- `suomalaistettu`
+- `ruotsalainen`
+- `sotilasnimi`
+- `saatynimi`
+- `saame`
+- `ortodoksinen`
+- `muu`
+
+**Alueet:** `lansi`, `ita`, `pohjanmaa`, `karjala`, `lappi`, `rannikko`.
+
+**Alkaen** on yksi seuraavista: 1600, 1800, 1880, 1906, 1935, 1950 tai 1990. Skripti tarkistaa, että arvot ovat sallittuja.
+
 ## Generointi (`src/lib/generator.ts`)
 
 1. **Jaksojen painot** (`jaksoPainot`): syntymävuoden paino jakautuu lineaarisesti kahden lähimmän jakson keskikohtien välillä. Esimerkiksi vuosi 1919 on 55 % 1910-lukua ja 45 % 1920-lukua.
