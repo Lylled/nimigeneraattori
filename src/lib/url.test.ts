@@ -32,7 +32,6 @@ const OLETUS: HakuAsetukset = {
   tyylit: [],
   sukunimi: false,
   alue: 'kaikki',
-  muoto: 'auto',
 }
 
 const lue = (haku: string) =>
@@ -49,7 +48,6 @@ describe('lueAsetukset', () => {
       tyylit: [],
       sukunimi: false,
       alue: 'kaikki',
-      muoto: 'auto',
     })
   })
 
@@ -73,7 +71,6 @@ describe('lueAsetukset', () => {
       tyylit: [],
       sukunimi: false,
       alue: 'kaikki',
-      muoto: 'auto',
     })
     expect(lue('?osio=historia&vuosi=1925').vuosi).toBe(1850)
   })
@@ -110,26 +107,24 @@ describe('nimiperinne', () => {
 })
 
 describe('sukunimi', () => {
-  it('lukee ja kirjoittaa sukunimen asetukset vain, kun sukunimi on päällä', () => {
+  it('lukee ja kirjoittaa alueen vain, kun sukunimi on päällä', () => {
     const asetukset: HakuAsetukset = {
       ...OLETUS,
       osio: 'historia',
       vuosi: 1850,
       sukunimi: true,
       alue: 'pohjanmaa',
-      muoto: 'isatalo',
     }
     const haku = kirjoitaAsetukset(asetukset)
     expect(haku).toBe(
-      '?osio=historia&vuosi=1850&sukupuoli=nainen&sukunimi=1&alue=pohjanmaa&muoto=isatalo',
+      '?osio=historia&vuosi=1850&sukupuoli=nainen&sukunimi=1&alue=pohjanmaa',
     )
     expect(lue(haku)).toEqual(asetukset)
     expect(kirjoitaAsetukset({ ...OLETUS, alue: 'ita' })).toBe(
       '?vuosi=1925&sukupuoli=nainen',
     )
-    expect(lue('?alue=savo&muoto=x')).toMatchObject({
+    expect(lue('?alue=savo')).toMatchObject({
       alue: 'kaikki',
-      muoto: 'auto',
     })
   })
 })
@@ -145,7 +140,6 @@ describe('kirjoitaAsetukset', () => {
       tyylit: [],
       sukunimi: false,
       alue: 'kaikki',
-      muoto: 'auto',
     }
     const haku = kirjoitaAsetukset(asetukset)
     expect(haku).toBe('?vuosi=1905&sukupuoli=mies&kirjaimet=A,E')

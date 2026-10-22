@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import './App.css'
-import { NimiKortti } from './NimiKortti'
+import { NimiKortti, SukunimiKortti } from './NimiKortti'
 import {
   HISTORIADATA,
   HISTORIARAJAT,
@@ -30,7 +30,6 @@ import {
   generoiSukunimi,
   type Alue,
   type GeneroituSukunimi,
-  type Nimimuoto,
 } from './lib/sukunimet'
 import { TYYLIT, type Tyyli } from './lib/tyylit'
 
@@ -141,31 +140,6 @@ const PERINTEEN_ALUE: Partial<Record<Perinne, Alue>> = {
   ortodoksinen: 'karjala',
 }
 
-const NIMIMUODOT: { arvo: Nimimuoto; nimi: string; kuvaus: string }[] = [
-  {
-    arvo: 'auto',
-    nimi: 'Aikakauden mukaan',
-    kuvaus:
-      'Idässä sukunimi; lännessä ja Pohjanmaalla isännimi ja talonnimi ennen 1880, sen jälkeen yhä useammin sukunimi.',
-  },
-  {
-    arvo: 'isa',
-    nimi: 'Isännimi',
-    kuvaus: 'Isän nimen mukaan, kuten kirkonkirjoissa: Juhonpoika (Johansson).',
-  },
-  {
-    arvo: 'isatalo',
-    nimi: 'Isännimi ja talonnimi',
-    kuvaus: 'Lisäksi talo, jonka nimellä hahmo tunnettiin kylässä.',
-  },
-  {
-    arvo: 'suku',
-    nimi: 'Sukunimi',
-    kuvaus:
-      'Perinnöllinen sukunimi, kuten itäsuomalaisilla, säätyläisillä ja kaupunkilaisilla.',
-  },
-]
-
 /** Isän nimi arvotaan noin 30 vuotta aiemmin syntyneiden nimistä. */
 const ISAN_IKA = 30
 
@@ -204,9 +178,12 @@ function App() {
   const [tyylit, setTyylit] = useState(ALKUASETUKSET.tyylit)
   const [sukunimi, setSukunimi] = useState(ALKUASETUKSET.sukunimi)
   const [alue, setAlue] = useState(ALKUASETUKSET.alue)
-  const [muoto, setMuoto] = useState(ALKUASETUKSET.muoto)
   const [siemen, setSiemen] = useState(uusiSiemen)
-  const [valittuNimi, setValittuNimi] = useState<GeneroituNimi | null>(null)
+  // Klikattu nimi ja sen osa: etunimi tai suku- / isännimi.
+  const [valittu, setValittu] = useState<{
+    nimi: GeneroituNimi
+    osa: 'etu' | 'suku'
+  } | null>(null)
   const valilehdet = useRef<Partial<Record<Osio, HTMLButtonElement | null>>>({})
 
   const tiedot = OSIOT[osio]
@@ -236,8 +213,9 @@ function App() {
   )
 
   const perinteenAlue = PERINTEEN_ALUE[perinne]
-  // Vuodesta 1900 alkaen hahmolla on aina sukunimi.
-  const kaytettyMuoto = osio === 'tilastot' ? 'suku' : muoto
+  // Nimimuoto valitaan aikakauden ja alueen mukaan; vuodesta 1900 alkaen
+  // hahmolla on aina sukunimi.
+  const kaytettyMuoto = osio === 'tilastot' ? 'suku' : 'auto'
 
   const sukunimet = useMemo(() => {
     const tuloksia = new Map<string, GeneroituSukunimi>()
@@ -286,20 +264,9 @@ function App() {
       tyylit,
       sukunimi,
       alue,
-      muoto,
     })
     window.history.replaceState(null, '', haku)
-  }, [
-    osio,
-    perinne,
-    vuosi,
-    sukupuoli,
-    alkukirjaimet,
-    tyylit,
-    sukunimi,
-    alue,
-    muoto,
-  ])
+  }, [osio, perinne, vuosi, sukupuoli, alkukirjaimet, tyylit, sukunimi, alue])
 
   // Pidetään vain kirjaimet, joilla uudessa aineistossa on nimiä.
   const rajaaKirjaimet = (uusi: NimiData) => {
@@ -465,26 +432,7 @@ function App() {
                     ? 'Alue määräytyy valitun nimiperinteen mukaan.'
                     : 'Sukunimet ovat alueelle tyypillisiä; aluejako on arvio.'}
                 </p>
-                {osio === 'historia' && (
-                  <fieldset className="nimimuoto">
-                    <legend>Nimimuoto</legend>
-                    {NIMIMUODOT.map(({ arvo, nimi, kuvaus }) => (
-                      <label key={arvo} className="valinta">
-                        <input
-                          type="radio"
-                          name="muoto"
-                          value={arvo}
-                          checked={muoto === arvo}
-                          onChange={() => setMuoto(arvo)}
-                        />
-                        <span>
-                          {nimi}
-                          <span className="ohje"> – {kuvaus}</span>
-                        </span>
-                      </label>
-                    ))}
-                  </fieldset>
-                )}
+                <SukunimiInfo />
               </div>
             )}
           </fieldset>
@@ -517,7 +465,7 @@ function App() {
         </form>
 
         <p className="ohje vihje">
-          Valitse nimi nähdäksesi sen alkuperän ja suosion.
+          Valitse etu- tai sukunimi nähdäksesi sen tiedot.
         </p>
 
         <section className="tulokset" aria-live="polite" aria-label="Nimet">
@@ -531,29 +479,42 @@ function App() {
               <ul>
                 {tulos[avain].map((n) => {
                   const suku = sukunimet.get(n.nimi)
+                  const sukuosa = [suku?.isannimi, suku?.sukunimi]
+                    .filter(Boolean)
+                    .join(' ')
                   const kirjattu = suku?.kirjattuIsannimi
                     ? `${n.kirjattu ?? n.nimi} ${suku.kirjattuIsannimi}`
                     : n.kirjattu
                   return (
                     <li key={n.nimi}>
-                      <button
-                        type="button"
-                        className="nimi"
-                        aria-haspopup="dialog"
-                        onClick={() => setValittuNimi(n)}
-                      >
-                        {[n.nimi, suku?.isannimi, suku?.sukunimi]
-                          .filter(Boolean)
-                          .join(' ')}
-                        {kirjattu && (
-                          <span
-                            className="kirjattu"
-                            title="Kirkonkirjoihin kirjattu muoto"
+                      <span className="kokonimi">
+                        <button
+                          type="button"
+                          className="nimi"
+                          aria-haspopup="dialog"
+                          onClick={() => setValittu({ nimi: n, osa: 'etu' })}
+                        >
+                          {n.nimi}
+                        </button>
+                        {sukuosa && (
+                          <button
+                            type="button"
+                            className="nimi"
+                            aria-haspopup="dialog"
+                            onClick={() => setValittu({ nimi: n, osa: 'suku' })}
                           >
-                            ({kirjattu})
-                          </span>
+                            {sukuosa}
+                          </button>
                         )}
-                      </button>
+                      </span>
+                      {kirjattu && (
+                        <span
+                          className="kirjattu"
+                          title="Kirkonkirjoihin kirjattu muoto"
+                        >
+                          ({kirjattu})
+                        </span>
+                      )}
                     </li>
                   )
                 })}
@@ -562,11 +523,10 @@ function App() {
           ))}
         </section>
 
-        {valittuNimi && (
+        {valittu?.osa === 'etu' && (
           <NimiKortti
-            key={valittuNimi.nimi}
-            {...valittuNimi}
-            suku={sukunimet.get(valittuNimi.nimi)}
+            key={valittu.nimi.nimi}
+            {...valittu.nimi}
             arvio={
               osio === 'historia' || perinne !== 'kaikki'
                 ? {
@@ -579,7 +539,15 @@ function App() {
                   }
                 : undefined
             }
-            onClose={() => setValittuNimi(null)}
+            onClose={() => setValittu(null)}
+          />
+        )}
+        {valittu?.osa === 'suku' && sukunimet.has(valittu.nimi.nimi) && (
+          <SukunimiKortti
+            key={`suku-${valittu.nimi.nimi}`}
+            suku={sukunimet.get(valittu.nimi.nimi)!}
+            sukupuoli={valittu.nimi.sukupuoli}
+            onClose={() => setValittu(null)}
           />
         )}
 
@@ -600,6 +568,57 @@ function App() {
         </footer>
       </div>
     </main>
+  )
+}
+
+/** Taustatietoa siitä, miksi hahmolla on isännimi, talonnimi tai sukunimi. */
+function SukunimiInfo() {
+  return (
+    <details className="infolaatikko">
+      <summary>Miten sukunimet muotoutuivat?</summary>
+      <ul>
+        <li>
+          <strong>Itä-Suomessa</strong> (Savo, Karjala) perinnöllisiä sukunimiä
+          käytettiin jo 1500-luvulla. Ne päättyivät usein -nen-päätteeseen,
+          esimerkiksi Korhonen ja Hyvönen.
+        </li>
+        <li>
+          <strong>Länsi-Suomessa ja Pohjanmaalla</strong> ihminen tunnettiin
+          isännimestä ja talon nimestä. <em>Matti Juhonpoika Mäkelä</em> oli
+          Juhon poika Mäkelän talosta, ja talosta toiseen muuttaessa myös
+          talonnimi vaihtui. Kirkonkirjoihin isännimi kirjattiin ruotsiksi:{' '}
+          <em>Matts Johansson</em>.
+        </li>
+        <li>
+          <strong>Ruotsinkielisellä rannikolla</strong> isännimet kuten
+          Johansson ja Eriksdotter vakiintuivat vähitellen sukunimiksi.
+        </li>
+        <li>
+          <strong>Säätyläisillä, papeilla ja porvareilla</strong> oli sukunimi
+          jo varhain, usein latinalainen tai ruotsalainen (Castrén, Lagus).
+          Sotilaat saivat lyhyitä sotilasnimiä (Rask, Frisk).
+        </li>
+        <li>
+          <strong>1800-luvun lopulla</strong> talonnimet alkoivat vakiintua
+          sukunimiksi myös lännessä. Vuodesta 1875 alkaen ja erityisesti vuosina
+          1906 ja 1935 kymmenet tuhannet suomalaistivat ruotsalaisen nimensä.
+          Moni nykyään yleinen nimi, kuten Virtanen tai Laine, on syntynyt
+          silloin.
+        </li>
+        <li>
+          <strong>Sukunimilaki 1920</strong> velvoitti jokaisen ottamaan
+          sukunimen.
+        </li>
+      </ul>
+      <p className="ohje">
+        Generaattori valitsee nimimuodon alueen ja syntymävuoden mukaan.
+        Siirtymäaikana 1880–1919 sukunimi yleistyy vähitellen. Rajat ovat
+        yleistyksiä.{' '}
+        <a href="https://github.com/Lylled/nimigeneraattori/blob/main/docs/data-sources.md#sukunimet">
+          Lähteet
+        </a>
+      </p>
+    </details>
   )
 }
 

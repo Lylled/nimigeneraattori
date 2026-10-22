@@ -191,7 +191,7 @@ Nimimuodon logiikka perustuu seuraaviin lähteisiin:
 
 ### Generointi (`src/lib/sukunimet.ts`)
 
-**Nimimuoto "aikakauden mukaan":**
+**Nimimuoto valitaan aina aikakauden ja alueen mukaan:**
 - **Itä-Suomi ja Karjala:** aina sukunimi.
 - **Länsi-Suomi, Pohjanmaa ja Lappi:** isännimi ja talonnimi ennen vuotta 1880. Ruotsinkielisellä rannikolla vain isännimi, koska rannikon talonnimiä ei ole koottu.
 - **Siirtymä 1880–1919:** sukunimen todennäköisyys kasvaa tasaisesti.

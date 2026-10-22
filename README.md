@@ -39,9 +39,9 @@ Sivulla on kaksi välilehteä. **Nimitilastot** (1900–2026) perustuu DVV:n dat
 
 Nimiperinteeksi voi valita koko Suomen, suomenruotsalaisen tai ortodoksisen perinteen. Kahden jälkimmäisen listat ovat arvioita, ja niiden lähteet on lueteltu tiedostoissa `data/traditions/*.txt` (ks. [`docs/data-sources.md`](docs/data-sources.md)).
 
-Valinnalla "Näytä sukunimi" jokainen nimi saa alueeseen ja aikakauteen sopivan sukunimen. Historiallisissa nimissä länsisuomalainen hahmo saa aikakauden mukaan isännimen ja talonnimen (*Matti Juhonpoika Mäkelä (Matts Johansson)*), ja nimimuodon voi myös valita itse. Lähteet ja säännöt ovat tiedostossa [`docs/data-sources.md`](docs/data-sources.md).
+Valinnalla "Näytä sukunimi" jokainen nimi saa alueeseen ja aikakauteen sopivan sukunimen. Historiallisissa nimissä länsisuomalainen hahmo saa aikakauden mukaan isännimen ja talonnimen (*Matti Juhonpoika Mäkelä (Matts Johansson)*). Sivun infolaatikko kertoo, miten sukunimet muotoutuivat. Lähteet ja säännöt ovat tiedostossa [`docs/data-sources.md`](docs/data-sources.md).
 
-Nimeä klikkaamalla avautuu nimikortti, jossa näkyvät nimen alkuperä ja merkitys, tyylit, suosiokäyrä 1900–2026 (DVV) sekä historiallisille nimille ja nimiperinteille arvioitu yleisyys. Kuvaukset ovat tiedostossa `data/info/kuvaukset.tsv`.
+Etunimeä klikkaamalla avautuu nimikortti, jossa näkyvät nimen alkuperä ja merkitys, tyylit, suosiokäyrä 1900–2026 (DVV) sekä historiallisille nimille ja nimiperinteille arvioitu yleisyys. Kuvaukset ovat tiedostossa `data/info/kuvaukset.tsv`. Suku- tai isännimeä klikkaamalla avautuu oma kortti, jossa ovat nimen tyyppi, tausta ja tyypillinen alue.
 
 Nimet voi rajata tyylin mukaan (luonto, raamatullinen, kansallisromanttinen, hyve- ja tunne, perinteinen, säätyläinen, kansainvälinen). Määritelmät ovat tiedostossa [`docs/tyylit.md`](docs/tyylit.md).
 

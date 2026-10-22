@@ -1,5 +1,5 @@
 import type { Sukupuoli } from './generator'
-import type { Alue, Nimimuoto } from './sukunimet'
+import type { Alue } from './sukunimet'
 import type { Tyyli } from './tyylit'
 
 /** Tilastot perustuvat DVV:n dataan, historia käsin koottuihin arvioihin. */
@@ -15,10 +15,9 @@ export interface HakuAsetukset {
   sukupuoli: Sukupuoli
   alkukirjaimet: string[]
   tyylit: Tyyli[]
-  /** Näytetäänkö sukunimi, ja millä alueella ja nimimuodolla. */
+  /** Näytetäänkö sukunimi, ja miltä alueelta. */
   sukunimi: boolean
   alue: Alue
-  muoto: Nimimuoto
 }
 
 /** Osion sallitut arvot ja oletusvuosi. */
@@ -42,7 +41,6 @@ const ALUEET = [
   'lappi',
   'rannikko',
 ] as const
-const MUODOT = ['auto', 'isa', 'isatalo', 'suku'] as const
 
 /**
  * Lukee hakuasetukset osoitteen kyselyosasta, esim.
@@ -84,7 +82,6 @@ export function lueAsetukset(
     tyylit: [...new Set(tyylit)],
     sukunimi: p.get('sukunimi') === '1',
     alue: ALUEET.find((a) => a === p.get('alue')) ?? 'kaikki',
-    muoto: MUODOT.find((m) => m === p.get('muoto')) ?? 'auto',
   }
 }
 
@@ -101,7 +98,6 @@ export function kirjoitaAsetukset({
   tyylit,
   sukunimi,
   alue,
-  muoto,
 }: HakuAsetukset): string {
   const p = new URLSearchParams()
   if (osio !== 'tilastot') p.set('osio', osio)
@@ -113,7 +109,6 @@ export function kirjoitaAsetukset({
   if (sukunimi) {
     p.set('sukunimi', '1')
     if (alue !== 'kaikki') p.set('alue', alue)
-    if (muoto !== 'auto') p.set('muoto', muoto)
   }
   return `?${p.toString().replaceAll('%2C', ',')}`
 }

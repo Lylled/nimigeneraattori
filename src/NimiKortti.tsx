@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type ReactNode,
+} from 'react'
 import type { Kategoria, NimiData, Rajat, Sukupuoli } from './lib/generator'
 import {
   NIMITIEDOT,
@@ -32,38 +38,29 @@ export interface ArvioTiedot {
   rajat: Rajat
 }
 
-/** Nimen tiedot modaalina: alkuperä, tyylit, suosiokäyrä ja arvioitu yleisyys. */
-export function NimiKortti({
-  nimi,
-  sukupuoli,
+const HUOMAUTUS = (
+  <p className="ohje huomautus">
+    Kuvaukset on kirjoitettu tekoälyn avustamana, eikä niitä ole vielä
+    tarkistettu kokonaan; ne voivat sisältää virheitä.
+  </p>
+)
+
+/** Modaalinen kortti, joka sulkeutuu Escillä, ×-painikkeella tai taustasta. */
+function KorttiDialogi({
+  otsikko,
   kirjattu,
-  suku,
-  arvio,
   onClose,
+  children,
 }: {
-  nimi: string
-  sukupuoli: Sukupuoli
+  otsikko: string
   kirjattu?: string
-  suku?: GeneroituSukunimi
-  arvio?: ArvioTiedot
   onClose: () => void
+  children: ReactNode
 }) {
   const dialogi = useRef<HTMLDialogElement>(null)
   useEffect(() => {
     dialogi.current?.showModal()
   }, [])
-
-  const [alkupera, kuvaus] = NIMITIEDOT[nimi] ?? []
-  const tyylit = TYYLIT.filter((t) => NIMITYYLIT[nimi]?.includes(t.avain))
-  const kayra = suosiokayra(nimi, sukupuoli)
-  const tasot =
-    arvio && arvioidutTasot(nimi, sukupuoli, arvio.data, arvio.rajat)
-  const kokoNimi = [nimi, suku?.isannimi, suku?.sukunimi]
-    .filter(Boolean)
-    .join(' ')
-  const kirjattuNimi = suku?.kirjattuIsannimi
-    ? `${kirjattu ?? nimi} ${suku.kirjattuIsannimi}`
-    : kirjattu
 
   return (
     <dialog
@@ -79,10 +76,8 @@ export function NimiKortti({
       <div className="sisalto">
         <header>
           <h2 id="nimikortti-otsikko">
-            {kokoNimi}
-            {kirjattuNimi && (
-              <span className="kirjattu"> ({kirjattuNimi})</span>
-            )}
+            {otsikko}
+            {kirjattu && <span className="kirjattu"> ({kirjattu})</span>}
           </h2>
           <button
             type="button"
@@ -93,104 +88,136 @@ export function NimiKortti({
             ×
           </button>
         </header>
-
-        {kuvaus && (
-          <section>
-            <h3>Alkuperä</h3>
-            <p>
-              <span className="alkupera">{alkupera}</span> · {kuvaus}
-            </p>
-          </section>
-        )}
-
-        {suku && <SukunimiTiedot suku={suku} sukupuoli={sukupuoli} />}
-
-        {tyylit.length > 0 && (
-          <section>
-            <h3>Tyylit</h3>
-            <ul className="tunnisteet">
-              {tyylit.map((t) => (
-                <li key={t.avain}>{t.nimi}</li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        <section>
-          <h3>Suosio 1900–2026</h3>
-          {kayra.some((p) => p.osuus !== null) ? (
-            <SuosioKayra pisteet={kayra} nimi={nimi} />
-          ) : (
-            <p className="ohje">
-              Nimi ei ole ollut minkään vuosikymmenen 100 yleisimmän joukossa.
-            </p>
-          )}
-        </section>
-
-        {tasot && tasot.some((t) => t.taso) && (
-          <section>
-            <h3>{arvio.otsikko}</h3>
-            <dl className="tasot">
-              {tasot.map(({ jakso, taso }) => (
-                <div key={jakso.alku}>
-                  <dt>{jaksoTeksti(jakso)}</dt>
-                  <dd>{taso ? TASOT[taso] : '–'}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-        )}
-
-        <p className="ohje huomautus">
-          Kuvaukset on kirjoitettu tekoälyn avustamana, eikä niitä ole vielä
-          tarkistettu kokonaan; ne voivat sisältää virheitä.
-        </p>
+        {children}
+        {HUOMAUTUS}
       </div>
     </dialog>
   )
 }
 
-/** Sukunimen, talonnimen ja isännimen selitys nimikortissa. */
-function SukunimiTiedot({
+/** Etunimen tiedot: alkuperä, tyylit, suosiokäyrä ja arvioitu yleisyys. */
+export function NimiKortti({
+  nimi,
+  sukupuoli,
+  kirjattu,
+  arvio,
+  onClose,
+}: {
+  nimi: string
+  sukupuoli: Sukupuoli
+  kirjattu?: string
+  arvio?: ArvioTiedot
+  onClose: () => void
+}) {
+  const [alkupera, kuvaus] = NIMITIEDOT[nimi] ?? []
+  const tyylit = TYYLIT.filter((t) => NIMITYYLIT[nimi]?.includes(t.avain))
+  const kayra = suosiokayra(nimi, sukupuoli)
+  const tasot =
+    arvio && arvioidutTasot(nimi, sukupuoli, arvio.data, arvio.rajat)
+
+  return (
+    <KorttiDialogi otsikko={nimi} kirjattu={kirjattu} onClose={onClose}>
+      {kuvaus && (
+        <section>
+          <h3>Alkuperä</h3>
+          <p>
+            <span className="alkupera">{alkupera}</span> · {kuvaus}
+          </p>
+        </section>
+      )}
+
+      {tyylit.length > 0 && (
+        <section>
+          <h3>Tyylit</h3>
+          <ul className="tunnisteet">
+            {tyylit.map((t) => (
+              <li key={t.avain}>{t.nimi}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section>
+        <h3>Suosio 1900–2026</h3>
+        {kayra.some((p) => p.osuus !== null) ? (
+          <SuosioKayra pisteet={kayra} nimi={nimi} />
+        ) : (
+          <p className="ohje">
+            Nimi ei ole ollut minkään vuosikymmenen 100 yleisimmän joukossa.
+          </p>
+        )}
+      </section>
+
+      {tasot && tasot.some((t) => t.taso) && (
+        <section>
+          <h3>{arvio.otsikko}</h3>
+          <dl className="tasot">
+            {tasot.map(({ jakso, taso }) => (
+              <div key={jakso.alku}>
+                <dt>{jaksoTeksti(jakso)}</dt>
+                <dd>{taso ? TASOT[taso] : '–'}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
+    </KorttiDialogi>
+  )
+}
+
+/** Sukunimen tai isännimen ja talonnimen tiedot. */
+export function SukunimiKortti({
   suku,
   sukupuoli,
+  onClose,
 }: {
   suku: GeneroituSukunimi
   sukupuoli: Sukupuoli
+  onClose: () => void
 }) {
   const tieto = suku.sukunimi ? SUKUNIMI.get(suku.sukunimi) : undefined
   const alueet = tieto?.alueet
     .map((a) => ALUEET.find((x) => x.arvo === a)?.nimi)
     .join(', ')
+
   return (
-    <section>
-      <h3>
-        {
-          { suku: 'Sukunimi', isa: 'Isännimi', isatalo: 'Isännimi ja talo' }[
-            suku.muoto
-          ]
-        }
-      </h3>
+    <KorttiDialogi
+      otsikko={[suku.isannimi, suku.sukunimi].filter(Boolean).join(' ')}
+      kirjattu={suku.kirjattuIsannimi}
+      onClose={onClose}
+    >
       {suku.isannimi && (
-        <p>
-          <strong>{suku.isannimi}</strong> on isännimi: hahmo tunnettiin isänsä
-          {sukupuoli === 'mies' ? ' poikana' : ' tyttärenä'}.
-          {suku.kirjattuIsannimi &&
-            ` Kirkonkirjoihin se kirjattiin ruotsiksi muodossa ${suku.kirjattuIsannimi}.`}
-        </p>
+        <section>
+          <h3>Isännimi</h3>
+          <p>
+            <strong>{suku.isannimi}</strong> kertoo, kenen
+            {sukupuoli === 'mies' ? ' poika' : ' tytär'} hahmo on. Isännimi ei
+            periytynyt, vaan jokainen sai sen oman isänsä mukaan.
+            {suku.kirjattuIsannimi &&
+              ` Kirkonkirjoihin se kirjattiin ruotsiksi muodossa ${suku.kirjattuIsannimi}.`}
+          </p>
+        </section>
       )}
       {tieto && (
-        <p>
-          <strong>{tieto.nimi}</strong> ·{' '}
-          {suku.muoto === 'suku' ? `${TYYPIT[tieto.tyyppi]}. ` : 'Talonnimi. '}
-          {tieto.kuvaus}{' '}
-          <span className="ohje">
+        <section>
+          <h3>{suku.muoto === 'suku' ? 'Sukunimi' : 'Talonnimi'}</h3>
+          <ul className="tunnisteet">
+            <li>{TYYPIT[tieto.tyyppi]}</li>
+          </ul>
+          {suku.muoto !== 'suku' && (
+            <p>
+              Talon nimi, jolla hahmo tunnettiin kylässä. Talosta toiseen
+              muuttaessa myös talonnimi vaihtui.
+            </p>
+          )}
+          <p>{tieto.kuvaus}</p>
+          <p className="ohje">
             Tyypillinen alue: {alueet}. Nykyisin noin{' '}
-            {tieto.kantajia.toLocaleString('fi')} kantajaa (DVV).
-          </span>
-        </p>
+            {tieto.kantajia.toLocaleString('fi')} kantajaa sukunimenä (DVV).
+          </p>
+        </section>
       )}
-    </section>
+    </KorttiDialogi>
   )
 }
 
